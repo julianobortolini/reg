@@ -1,0 +1,55 @@
+---
+title: "Modelos Lineares"
+author:
+  - name: Prof. Dr. Juliano Bortolini
+    email: profjulianobortolini@gmail.com
+    url: http://www.julianobortolini.com.br
+    affiliations:
+      - name: Universidade Federal de Mato Grosso
+format:
+  html:
+    embed-resources: true
+editor: visual
+engine: knitr
+---
+
+*Bacharelado em Estatística - UFMT*
+
+*Período letivo: 2024/2*
+
+
+### Avisos:
+- Última atualização do site às **`r format(Sys.time(), "%H:%M", tz='America/Cuiaba')`** do dia **`r format(Sys.time(), "%d/%m/%Y")`**.
+- Monitores: 
+- [Whatsapp da disciplina]()
+
+### Ementa:
+
+Análise de correlação. Regressão linear simples e múltipla. Regressão com variáveis qualitativas. Técnicas de diagnóstico em regressão. Seleção de variáveis e construção de modelos. Validação de modelos. Transformação de variáveis.
+
+
+### Notas de aula:
+
+- Aula 1:
+
+
+### Avaliação:
+
+
+
+### Livro texto:
+
+
+
+----------
+<div style="text-align: center;">
+
+[@profjulianobortolini](https://instagram.com/profjulianobortolini) \  \  \ [www.julianobortolini.com.br](http://www.julianobortolini.com.br) \  \  \ [linkedin](https://linkedin.com/in/julianobortolini) \  \  \ [github](https://github.com/julianobortolini) \  \  \  [lattes](http://lattes.cnpq.br/6210909768845403)
+
+</div>
+
+
+
+
+
+
