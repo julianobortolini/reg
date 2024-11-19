@@ -1,5 +1,5 @@
 ---
-title: "Modelos Lineares"
+title: "Análise de Regressão"
 author:
   - name: Prof. Dr. Juliano Bortolini
     email: profjulianobortolini@gmail.com
