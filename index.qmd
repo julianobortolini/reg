@@ -33,12 +33,41 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 - Aula 1:
 
 
-### Avaliação:
+### Avaliações:
 
+- A1: escrita, computacional e arguição oral.
+
+*Conteúdo:* análise de correlação, regressão linear simples e múltipla.
+
+- A2: escrita, computacional e arguição oral.
+
+*Conteúdo:* todo o conteúdo da disciplina.
+
+- A3: relatório de análise de dados.
+
+- A4: média de todas as atividades realizadas em sala de aula.
+
+
+A média parcial (MP) será calculada por:
+
+$$MP = 0,35 A1 + 0,35 A2 + 0,2 A3 + 0,1 A4.$$
 
 
 ### Livro texto:
 
+*Será definido.*
+
+
+### Referências:
+
+
+Seber, G. A. F., & Lee, A. J. (2012). *Linear Regression Analysis* (2nd ed.). Wiley.
+
+Rao, C. R., Toutenburg, H., Shalabh, & Heumann, C. (2008). *Linear Models and Generalizations: Least Squares and Alternatives* (3rd ed.). Springer.
+
+Allen, M. P. (1997). *Understanding Regression Analysis*. Sage Publications.
+
+Faraway, J. J. (2015). *Linear Models with R*. CRC Press.
 
 
 ----------
