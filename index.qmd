@@ -61,6 +61,8 @@ $$MP = 0,35 A1 + 0,35 A2 + 0,2 A3 + 0,1 A4.$$
 
 ### Referências:
 
+Devore, J. L., Berk, K. N., & Carlton, M. A. (2021). *Modern mathematical statistics with applications* (3rd ed.). Springer.
+
 Seber, G. A. F., & Lee, A. J. (2012). *Linear Regression Analysis* (2nd ed.). Wiley.
 
 Rao, C. R., Toutenburg, H., Shalabh, & Heumann, C. (2008). *Linear Models and Generalizations: Least Squares and Alternatives* (3rd ed.). Springer.
