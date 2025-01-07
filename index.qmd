@@ -20,7 +20,7 @@ engine: knitr
 ### Avisos:
 
 -   Última atualização do site às **`r format(Sys.time(), "%H:%M", tz='America/Cuiaba')`** do dia **`r format(Sys.time(), "%d/%m/%Y")`**.
--   Monitores:
+-   Monitores: Edimar e Wender.
 -   [Whatsapp da disciplina]()
 
 ### Ementa:
