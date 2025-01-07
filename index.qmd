@@ -17,49 +17,49 @@ engine: knitr
 
 *Período letivo: 2024/2*
 
-
 ### Avisos:
-- Última atualização do site às **`r format(Sys.time(), "%H:%M", tz='America/Cuiaba')`** do dia **`r format(Sys.time(), "%d/%m/%Y")`**.
-- Monitores: 
-- [Whatsapp da disciplina]()
+
+-   Última atualização do site às **`r format(Sys.time(), "%H:%M", tz='America/Cuiaba')`** do dia **`r format(Sys.time(), "%d/%m/%Y")`**.
+-   Monitores:
+-   [Whatsapp da disciplina]()
 
 ### Ementa:
 
 Análise de correlação. Regressão linear simples e múltipla. Regressão com variáveis qualitativas. Técnicas de diagnóstico em regressão. Seleção de variáveis e construção de modelos. Validação de modelos. Transformação de variáveis.
 
-
 ### Notas de aula:
 
-- Aula 1:
+-   Aula 1: apresentação do plano de ensino e introdução à regressão baseado no artigo de [Galton](https://zenodo.org/records/1449548) (1886).
 
+    *Referência:* Galton, F. (1886). "Regression towards mediocrity in hereditary stature". *The Journal of the Anthropological Institute of Great Britain and Ireland*. **15**: 246-263.
+
+-   Aula 2: definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, função de distribuição acumulada empírica, teorema de Glivenko-Cantelli, teorema (estimador para a transformação $T(F) = \int f(x) dF$), estimador para a covariância e correlação, propriedades dos estimadores da covariância e correlação e exemplo com dados reais.
+
+    *Lista de exercícios*: em breve.
 
 ### Avaliações:
 
-- A1: escrita, computacional e arguição oral.
+-   A1: escrita, computacional e arguição oral.
 
 *Conteúdo:* análise de correlação, regressão linear simples e múltipla.
 
-- A2: escrita, computacional e arguição oral.
+-   A2: escrita, computacional e arguição oral.
 
 *Conteúdo:* todo o conteúdo da disciplina.
 
-- A3: relatório de análise de dados.
+-   A3: relatório de análise de dados.
 
-- A4: média de todas as atividades realizadas em sala de aula.
-
+-   A4: média de todas as atividades realizadas em sala de aula.
 
 A média parcial (MP) será calculada por:
 
 $$MP = 0,35 A1 + 0,35 A2 + 0,2 A3 + 0,1 A4.$$
 
-
 ### Livro texto:
 
 *Será definido.*
 
-
 ### Referências:
-
 
 Seber, G. A. F., & Lee, A. J. (2012). *Linear Regression Analysis* (2nd ed.). Wiley.
 
@@ -69,16 +69,8 @@ Allen, M. P. (1997). *Understanding Regression Analysis*. Sage Publications.
 
 Faraway, J. J. (2015). *Linear Models with R*. CRC Press.
 
+------------------------------------------------------------------------
 
-----------
-<div style="text-align: center;">
-
-[@profjulianobortolini](https://instagram.com/profjulianobortolini) \  \  \ [www.julianobortolini.com.br](http://www.julianobortolini.com.br) \  \  \ [linkedin](https://linkedin.com/in/julianobortolini) \  \  \ [github](https://github.com/julianobortolini) \  \  \  [lattes](http://lattes.cnpq.br/6210909768845403)
-
-</div>
-
-
-
-
-
-
+::: {style="text-align: center;"}
+[\@profjulianobortolini](https://instagram.com/profjulianobortolini)      [www.julianobortolini.com.br](http://www.julianobortolini.com.br)      [linkedin](https://linkedin.com/in/julianobortolini)      [github](https://github.com/julianobortolini)       [lattes](http://lattes.cnpq.br/6210909768845403)
+:::
