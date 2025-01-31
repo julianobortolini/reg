@@ -3162,8 +3162,9 @@ e que <span class="math inline">\(\rho = -1\)</span> implica que<br>
 <li>O <strong>coeficiente de correlação amostral</strong> (estimador da correlaçao) para os <span class="math inline">\(n\)</span> pares <span class="math inline">\((x_1, y_1), \dots, (x_n, y_n)\)</span> é dado por:</li>
 </ol>
 <p><span class="math display">\[\begin{align*}
-r = &amp; \frac{1}{n-1} \sum_{i=1}^{n} \left( \frac{x_i - \bar{x}}{s_x} \right) \left( \frac{y_i - \bar{y}}{s_y} \right) = \frac{S_{xy}}{(n-1) s_x s_y} = \frac{S_{xy}}{\sqrt{S_{xx}} \sqrt{S_{yy}}}.
-\end{align*}\]</span> Cálcule o coeficiente de correlação amostral para os seguintes dados:</p>
+r = &amp; \frac{1}{n-1} \sum_{i=1}^{n} \left( \frac{x_i - \bar{x}}{s_x} \right) \left( \frac{y_i - \bar{y}}{s_y} \right) = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}} = \frac{S_{xy}}{\sqrt{S_{xx}} \sqrt{S_{yy}}},
+\end{align*}\]</span> em que <span class="math inline">\(S_{xy}= \sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})\)</span>, <span class="math inline">\(S_{xx} = \sum_{i=1}^{n} (x_i - \bar{x})^2\)</span> e <span class="math inline">\(S_{yy} = \sum_{i=1}^{n} (y_i - \bar{y})^2\)</span>.</p>
+<p>Cálcule o coeficiente de correlação amostral para os seguintes dados:</p>
 <blockquote class="blockquote">
 <p>’O artigo <em>“A Cross-National Relationship Between Sugar Consumption and Major Depression?”</em> (<em>Depression and Anxiety</em> 2002: 118–120) relatou os seguintes dados sobre <span class="math inline">\(x =\)</span> consumo diário de açúcar (calorias per capita) e <span class="math inline">\(y =\)</span> taxa anual de depressão majoritária (casos por 100 pessoas) para uma amostra de seis países.</p>
 </blockquote>
@@ -3214,11 +3215,325 @@ r = &amp; \frac{1}{n-1} \sum_{i=1}^{n} \left( \frac{x_i - \bar{x}}{s_x} \right) 
 </div>
 </div>
 <ol start="8" type="1">
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
+<li><p>Demonstre que <span class="math display">\[\frac{1}{n-1} \sum_{i=1}^{n} \left( \frac{x_i - \bar{x}}{s_x} \right) \left( \frac{y_i - \bar{y}}{s_y} \right) = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}}.\]</span></p></li>
+<li><p>Para o teste de hipóteses <span class="math inline">\(H_0: \rho = 0\)</span> versus <span class="math inline">\(H_a: \rho \neq 0\)</span>, em que <span class="math inline">\(\rho\)</span> é o coeficiente de correlação populacional, o teste de correlação de Pearson é baseado na estatística de teste <span class="math display">\[
+T = \frac{R \sqrt{n - 2}}{\sqrt{1 - R^2}}
+\]</span> que segue uma distribuição <span class="math inline">\(t\)</span> com <span class="math inline">\(n - 2\)</span> graus de liberdade. A estatística <span class="math inline">\(R\)</span> é o coeficiente de correlação amostral.</p></li>
+</ol>
+<p>Para um teste de hipóteses sobre a correlação, as hipóteses nula e alternativa, e a região de rejeição são dadas a seguir:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Hipótese Alternativa</strong></th>
+<th><strong>Região de Rejeição para um Teste de Nível <span class="math inline">\(\alpha\)</span></strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(H_a: \rho &gt; 0\)</span></td>
+<td><span class="math inline">\(t \geq t_{\alpha, n-2}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(H_a: \rho &lt; 0\)</span></td>
+<td><span class="math inline">\(t \leq -t_{\alpha, n-2}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(H_a: \rho \neq 0\)</span></td>
+<td><span class="math inline">\(t \geq t_{\alpha/2, n-2}\)</span> ou <span class="math inline">\(t \leq -t_{\alpha/2, n-2}\)</span></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>O <strong>Turbine Oil Oxidation Test (TOST)</strong> e o <strong>Rotating Bomb Oxidation Test (RBOT)</strong> são dois procedimentos diferentes para avaliar a estabilidade à oxidação de óleos de turbinas a vapor. O artigo <em>“Dependence of Oxidation Stability of Steam Turbine Oil on Base Oil Composition”</em> (<em>J. Soc. Tribologists Lubricat. Engrs.</em>, Out. 1997: 19–24) apresentou as seguintes observações para <span class="math inline">\(x =\)</span> tempo do teste TOST (horas) e <span class="math inline">\(y =\)</span> tempo do teste RBOT (minutos) em 12 amostras de óleo.</p>
+</blockquote>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Resultados dos testes TOST e RBOT para 12 amostras de óleo</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">TOST</th>
+<th style="text-align: right;">RBOT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">4200</td>
+<td style="text-align: right;">370</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3600</td>
+<td style="text-align: right;">340</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3750</td>
+<td style="text-align: right;">375</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3675</td>
+<td style="text-align: right;">310</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4050</td>
+<td style="text-align: right;">350</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2770</td>
+<td style="text-align: right;">200</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4870</td>
+<td style="text-align: right;">400</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4500</td>
+<td style="text-align: right;">375</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3450</td>
+<td style="text-align: right;">285</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2700</td>
+<td style="text-align: right;">225</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3750</td>
+<td style="text-align: right;">345</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3300</td>
+<td style="text-align: right;">285</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol type="a">
+<li>Calcule e interprete o valor do coeficiente de correlação amostral (como fizeram os autores do artigo).</li>
+<li>Como o valor de <span class="math inline">\(r\)</span> seria afetado se tivéssemos escolhido <span class="math inline">\(x =\)</span> tempo RBOT e <span class="math inline">\(y =\)</span> tempo TOST?</li>
+<li>Como o valor de <span class="math inline">\(r\)</span> seria afetado se o tempo RBOT fosse expresso em horas?</li>
+<li>Realize um teste de hipóteses para decidir se os tempos dos testes RBOT e TOST estão linearmente relacionados.</li>
+</ol>
+<ol start="10" type="1">
+<li>Quando <span class="math inline">\((X_1, Y_1), \dots, (X_n, Y_n)\)</span> é uma amostra de uma distribuição normal bivariada, a variável aleatória <span class="math display">\[
+V = \frac{1}{2} \ln \left( \frac{1 + R}{1 - R} \right)
+\]</span> segue aproximadamente uma distribuição normal com média e variância: <span class="math display">\[
+\mu_V = \frac{1}{2} \ln \left( \frac{1 + \rho}{1 - \rho} \right), \quad \sigma_V^2 = \frac{1}{n - 3}.
+\]</span> A estatística de teste para <span class="math inline">\(H_0: \rho = \rho_0\)</span> é dada por: <span class="math display">\[
+Z = \frac{V - \frac{1}{2} \ln [(1 + \rho_0) / (1 - \rho_0)]}{1 / \sqrt{n - 3}}
+\]</span> As hipóteses nula e alternativa, e a região de rejeição são dadas a seguir:</li>
+</ol>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Hipótese Alternativa</strong></th>
+<th><strong>Região de Rejeição para um Teste de Nível <span class="math inline">\(\alpha\)</span></strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(H_a: \rho &gt; \rho_0\)</span></td>
+<td><span class="math inline">\(z \geq z_{\alpha}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(H_a: \rho &lt; \rho_0\)</span></td>
+<td><span class="math inline">\(z \leq -z_{\alpha}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(H_a: \rho \neq \rho_0\)</span></td>
+<td><span class="math inline">\(z \geq z_{\alpha/2}\)</span> ou <span class="math inline">\(z \leq -z_{\alpha/2}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Um intervalo de confiança de <span class="math inline">\(100(1 - \alpha)\%\)</span> para <span class="math inline">\(\rho\)</span> é dado por: <span class="math display">\[
+\left( \frac{e^{2c_1} - 1}{e^{2c_1} + 1}, \quad \frac{e^{2c_2} - 1}{e^{2c_2} + 1} \right),
+\]</span> em que <span class="math inline">\(c_1\)</span> e <span class="math inline">\(c_2\)</span> são os extremos inferior e superior do intervalo na seguinte expressão: <span class="math display">\[
+v \pm z_{\alpha/2} \cdot \sigma_V = \frac{1}{2} \ln \left( \frac{1 + r}{1 - r} \right) \pm \frac{z_{\alpha/2}}{\sqrt{n - 3}}.
+\]</span></p>
+<p>Usando os dados do exercício anterior, verifique a hipótese <span class="math inline">\(H_0: \rho = 0,70\)</span> versus <span class="math inline">\(H_a: \rho \neq 0,70\)</span> ao nível de significância de 5%. Calcule o intervalo de confiança de 95% para <span class="math inline">\(\rho\)</span>.</p>
+<ol start="11" type="1">
+<li><blockquote class="blockquote">
+<p>O hidrogênio é considerado um fator importante na porosidade de fundições de ligas de alumínio. O artigo <em>“The Reduced Pressure Test as a Measuring Tool in the Evaluation of Porosity/Hydrogen Content in A1–7 Wt Pct Si-10 Vol Pct SiC(p) Metal Matrix Composite”</em> (<em>Metallurg. Trans.</em> 1993: 1857–1868) apresenta os seguintes dados sobre <span class="math inline">\(x =\)</span> conteúdo de hidrogênio e <span class="math inline">\(y =\)</span> porosidade do gás para uma técnica específica de medição.</p>
+</blockquote></li>
+</ol>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Dados sobre conteúdo de hidrogênio e porosidade do gás</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">x</th>
+<th style="text-align: right;">y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">0.46</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">0.70</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">0.41</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">0.45</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">0.55</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">0.44</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.47</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.22</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.80</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.88</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">0.70</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">0.72</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">0.75</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol type="a">
+<li>Calcule e interprete o valor do coeficiente de correlação amostral.</li>
+<li>Realize um teste de hipóteses para decidir se o conteúdo de hidrogênio e a porosidade do gás estão linearmente relacionados.</li>
+<li>Calcule um intervalo de confiança de 95% para o coeficiente de correlação populacional.</li>
+</ol>
+<ol start="12" type="1">
+<li>Seja <span class="math inline">\(x\)</span> o número de horas de estudo por semana e <span class="math inline">\(y\)</span> a média de notas nas provas. Suponha que temos uma amostra de pares <span class="math inline">\((x, y)\)</span> para mulheres e outra para homens. Queremos testar a hipótese: <span class="math display">\[
+H_0: \rho_1 - \rho_2 = 0
+\]</span> contra a alternativa de que os coeficientes de correlação populacional são diferentes.</li>
+</ol>
+<ol type="a">
+<li><p>Utilize as propriedades da variável transformada <span class="math display">\[
+  V = \frac{1}{2} \ln \left( \frac{1 + R}{1 - R} \right)
+  \]</span> para propor uma estatística de teste apropriada e a região de rejeição. Considere <span class="math inline">\(R_1\)</span> e <span class="math inline">\(R_2\)</span> os coeficientes de correlação amostral das duas amostras.</p></li>
+<li><blockquote class="blockquote">
+<p>O artigo <em>“Relational Bonds and Customer’s Trust and Commitment: A Study on the Moderating Effects of Web Site Usage”</em> (<em>Serv. Ind. J.</em> 2003: 103–124) relatou que: <span class="math inline">\(n_1 = 261\)</span>, <span class="math inline">\(r_1 = 0.59\)</span>, <span class="math inline">\(n_2 = 557\)</span> e <span class="math inline">\(r_2 = 0.50\)</span>. A primeira amostra consistia de usuários corporativos de websites, enquanto a segunda amostra consistia de não usuários. Aqui, <span class="math inline">\(r\)</span> representa a correlação entre a avaliação da força dos laços econômicos e o desempenho.</p>
+</blockquote></li>
+</ol>
+<p>Realize o teste de hipóteses <span class="math inline">\(H_0: \rho_1 - \rho_2 = 0\)</span> para esses dados, conforme feito pelos autores do artigo citado.</p>
+<ol start="13" type="1">
+<li>Considere uma série temporal, ou seja, uma sequência de observações <span class="math inline">\(X_1, X_2, \dots\)</span> sobre alguma variável resposta (por exemplo, a concentração de um poluente, valor de uma ação, temperatura em uma região) ao longo do tempo. Suponha que os valores observados são <span class="math inline">\(x_1, x_2, \dots, x_n\)</span> ao longo de <span class="math inline">\(n\)</span> períodos de tempo. O <strong>coeficiente de autocorrelação de defasagem 1</strong> (lag 1), que avalia a força da relação entre os valores da série separados por uma unidade de tempo, é definido como: <span class="math display">\[r_1 = \frac{\sum_{i=1}^{n-1} (x_i - \bar{x}) (x_{i+1} - \bar{x})}{\sum_{i=1}^{n} (x_i - \bar{x})^2}\]</span> Os coeficientes de autocorrelação <span class="math inline">\(r_2, r_3, \dots\)</span> para defasagens <span class="math inline">\(2, 3, \cdots\)</span> são definidos de maneira análoga.</li>
+</ol>
+<ol type="a">
+<li>Calcule o valor de <span class="math inline">\(r_1\)</span> para os seguintes dados de temperatura coletados ao longo do tempo:</li>
+</ol>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Dados da temperatura ao longo do tempo</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Tempo</th>
+<th style="text-align: right;">Temperatura</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">47</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">54</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">53</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">46</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">46</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">47</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">51</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">46</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">52</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">50</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol start="2" type="a">
+<li>Faça um gráfico de dispersão da temperatura <span class="math inline">\(x_t\)</span> contra o tempo <span class="math inline">\(t\)</span> (gráfico de série temporal). Você observa algum padrão?</li>
+<li>Analogamente ao coeficiente de correlação populacional <span class="math inline">\(\rho\)</span>, seja <span class="math inline">\(\rho_i\)</span> (para <span class="math inline">\(i = 1, 2, 3, \dots\)</span>) o coeficiente de autocorrelação teórica para diferentes defasagens. Se todos esses <span class="math inline">\(\rho\)</span>’s forem zero, não há relação linear entre as observações da série temporal em nenhuma defasagem. Nesse caso, se <span class="math inline">\(n\)</span> for grande, cada <span class="math inline">\(R_i\)</span> segue aproximadamente uma distribuição normal com média 0 e desvio padrão <span class="math inline">\(1/\sqrt{n}\)</span>, e diferentes <span class="math inline">\(R_i\)</span> são quase independentes. Portanto, a hipótese nula <span class="math inline">\(H_0: \rho_i = 0\)</span> pode ser rejeitada em um nível de significância de aproximadamente <span class="math inline">\(0.05\)</span> se: <span class="math display">\[r_i \geq \frac{2}{\sqrt{n}} \quad \text{ou} \quad r_i \leq -\frac{2}{\sqrt{n}}.\]</span> Se <span class="math inline">\(n = 100\)</span> e os coeficientes amostrais observados forem: <span class="math display">\[r_1 = 0.16, \quad r_2 = -0.09, \quad r_3 = -0.15,\]</span> há evidências de autocorrelação teórica nas três primeiras defasagens? Está claro o motivo de rejeitar <span class="math inline">\(H_0\)</span> quando <span class="math inline">\(|r_i| &gt; 2/\sqrt{n}\)</span>? Dica: qual é o valor de <span class="math inline">\(z_{0.025}\)</span>?</li>
+</ol>
+<ol start="14" type="1">
+<li>Refaça todos os exercícios usando recursos computacionais (por exemplo, R, Python, Excel, etc.) para calcular os coeficientes de correlação, realizar os testes de hipóteses e construir os intervalos de confiança. <strong>Atenção:</strong> apenas agora (nesse exercício) é para usar recursos computacionais.</li>
 </ol>
 <hr>
 <div style="text-align: center;">

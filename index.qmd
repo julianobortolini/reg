@@ -35,7 +35,9 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 -   Aula 2: definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, função de distribuição acumulada empírica, teorema de Glivenko-Cantelli, teorema (estimador para a transformação $T(F) = \int f(x) dF$), estimador para a covariância e correlação, propriedades dos estimadores da covariância e correlação e exemplo com dados reais.
 
--   Lista: [lista de exercícios 1](lista1.html)
+-   [Lista 1](lista1.html): covariância e correlação.
+
+-   Aula 3: em breve.
 
 ### Avaliações:
 
