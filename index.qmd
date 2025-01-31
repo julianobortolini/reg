@@ -35,29 +35,30 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 -   Aula 2: definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, função de distribuição acumulada empírica, teorema de Glivenko-Cantelli, teorema (estimador para a transformação $T(F) = \int f(x) dF$), estimador para a covariância e correlação, propriedades dos estimadores da covariância e correlação e exemplo com dados reais.
 
-    *Lista de exercícios*: em breve.
+-   Lista: [lista de exercícios 1](lista1.html)
 
 ### Avaliações:
 
--   A1: escrita, computacional e arguição oral.
+-   $A_1$: escrita, computacional e arguição oral.
 
 *Conteúdo:* análise de correlação, regressão linear simples e múltipla.
 
--   A2: escrita, computacional e arguição oral.
+-   $A_2$: escrita, computacional e arguição oral.
 
 *Conteúdo:* todo o conteúdo da disciplina.
 
--   A3: relatório de análise de dados.
+-   $A_3$: relatório de análise de dados.
 
--   A4: média de todas as atividades realizadas em sala de aula.
+-   $A_4$: média de todas as atividades realizadas em sala de aula.
 
-A média parcial (MP) será calculada por:
+A média parcial ($MP$) será calculada por:
 
-$$MP = 0,35 A1 + 0,35 A2 + 0,2 A3 + 0,1 A4.$$
+$$MP = 0,35 A_1 + 0,35 A_2 + 0,2 A_3 + 0,1 A_4.$$
 
 ### Livro texto:
 
-*Será definido.*
+Montgomery, D. C., Peck, E. A., & Vining, G. G. (2021). *Introduction to linear regression analysis* (6th ed.). Wiley.  
+
 
 ### Referências:
 
@@ -65,9 +66,15 @@ Devore, J. L., Berk, K. N., & Carlton, M. A. (2021). *Modern mathematical statis
 
 Seber, G. A. F., & Lee, A. J. (2012). *Linear Regression Analysis* (2nd ed.). Wiley.
 
+Draper, N. R., & Smith, H. (1998). *Applied regression analysis* (3rd ed.). Wiley.  
+
 Rao, C. R., Toutenburg, H., Shalabh, & Heumann, C. (2008). *Linear Models and Generalizations: Least Squares and Alternatives* (3rd ed.). Springer.
 
 Allen, M. P. (1997). *Understanding Regression Analysis*. Sage Publications.
+
+Kutner, M. H., Nachtsheim, C. J., Neter, J., & Li, W. (2005). *Applied linear statistical models* (5th ed.). McGraw-Hill.  
+
+Rencher, A. C., & Schaalje, G. B. (2008). *Linear models in statistics* (2nd ed.). Wiley.
 
 Faraway, J. J. (2015). *Linear Models with R*. CRC Press.
 
