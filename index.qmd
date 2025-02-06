@@ -37,7 +37,12 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 -   [Lista 1](lista1.html): covariância e correlação.
 
--   Aula 3: em breve.
+-   Aula 3: revisão da aula 2, correlação como medida de proporção entre duas variáveis (padronizadas), estimação da relação funcional (modelo) entre duas variáveis, estimação de beta_0 e beta_1, exemplo com os dados de consumo de açúcar e taxa de depressão, correlação entre duas variáveis normais, estimação do modelo linear (reta) entre duas variáveis normais, comentários sobre correlação de Pearson (dados normais) e Spearman (postos dos dados), teste de hipóteses para correlação: 1) H_0: rho = 0 e 2) H_0: rho = rho_0 e exercício de teste de hipóteses para correlação.
+
+-   [Lista 2](lista2.html): fórmula da correlação amostral e de Spearman.
+
+
+
 
 ### Avaliações:
 
