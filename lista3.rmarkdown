@@ -12,6 +12,7 @@ format:
 engine: knitr
 ---
 
+
 *Bacharelado em Estatística - UFMT*
 
 *Período letivo: 2024/2*
@@ -262,3 +263,4 @@ O que esse modelo implica sobre a relação entre $y' = \ln(y)$ e $x' = \ln(x)$,
 ::: {style="text-align: center;"}
 [\@profjulianobortolini](https://instagram.com/profjulianobortolini)      [www.julianobortolini.com.br](http://www.julianobortolini.com.br)      [linkedin](https://linkedin.com/in/julianobortolini)      [github](https://github.com/julianobortolini)       [lattes](http://lattes.cnpq.br/6210909768845403)
 :::
+

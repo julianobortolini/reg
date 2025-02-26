@@ -3537,17 +3537,337 @@ window.Quarto = {
 <ol start="2" type="1">
 <li>Suponha que desejamos utilizar o modelo desenvolvido no exercício 1 para prever o número de jogos que uma equipe vencerá se conseguir limitar o número de jardas conquistadas em corridas pelos adversários a 1800 jardas.</li>
 </ol>
-<p>Encontre uma estimativa pontual para o número de jogos vencidos quando <span class="math inline">\(x_8 = 1800\)</span>.</p>
-<p>Encontre um intervalo de predição de <span class="math inline">\(90\%\)</span> para o número de jogos vencidos.</p>
+<ol type="a">
+<li><p>Encontre uma estimativa pontual para o número de jogos vencidos quando <span class="math inline">\(x_8 = 1800\)</span>.</p></li>
+<li><p>Encontre um intervalo de predição de <span class="math inline">\(90\%\)</span> para o número de jogos vencidos.</p></li>
+</ol>
 <ol start="3" type="1">
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
+<li>Em 1º de março de 1984, o <em>Wall Street Journal</em> publicou uma pesquisa sobre anúncios televisivos conduzida pela Video Board Tests, Inc., uma empresa de testes de publicidade de Nova York, que entrevistou 4000 adultos. Esses indivíduos eram consumidores regulares de produtos e foram questionados sobre comerciais que haviam assistido para determinada categoria de produto na última semana.</li>
+</ol>
+<p>Neste caso, a variável resposta é o número de milhões de impressões retidas por semana. A variável explicativa é o valor gasto pela empresa em publicidade. Os dados são apresentados a seguir:</p>
+<p>Tabela. Gastos em publicidade e impressões retidas</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Empresa</th>
+<th>Gasto (milhões)</th>
+<th>Impressões Retidas (milhões)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Miller Lite</td>
+<td>50,1</td>
+<td>32,1</td>
+</tr>
+<tr class="even">
+<td>Pepsi</td>
+<td>74,1</td>
+<td>99,6</td>
+</tr>
+<tr class="odd">
+<td>Stroh’s</td>
+<td>19,3</td>
+<td>11,7</td>
+</tr>
+<tr class="even">
+<td>Federal Express</td>
+<td>22,9</td>
+<td>21,9</td>
+</tr>
+<tr class="odd">
+<td>Burger King</td>
+<td>82,4</td>
+<td>60,8</td>
+</tr>
+<tr class="even">
+<td>Coca-Cola</td>
+<td>40,1</td>
+<td>78,6</td>
+</tr>
+<tr class="odd">
+<td>McDonald’s</td>
+<td>185,9</td>
+<td>92,4</td>
+</tr>
+<tr class="even">
+<td>MCI</td>
+<td>26,9</td>
+<td>50,7</td>
+</tr>
+<tr class="odd">
+<td>Diet Cola</td>
+<td>20,4</td>
+<td>21,4</td>
+</tr>
+<tr class="even">
+<td>Ford</td>
+<td>166,2</td>
+<td>40,1</td>
+</tr>
+<tr class="odd">
+<td>Levi’s</td>
+<td>27,0</td>
+<td>40,8</td>
+</tr>
+<tr class="even">
+<td>Bud Lite</td>
+<td>45,6</td>
+<td>10,4</td>
+</tr>
+<tr class="odd">
+<td>ATT Bell</td>
+<td>154,9</td>
+<td>88,9</td>
+</tr>
+<tr class="even">
+<td>Calvin Klein</td>
+<td>5,0</td>
+<td>12,0</td>
+</tr>
+<tr class="odd">
+<td>Wendy’s</td>
+<td>49,7</td>
+<td>29,2</td>
+</tr>
+<tr class="even">
+<td>Polaroid</td>
+<td>26,9</td>
+<td>38,0</td>
+</tr>
+<tr class="odd">
+<td>Shasta</td>
+<td>5,7</td>
+<td>10,0</td>
+</tr>
+<tr class="even">
+<td>Meow Mix</td>
+<td>7,6</td>
+<td>12,3</td>
+</tr>
+<tr class="odd">
+<td>Oscar Meyer</td>
+<td>9,2</td>
+<td>23,4</td>
+</tr>
+<tr class="even">
+<td>Crest</td>
+<td>32,4</td>
+<td>71,1</td>
+</tr>
+<tr class="odd">
+<td>Kibbles N Bits</td>
+<td>6,1</td>
+<td>4,4</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li><p>Ajuste um modelo de regressão linear simples para esses dados.</p></li>
+<li><p>Existe uma relação significativa entre o valor gasto por uma empresa em publicidade e as impressões retidas? Justifique sua resposta estatisticamente.</p></li>
+<li><p>Construa as bandas de confiança e predição de <span class="math inline">\(95\%\)</span> para esses dados.</p></li>
+<li><p>Forneça os intervalos de confiança e predição de <span class="math inline">\(95\%\)</span> para o número de impressões retidas da empresa MCI.</p></li>
+</ol>
+<ol start="4" type="1">
+<li>Considere o modelo de regressão linear simples <span class="math inline">\(y = \beta_0 + \beta_1 x + \varepsilon\)</span>, com <span class="math inline">\(E(\varepsilon) = 0\)</span>, <span class="math inline">\(Var(\varepsilon) = \sigma^2\)</span>, e os erros <span class="math inline">\(\varepsilon\)</span> são não correlacionados.</li>
+</ol>
+<ol type="a">
+<li>Mostre que:</li>
+</ol>
+<p><span class="math display">\[\text{Cov} \left( \hat{\beta}_0, \hat{\beta}_1 \right) = -\bar{x} \sigma^2/S_{xx}.\]</span></p>
+<ol start="2" type="a">
+<li>Mostre que:</li>
+</ol>
+<p><span class="math display">\[\text{Cov} \left( \bar{y}, \hat{\beta}_1 \right) = 0.\]</span></p>
+<ol start="3" type="a">
+<li>Mostre que:</li>
+</ol>
+<p><span class="math display">\[E(MS_R) = \sigma^2 + \beta_1^2 S_{xx}.\]</span></p>
+<ol start="4" type="a">
+<li>Mostre que:</li>
+</ol>
+<p><span class="math display">\[E(MS_{Res}) = \sigma^2.\]</span></p>
+<ol start="5" type="1">
+<li>Por muitos anos, o pó de borracha tem sido utilizado no cimento asfáltico para melhorar o desempenho. O artigo <em>“Experimental Study of Recycled Rubber-Filled High-Strength Concrete”</em> (<em>Mag. Concrete Res.</em> 2009: 549–556) incluiu uma regressão de <span class="math inline">\(y\)</span> = resistência axial (MPa) sobre <span class="math inline">\(x\)</span> = resistência cúbica (MPa) com base nos seguintes dados amostrais:</li>
+</ol>
+<p>Tabela. Resistência Cúbica (<span class="math inline">\(x\)</span>) e Resistência Axial (<span class="math inline">\(y\)</span>) (MPa)</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(x\)</span></th>
+<th>112,3</th>
+<th>97,0</th>
+<th>92,7</th>
+<th>86,0</th>
+<th>102,0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(y\)</span></td>
+<td>75,0</td>
+<td>71,0</td>
+<td>57,7</td>
+<td>48,7</td>
+<td>74,3</td>
+</tr>
+</tbody>
+</table>
+<table class="table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(x\)</span></th>
+<th>99,2</th>
+<th>95,8</th>
+<th>103,5</th>
+<th>89,0</th>
+<th>86,7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(y\)</span></td>
+<td>73,3</td>
+<td>68,0</td>
+<td>59,3</td>
+<td>57,8</td>
+<td>48,5</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li><p>Verifique se um diagrama de dispersão apoia a suposição de que as duas variáveis estão relacionadas por um modelo de regressão linear simples.</p></li>
+<li><p>Obtenha a equação da reta dos mínimos quadrados e interprete seu coeficiente angular.</p></li>
+<li><p>Calcule e interprete o coeficiente de determinação.</p></li>
+</ol>
+<ol start="6" type="1">
+<li><p>Uma análise de regressão é realizada com <span class="math inline">\(y\)</span> representando a temperatura, expressa em °C. Como os valores resultantes de <span class="math inline">\(\hat{\beta}_0\)</span> e <span class="math inline">\(\hat{\beta}_1\)</span> se relacionam com aqueles obtidos se <span class="math inline">\(y\)</span> for reexpressado em °F? Justifique sua afirmação. <em>Dica:</em> A nova variável <span class="math inline">\(y_i\)</span> é dada por: <span class="math inline">\(y_i^{novo} = 1,8 y_i + 32.\)</span></p></li>
+<li><p>(<strong>Cinestose no Transporte Público Rodoviário</strong>) Como a aceleração lateral — forças laterais experimentadas em curvas que estão amplamente sob o controle do motorista — afeta a náusea percebida pelos passageiros de ônibus? O artigo <em>“Motion Sickness in Public Road Transport: The Effect of Driver, Route, and Vehicle”</em> (<em>Ergonomics</em> 1999: 1646–1664) apresentou dados sobre <span class="math inline">\(x\)</span> = dose de movimento cinetósico (calculada de acordo com um padrão britânico para avaliar movimento semelhante no mar) e <span class="math inline">\(y\)</span> = náusea relatada (%). Os valores estatísticos relevantes são:</p></li>
+</ol>
+<p><span class="math display">\[
+n = 17, \quad \sum x_i = 222,1, \quad \sum y_i = 193,0,
+\]</span></p>
+<p><span class="math display">\[
+S_{xx} = 155,02, \quad S_{yy} = 783,88, \quad S_{xy} = 238,11
+\]</span></p>
+<p>Os valores de dose na amostra variaram de 6,0 a 17,6.</p>
+<ol type="a">
+<li><p>Supondo que o modelo de regressão linear simples seja válido para relacionar essas duas variáveis (isso é apoiado pelos dados brutos), calcule e interprete uma estimativa do coeficiente angular que forneça informações sobre a precisão e confiabilidade da estimativa.</p></li>
+<li><p>Parece haver uma relação linear útil entre essas duas variáveis?</p></li>
+<li><p>Seria sensato usar o modelo de regressão linear simples como base para prever a porcentagem de náusea quando a dose for igual a 5,0? Explique seu raciocínio.</p></li>
+</ol>
+<ol start="8" type="1">
+<li>O aquecimento global é uma questão importante, e as emissões de CO₂ desempenham um papel fundamental nessa discussão O artigo <em>“Effects of Atmospheric CO₂ Enrichment on Biomass Accumulation and Distribution in Eldarica Pine Trees”</em> (<em>J. Exp. Bot.</em> 1994: 345–349) descreve os resultados do crescimento de pinheiros sob diferentes níveis de CO₂ no ar.</li>
+</ol>
+<p>Os dados abaixo correspondem às observações onde:</p>
+<ul>
+<li><span class="math inline">\(x\)</span> = concentração atmosférica de CO₂ (partes por milhão)</li>
+<li><span class="math inline">\(y\)</span> = massa em quilogramas após 11 meses de experimento.</li>
+</ul>
+<p>Tabela. Concentração de CO₂ (<span class="math inline">\(x\)</span>) e Massa (<span class="math inline">\(y\)</span>)</p>
+<table class="table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(x\)</span></th>
+<th>408</th>
+<th>408</th>
+<th>554</th>
+<th>554</th>
+<th>680</th>
+<th>680</th>
+<th>812</th>
+<th>812</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(y\)</span></td>
+<td>1,1</td>
+<td>1,3</td>
+<td>1,6</td>
+<td>2,5</td>
+<td>3,0</td>
+<td>4,3</td>
+<td>4,2</td>
+<td>4,7</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li><p>Explique por que <span class="math inline">\(s_{\hat{y}}\)</span> é maior quando <span class="math inline">\(x = 750\)</span> do que quando <span class="math inline">\(x = 600\)</span>.</p></li>
+<li><p>Calcule um intervalo de confiança com nível de confiança de <span class="math inline">\(95\%\)</span> para a verdadeira massa média de todas as árvores cultivadas com uma concentração de CO₂ de 600 partes por milhão.</p></li>
+<li><p>Calcule um intervalo de predição com nível de predição de <span class="math inline">\(95\%\)</span> para a massa de uma árvore cultivada com uma concentração de CO₂ de 600 partes por milhão.</p></li>
+<li><p>Se um intervalo de confiança de <span class="math inline">\(95\%\)</span> for calculado para a verdadeira massa média quando a concentração de CO₂ for 750, qual será o nível de confiança simultâneo para esse intervalo e o intervalo calculado na parte (b)?</p></li>
+</ol>
+<ol start="9" type="1">
+<li>Nenhum apreciador de tortilhas gosta de chips encharcados, portanto, é importante identificar características do processo de produção que resultem em chips com uma textura agradável.</li>
+</ol>
+<p>Os seguintes dados sobre:</p>
+<ul>
+<li><span class="math inline">\(x\)</span> = tempo de fritura (s)</li>
+<li><span class="math inline">\(y\)</span> = teor de umidade (%)</li>
+</ul>
+<p>foram apresentados no artigo <em>“Thermal and Physical Properties of Tortilla Chips as a Function of Frying Time”</em> (<em>J. Food Process. Preserv.</em> 1995: 175–189).</p>
+<p>Tabela. Tempo de Fritura (<span class="math inline">\(x\)</span>) e Teor de Umidade (<span class="math inline">\(y\)</span>)</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(x\)</span></th>
+<th>5</th>
+<th>10</th>
+<th>15</th>
+<th>20</th>
+<th>25</th>
+<th>30</th>
+<th>45</th>
+<th>60</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(y\)</span></td>
+<td>16,3</td>
+<td>9,7</td>
+<td>8,1</td>
+<td>4,2</td>
+<td>3,4</td>
+<td>2,9</td>
+<td>1,9</td>
+<td>1,3</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li><p>Construa um diagrama de dispersão dos dados e comente.</p></li>
+<li><p>Construa um diagrama de dispersão dos pares <span class="math inline">\((\ln(x), \ln(y))\)</span>, ou seja, transforme <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span> aplicando logaritmo natural e comente.</p></li>
+<li><p>Considere o modelo de potência multiplicativa:</p></li>
+</ol>
+<p><span class="math display">\[Y = \alpha x^{\beta} \varepsilon.\]</span></p>
+<p>O que esse modelo implica sobre a relação entre <span class="math inline">\(y&#39; = \ln(y)\)</span> e <span class="math inline">\(x&#39; = \ln(x)\)</span>, assumindo que <span class="math inline">\(\varepsilon\)</span> tem uma distribuição lognormal?</p>
+<ol start="4" type="a">
+<li><p>Obtenha um intervalo de confiança para o teor de umidade quando o tempo de fritura for 25s. <em>Dica:</em> Primeiro, realize uma regressão linear simples de <span class="math inline">\(y&#39;\)</span> em <span class="math inline">\(x&#39;\)</span> e calcule um intervalo de confiança apropriado. Depois, retorne para a escala original da variável.</p></li>
+<li><p>Obtenha um intervalo de predição para o teor de umidade quando o tempo de fritura for 40s.</p></li>
+</ol>
+<ol start="10" type="1">
+<li>Marque verdadeiro (V) ou falso (F):</li>
+</ol>
+<ol type="a">
+<li><p>Um modelo de regressão linear com um termo de intercepto sempre passará pelo centróide dos dados.</p></li>
+<li><p>A variância da resposta prevista em um modelo de regressão linear é mínima no valor médio da variável preditora.</p></li>
+<li><p>O intervalo de confiança para a resposta média em um determinado valor da variável preditora é sempre mais largo que o intervalo de predição para uma nova observação no mesmo ponto.</p></li>
+<li><p>O método dos mínimos quadrados garante que os estimadores da inclinação e do intercepto em um modelo de regressão linear sejam os melhores estimadores lineares não viesados (BLUE - Best Linear Unbiased Estimator).</p></li>
+<li><p>Para qualquer modelo de regressão linear simples que tenha um intercepto, a soma dos resíduos é sempre zero.</p></li>
 </ol>
 <hr>
 <div style="text-align: center;">
