@@ -49,6 +49,9 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 -   Aula 6: intervalo de confiança para valor estimado, intervalo de predição, coeficiente de determinação, regressão pela origem e estimação por máxima verossimilhança.
 
+-   Aula 7: aula prática de resolução da [lista 4](lista4.html).
+
+
 
 
 ### Avaliações:
