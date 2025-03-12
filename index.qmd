@@ -41,9 +41,9 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 -   [Lista 2](lista2.html): fórmula da correlação amostral e de Spearman.
 
--   Aula 4: definição de modelo de regressão linear simples, diferentes métodos de calcular distâncias entre pontos (sugestão: leitura do livro do Rao (2008)), estimação de parâmetros beta_0 e beta_1 pelo método de mínimos quadrados, exemplo de estimação (exemplo foguete), propriedades dos estimadores de mínimos quadrados, esperança e variância dos estimadores (erro padrão), teorema de Gauss-Markov (estimadores não viciados e de variância mínima, BLUE). 
+-   Aula 4: definição de modelo de regressão linear simples, diferentes métodos de calcular distâncias entre pontos (sugestão: leitura do livro do Rao (2008)), estimação de parâmetros beta_0 e beta_1 pelo método de mínimos quadrados, exemplo de estimação (exemplo foguete), propriedades dos estimadores de mínimos quadrados, esperança e variância dos estimadores (erro padrão), teorema de Gauss-Markov (estimadores não viciados e de variância mínima, BLUE).
 
--   Aula 5: revisão da aula 4, modelo de regressão linear simples com variância constante e variância dependente de covariáveis, estimação de sigma (quadrado médio do erro), teste de hipóteses para regressão (análise de variância), desenvolvimento da análise de variância (Fisher), teste de hipóteses Wald (teste t) para beta_1 e beta_0, relação entre os testes t e F (t^2 = F), intervalos de confiança para beta_0 e beta_1 (fazer exercício), ic para sigma^2, sigma e cv (exercício).
+-   Aula 5: revisão da aula 4, modelo de regressão linear simples com variância constante e variância dependente de covariáveis, estimação de sigma (quadrado médio do erro), teste de hipóteses para regressão (análise de variância), desenvolvimento da análise de variância (Fisher), teste de hipóteses Wald (teste t) para beta_1 e beta_0, relação entre os testes t e F (t\^2 = F), intervalos de confiança para beta_0 e beta_1 (fazer exercício), ic para sigma\^2, sigma e cv (exercício).
 
 -   [Lista 3](lista3.html): regressão linear simples.
 
@@ -51,6 +51,8 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 -   Aula 7: aula prática de resolução da [lista 4](lista4.html).
 
+
+-   Aula 8: definição de modelo de regressão linear múltipla, efeitos simples e de interação, modelo na forma matricial, estimação de parâmetros pelo método de mínimos quadrados pelo método escalar e matricial, exemplo de estimação,  propriedades dos estimadores de mínimos quadrados, esperança e variância dos estimadores (erro padrão), estimação de sigma2, método de estimação da máxima verossimilhança, teste de hipóteses para regressão e coeficientes, exemplos de teste de hipóteses, intervalos de confiança para parâmetros, valor médio e novas observações, exemplos de intervalos de confiança e *tarefa para casa: estudar sobre R2 ajustado, comparação entre modelo completo e reduzido, intervalos de confiança simultâneos (região de confiança) para os parâmetros, coeficientes padronizados (coeficientes beta) e multicolinearidade (sugestão: livro do Montgomery).* 
 
 
 
