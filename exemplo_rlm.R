@@ -1,3 +1,15 @@
+# Montgomery, Peck e Vining, 2021, p. 76:
+#
+# Example 3.1 The Delivery Time Data
+# A soft drink bottler is analyzing the vending machine service routes in his distribu
+# tion system. He is interested in predicting the amount of time required by the route 
+# driver to service the vending machines in an outlet. This service activity includes 
+# stocking the machine with beverage products and minor maintenance or housekeep
+# ing. The industrial engineer responsible for the study has suggested that the two 
+# most important variables affecting the delivery time (y) are the number of cases of 
+# product stocked (x1) and the distance walked by the route driver (x2). The engineer 
+# has collected 25 observations on delivery time:
+
 
 ID <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 
         11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 
@@ -15,9 +27,7 @@ x2 <- c(560, 220, 340, 80, 150, 330, 110, 210, 1460, 605,
         688, 215, 255, 462, 448, 776, 200, 132, 36, 770,
         140, 810, 450, 635, 150)
 
-delivery_data <- data.frame(ID, y, x1, x2)
-
-
+# Criando a matriz X:
 
 X <- cbind(1, x1, x2)
 
@@ -32,7 +42,10 @@ beta_hat
 
 # Estimação de sigma2
 
-y_hat <- X %*% beta_hat # X %*% solve( t(X) %*% X ) %*%  t(X) %*% y
+y_hat <- X %*% beta_hat
+# ou
+# y_hat <- X %*% solve( t(X) %*% X ) %*%  t(X) %*% y
+# ou
 # H <- X %*% solve( t(X) %*% X ) %*%  t(X)
 # y_hat <- H %*% y
 
@@ -55,8 +68,9 @@ SQReg <- t(beta_hat) %*% t(X) %*% y - (sum(y)^2 / length(y))
 QMReg <- SQReg / GLReg
 
 # FV: resíduos
-GLRes
-SQRes
+GLRes <- GLTotal - GLReg
+SQRes <- SQTotal - SQReg
+QMRes <- SQRes / GLRes
 QMRes
 
 # Teste F:
@@ -64,12 +78,15 @@ Fc <- QMReg / QMRes
 Ftab <- qf(0.95, GLReg, GLRes)
 # OU
 # Ftab <- qf(0.05, GLReg, GLRes, lower.tail = FALSE)
+Fc > Ftab # Rejeita ou não rejeita H0?
 
 # Teste de hipóteses Wald:
 # H0: beta_1 = 0 versus H1: beta_1 != 0
 
 C <- solve(XlX)
-C11 <- C["x1", "x1"]
+C11 <- C[2,2]
+# OU
+# C11 <- C["x1", "x1"]
 # OU
 C11 <- solve(XlX)[2, 2]
 se_b1 <- sqrt(sigma2_hat * C11)
@@ -116,18 +133,20 @@ talpha2 <- qt(0.975, GLRes)
 IC_b2 <- c(b2 - talpha2 * se_b2, b2 + talpha2 * se_b2)
 IC_b2
 
-# Intervalo de Confiança para resposta média
+# Intervalo de CONFIANÇA para resposta média
 
 x0 <- c(1, 8, 275)
 y0 <- x0 %*% beta_hat
+y0
 
 var_y0 <- t(x0) %*% C %*% x0 %*% sigma2_hat
+se_y0 <- sqrt(var_y0)
 # OU
 # var_y_new <- t(x_new) %*% solve(XlX) %*% x_new %*% sigma2_hat
 
 talpha2 <- qt(0.975, GLRes)
-IC_y0 <- c(y0 - talpha2 * sqrt(var_y0),
-              y0 + talpha2 * sqrt(var_y0))
+IC_y0 <- c(y0 - talpha2 * se_y0,
+              y0 + talpha2 * se_y0)
 IC_y0
 
 # Predição de novos valores:
@@ -140,3 +159,13 @@ talpha2 <- qt(0.975, GLRes)
 IC_y0_new <- c(y0_new - talpha2 * sqrt(var_y0_new),
               y0_new + talpha2 * sqrt(var_y0_new))
 IC_y0_new
+
+
+
+# Comparando os ICs:
+IC_y0 # Intervalo de Confiança
+
+diff(IC_y0)
+
+IC_y0_new # Intervalo de Predição
+diff(IC_y0_new)
