@@ -1,0 +1,203 @@
+---
+title: "Análise de Regressão"
+author:
+  - name: Prof. Dr. Juliano Bortolini
+    email: profjulianobortolini@gmail.com
+    url: http://www.julianobortolini.com.br
+    affiliations:
+      - name: Universidade Federal de Mato Grosso
+format:
+  html:
+    embed-resources: true
+engine: knitr
+---
+
+*Bacharelado em Estatística - UFMT*
+
+*Período letivo: 2024/2*
+
+### Lista de exercícios 5
+
+
+
+1. Considere os dados da Liga Nacional de Futebol Americano (NFL) na Tabela 1 ([.xlsx](tab_NFL.xlsx)).
+
+Tabela 1: Desempenho das Equipes da National Football League de 1976.
+
+| Equipe        | $y$  | $x_1$  | $x_2$  | $x_3$  | $x_4$  | $x_5$  | $x_6$  | $x_7$  | $x_8$  | $x_9$  |
+|--------------|------|------|------|------|------|------|------|------|------|------|
+| Washington   | 10   | 2113  | 1985  | 38,9  | 64,7  | +4   | 868  | 59,7  | 2205  | 1917  |
+| Minnesota    | 11   | 2003  | 2855  | 38,8  | 61,3  | +3   | 615  | 55,0  | 2096  | 1575  |
+| New England  | 11   | 2957  | 1737  | 40,1  | 60,0  | +14  | 914  | 65,6  | 1847  | 2175  |
+| Oakland      | 13   | 2285  | 2905  | 41,6  | 45,3  | −4   | 957  | 61,4  | 1903  | 2476  |
+| Pittsburgh   | 10   | 2971  | 1666  | 39,2  | 53,8  | +15  | 836  | 66,1  | 1457  | 1866  |
+| Baltimore    | 11   | 2309  | 2927  | 39,7  | 74,1  | +8   | 786  | 61,0  | 1848  | 2339  |
+| Los Angeles  | 10   | 2528  | 2341  | 38,1  | 65,4  | +12  | 754  | 66,1  | 1564  | 2092  |
+| Dallas       | 11   | 2147  | 2737  | 37,0  | 78,3  | −1   | 761  | 58,0  | 1821  | 1909  |
+| Atlanta      | 4    | 1689  | 1414  | 42,1  | 47,6  | −3   | 714  | 57,0  | 2577  | 2001  |
+| Buffalo      | 2    | 2566  | 1838  | 42,3  | 54,2  | −1   | 797  | 58,9  | 2476  | 2254  |
+| Chicago      | 7    | 2363  | 1480  | 37,3  | 48,0  | +19  | 984  | 67,5  | 1984  | 2217  |
+| Cincinnati   | 10   | 2109  | 2191  | 39,5  | 51,9  | +6   | 700  | 57,2  | 1917  | 1758  |
+| Cleveland    | 9    | 2295  | 2229  | 37,4  | 53,6  | −5   | 1037 | 57,8  | 1761  | 2032  |
+| Denver       | 9    | 1932  | 2204  | 35,1  | 71,4  | +3   | 986  | 58,6  | 1790  | 2025  |
+| Detroit      | 6    | 2128  | 2438  | 38,8  | 58,3  | +6   | 819  | 59,2  | 1901  | 1686  |
+| Green Bay    | 5    | 1722  | 1730  | 36,6  | 52,6  | −19  | 791  | 54,4  | 2288  | 1835  |
+| Houston      | 5    | 1498  | 2072  | 35,3  | 59,3  | −5   | 776  | 49,6  | 2072  | 1914  |
+| Kansas City  | 5    | 1873  | 2929  | 41,1  | 55,3  | +10  | 789  | 54,3  | 2861  | 2496  |
+| Miami        | 6    | 2118  | 2268  | 38,2  | 69,6  | +6   | 582  | 58,7  | 2411  | 2670  |
+| New Orleans  | 4    | 1775  | 1983  | 39,3  | 78,3  | +7   | 901  | 51,7  | 2289  | 2202  |
+| New York Giants | 3 | 1904  | 1792  | 39,7  | 38,1  | −9   | 734  | 61,9  | 2203  | 1988  |
+| New York Jets | 3   | 1929  | 1606  | 39,7  | 68,8  | −21  | 627  | 52,7  | 2592  | 2324  |
+| Philadelphia | 4    | 2080  | 1492  | 35,5  | 68,8  | −8   | 722  | 57,8  | 2053  | 2550  |
+| St. Louis    | 10   | 2301  | 2835  | 35,3  | 74,1  | +2   | 683  | 59,7  | 1979  | 2110  |
+| San Diego    | 6    | 2040  | 2416  | 38,7  | 50,0  | 0    | 576  | 54,9  | 2048  | 2628  |
+| San Francisco | 8   | 2447  | 1638  | 39,9  | 57,1  | −8   | 848  | 65,3  | 1786  | 1776  |
+| Seattle      | 2    | 1416  | 2649  | 37,4  | 56,3  | −22  | 684  | 43,8  | 2876  | 2524  |
+| Tampa Bay    | 0    | 1503  | 1503  | 39,3  | 47,0  | −9   | 875  | 53,5  | 2560  | 2241  |
+
+Definições das variáveis:
+
+- $y$: Jogos vencidos (por temporada de 14 jogos)
+- $x_1$: Jardas conquistadas em corrida (temporada)
+- $x_2$: Jardas de passe (temporada)
+- $x_3$: Média de punt (jardas/punt)
+- $x_4$: Percentual de acerto em field goal (field goals convertidos/field goals tentados na temporada)
+- $x_5$: Diferença de turnovers (turnovers ganhos - turnovers perdidos)
+- $x_6$: Jardas de penalidade (temporada)
+- $x_7$: Percentual de corrida (corridas/jogadas totais)
+- $x_8$: Jardas conquistadas em corrida pelos adversários (temporada)
+- $x_9$: Jardas de passe dos adversários (temporada)
+
+
+a. Ajuste um modelo de regressão linear múltipla relacionando o número de jogos ganhos com as jardas aéreas do time ($x_2$), a porcentagem de jogadas terrestres ($x_7$) e as jardas terrestres dos adversários ($x_8$).
+
+b. Construa a tabela de análise de variância (ANOVA) e teste a significância da regressão.
+
+c. Calcule as estatísticas $t$ para testar as hipóteses:
+
+$H_0: \beta_2 = 0$,
+
+$H_0: \beta_7 = 0$,
+
+$H_0: \beta_8 = 0$.
+
+Que conclusões você pode tirar sobre os papéis das variáveis $x_2$, $x_7$ e $x_8$ no modelo?
+
+d. *Pesquise sobre $R^2_{\text{aj}}$ (ajustado).  Calcule o $R^2$ e o $R^2_{\text{aj}}$ (ajustado) para este modelo.*
+
+e. *Pesquise sobre o teste $F$ parcial. Usando o teste $F$ parcial, determine a contribuição de $x_7$ para o modelo. Como essa estatística $F$ parcial está relacionada ao teste $t$ para $\beta_7$ calculado no item c?*
+
+2. Usando os resultados do exercício 1, mostre numericamente que o quadrado do coeficiente de correlação simples entre os valores observados $y_i$ e os valores ajustados $\hat{y}_i$ é igual ao $R^2$.
+
+3. Considere as informações do exercício 1:
+
+a. Encontre um intervalo de confiança (IC) de 95% para $\beta_7$.
+
+b. Encontre um intervalo de confiança de 95% para o número médio de jogos ganhos por um time quando $x_2 = 2300$, $x_7 = 56,0$ e $x_8 = 2100$.
+
+4. Para os dados da NFL do exercício 1, ajuste um modelo usando apenas $x_7$ e $x_8$ como regressores.
+
+a. Teste a significância da regressão.
+
+b. Calcule o $R^2$ e o $R^2_{\text{aj}}$. Como esses valores se comparam aos valores obtidos para o modelo obtido no exercício 1, que incluía um regressor adicional ($x_2$)?
+
+c. Calcule um intervalo de confiança de 95% para $\beta_7$. Calcule também um intervalo de confiança de 95% para o número médio de jogos ganhos por um time quando $x_7 = 56,0$ e $x_8 = 2100$. Compare o comprimento desses intervalos com os intervalos correspondentes obtidos no exercício 3.
+
+d. Que conclusões você pode tirar deste problema sobre as consequências de se omitir um regressor importante de um modelo?
+
+
+
+5. Considere os dados de preços de imóveis apresentados na Tabela 2 ([.xlsx](tab_precos_imoveis.xlsx)).
+
+
+Tabela 2. Dados de avaliação de imóveis.
+
+| $y$   | $x_1$   | $x_2$ | $x_3$   | $x_4$   | $x_5$ | $x_6$ | $x_7$ | $x_8$ | $x_9$ |
+|-------|---------|-------|---------|---------|-------|-------|-------|-------|-------|
+| 25,9  | 4,9176  | 1,0   | 3,472   | 0,998   | 1,0   | 7     | 4     | 42    | 0     |
+| 29,5  | 5,0208  | 1,0   | 3,531   | 1,500   | 2,0   | 7     | 4     | 62    | 0     |
+| 27,9  | 4,5429  | 1,0   | 2,275   | 1,175   | 1,0   | 6     | 3     | 40    | 0     |
+| 25,9  | 4,5573  | 1,0   | 4,050   | 1,232   | 1,0   | 6     | 3     | 54    | 0     |
+| 29,9  | 5,0597  | 1,0   | 4,455   | 1,121   | 1,0   | 6     | 3     | 42    | 0     |
+| 29,9  | 3,8910  | 1,0   | 4,455   | 0,988   | 1,0   | 6     | 3     | 56    | 0     |
+| 30,9  | 5,8980  | 1,0   | 5,850   | 1,240   | 1,0   | 7     | 3     | 51    | 1     |
+| 28,9  | 5,6039  | 1,0   | 9,520   | 1,501   | 0,0   | 6     | 3     | 32    | 0     |
+| 35,9  | 5,8282  | 1,0   | 6,435   | 1,225   | 2,0   | 6     | 3     | 32    | 0     |
+| 31,5  | 5,3003  | 1,0   | 4,988   | 1,552   | 1,0   | 6     | 3     | 30    | 0     |
+| 31,0  | 6,2712  | 1,0   | 5,520   | 0,975   | 1,0   | 5     | 2     | 30    | 0     |
+| 30,9  | 5,9592  | 1,0   | 6,666   | 1,121   | 2,0   | 6     | 3     | 32    | 0     |
+| 30,0  | 5,0500  | 1,0   | 5,000   | 1,020   | 0,0   | 5     | 2     | 46    | 1     |
+| 36,9  | 5,6039  | 1,0   | 5,150   | 1,664   | 2,0   | 8     | 4     | 50    | 0     |
+| 41,9  | 8,2464  | 1,5   | 5,150   | 1,664   | 2,0   | 7     | 4     | 22    | 1     |
+| 40,5  | 6,6969  | 1,5   | 6,902   | 1,488   | 1,5   | 7     | 3     | 22    | 1     |
+| 43,9  | 7,7841  | 1,5   | 7,102   | 1,376   | 1,0   | 6     | 3     | 17    | 0     |
+| 37,5  | 9,0384  | 1,0   | 7,800   | 1,500   | 1,5   | 7     | 3     | 23    | 0     |
+| 37,9  | 5,9894  | 1,0   | 5,520   | 1,256   | 2,0   | 6     | 3     | 40    | 1     |
+| 44,5  | 7,5422  | 1,5   | 5,000   | 1,690   | 1,0   | 6     | 3     | 22    | 0     |
+| 37,9  | 8,7951  | 1,5   | 9,890   | 1,820   | 2,0   | 8     | 4     | 50    | 1     |
+| 38,9  | 6,0831  | 1,5   | 6,727   | 1,652   | 1,0   | 6     | 3     | 44    | 0     |
+| 36,9  | 8,3607  | 1,5   | 9,150   | 1,777   | 2,0   | 8     | 4     | 48    | 1     |
+| 45,8  | 9,1416  | 1,5   | 7,326   | 1,831   | 1,5   | 8     | 4     | 31    | 0     |
+
+Definições das variáveis:
+
+- $y$: Preço de venda da casa (×1000)
+- $x_1$: Impostos locais, escolares e municipais (×1000)
+- $x_2$: Número de banheiros
+- $x_3$: Tamanho do lote (ft² ×1000)
+- $x_4$: Área construída (ft² ×1000)
+- $x_5$: Número de garagens
+- $x_6$: Número de cômodos
+- $x_7$: Número de quartos
+- $x_8$: Idade da casa (anos)
+- $x_9$: Número de lareiras
+
+a. Ajuste um modelo de regressão múltipla relacionando o preço de venda aos nove regressores disponíveis.
+
+b. Teste a significância da regressão. Quais conclusões você pode obter?
+
+c. Utilize testes $t$ para avaliar a contribuição de cada regressor ao modelo. Discuta seus resultados.
+
+d. Qual é a contribuição do tamanho do lote e da área construída ao modelo, considerando que todos os outros regressores já estão incluídos?
+
+e. *Pesquise sobre multicolinearidade. A multicolinearidade é um problema potencial neste modelo?*
+
+
+
+6. Mostre que $\text{Var}(\hat{y}) = \sigma^2 H$.
+
+7. Prove que as matrizes $H$ e $(I - H)$ são idempotentes, isto é, que $H H = H$ e $(I - H)(I - H) = I - H$.
+
+
+8. Considere o modelo de regressão linear múltipla $y = X\beta + \varepsilon$. Mostre que o estimador de mínimos quadrados pode ser escrito como
+$$\hat{\beta} = \beta + R\,e \quad \text{onde} \quad R = \bigl(X'X\bigr)^{-1} X'.$$
+
+9. Mostre que os resíduos de um modelo de regressão linear podem ser expressos como
+$e = (I - H)\,e.$
+
+10. Para o modelo de regressão linear múltipla, mostre que
+$\text{SSR}(\beta) = y'Hy.$ SSR é a soma de quadrados de regressão.
+
+11. Prove que $R^2$ é o quadrado da correlação entre $y$ e $\hat{y}$.
+
+12. Suponha que $y$ seja as vendas semanais em uma lanchonete de fast-food (em reais), $x_1$ é o número de lanchonetes concorrentes em um raio de 5 quilômetros, e $x_2$ é a população em um raio de 5 quilômetros (em milhares de pessoas). Suponha que o verdadeiro modelo de regressão seja:
+
+$$
+Y = 10000 - 1400\,x_1 + 2100\,x_2 + \varepsilon
+$$
+
+a. Determine as vendas esperadas quando o número de lanchonetes concorrentes é 2 e há 8000 pessoas em um raio de 5km.
+
+b. Determine as vendas esperadas para uma lanchonete que tem três lanchonetes concorrentes e 5000 pessoas em um raio de 5km.
+
+c. Interprete $\beta_1$ e $\beta_2$.
+
+d. Interprete $\beta_0$. Em que contexto esse valor faz sentido?
+
+
+
+------------------------------------------------------------------------
+
+::: {style="text-align: center;"}
+[\@profjulianobortolini](https://instagram.com/profjulianobortolini)      [www.julianobortolini.com.br](http://www.julianobortolini.com.br)      [linkedin](https://linkedin.com/in/julianobortolini)      [github](https://github.com/julianobortolini)       [lattes](http://lattes.cnpq.br/6210909768845403)
+:::

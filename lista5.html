@@ -3112,71 +3112,811 @@ window.Quarto = {
 
 <p><em>Bacharelado em Estatística - UFMT</em></p>
 <p><em>Período letivo: 2024/2</em></p>
-<section id="avisos" class="level3">
-<h3 class="anchored" data-anchor-id="avisos">Avisos:</h3>
+<section id="lista-de-exercícios-5" class="level3">
+<h3 class="anchored" data-anchor-id="lista-de-exercícios-5">Lista de exercícios 5</h3>
+<ol type="1">
+<li>Considere os dados da Liga Nacional de Futebol Americano (NFL) na Tabela 1 (<a href="tab_NFL.xlsx">.xlsx</a>).</li>
+</ol>
+<p>Tabela 1: Desempenho das Equipes da National Football League de 1976.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Equipe</th>
+<th><span class="math inline">\(y\)</span></th>
+<th><span class="math inline">\(x_1\)</span></th>
+<th><span class="math inline">\(x_2\)</span></th>
+<th><span class="math inline">\(x_3\)</span></th>
+<th><span class="math inline">\(x_4\)</span></th>
+<th><span class="math inline">\(x_5\)</span></th>
+<th><span class="math inline">\(x_6\)</span></th>
+<th><span class="math inline">\(x_7\)</span></th>
+<th><span class="math inline">\(x_8\)</span></th>
+<th><span class="math inline">\(x_9\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Washington</td>
+<td>10</td>
+<td>2113</td>
+<td>1985</td>
+<td>38,9</td>
+<td>64,7</td>
+<td>+4</td>
+<td>868</td>
+<td>59,7</td>
+<td>2205</td>
+<td>1917</td>
+</tr>
+<tr class="even">
+<td>Minnesota</td>
+<td>11</td>
+<td>2003</td>
+<td>2855</td>
+<td>38,8</td>
+<td>61,3</td>
+<td>+3</td>
+<td>615</td>
+<td>55,0</td>
+<td>2096</td>
+<td>1575</td>
+</tr>
+<tr class="odd">
+<td>New England</td>
+<td>11</td>
+<td>2957</td>
+<td>1737</td>
+<td>40,1</td>
+<td>60,0</td>
+<td>+14</td>
+<td>914</td>
+<td>65,6</td>
+<td>1847</td>
+<td>2175</td>
+</tr>
+<tr class="even">
+<td>Oakland</td>
+<td>13</td>
+<td>2285</td>
+<td>2905</td>
+<td>41,6</td>
+<td>45,3</td>
+<td>−4</td>
+<td>957</td>
+<td>61,4</td>
+<td>1903</td>
+<td>2476</td>
+</tr>
+<tr class="odd">
+<td>Pittsburgh</td>
+<td>10</td>
+<td>2971</td>
+<td>1666</td>
+<td>39,2</td>
+<td>53,8</td>
+<td>+15</td>
+<td>836</td>
+<td>66,1</td>
+<td>1457</td>
+<td>1866</td>
+</tr>
+<tr class="even">
+<td>Baltimore</td>
+<td>11</td>
+<td>2309</td>
+<td>2927</td>
+<td>39,7</td>
+<td>74,1</td>
+<td>+8</td>
+<td>786</td>
+<td>61,0</td>
+<td>1848</td>
+<td>2339</td>
+</tr>
+<tr class="odd">
+<td>Los Angeles</td>
+<td>10</td>
+<td>2528</td>
+<td>2341</td>
+<td>38,1</td>
+<td>65,4</td>
+<td>+12</td>
+<td>754</td>
+<td>66,1</td>
+<td>1564</td>
+<td>2092</td>
+</tr>
+<tr class="even">
+<td>Dallas</td>
+<td>11</td>
+<td>2147</td>
+<td>2737</td>
+<td>37,0</td>
+<td>78,3</td>
+<td>−1</td>
+<td>761</td>
+<td>58,0</td>
+<td>1821</td>
+<td>1909</td>
+</tr>
+<tr class="odd">
+<td>Atlanta</td>
+<td>4</td>
+<td>1689</td>
+<td>1414</td>
+<td>42,1</td>
+<td>47,6</td>
+<td>−3</td>
+<td>714</td>
+<td>57,0</td>
+<td>2577</td>
+<td>2001</td>
+</tr>
+<tr class="even">
+<td>Buffalo</td>
+<td>2</td>
+<td>2566</td>
+<td>1838</td>
+<td>42,3</td>
+<td>54,2</td>
+<td>−1</td>
+<td>797</td>
+<td>58,9</td>
+<td>2476</td>
+<td>2254</td>
+</tr>
+<tr class="odd">
+<td>Chicago</td>
+<td>7</td>
+<td>2363</td>
+<td>1480</td>
+<td>37,3</td>
+<td>48,0</td>
+<td>+19</td>
+<td>984</td>
+<td>67,5</td>
+<td>1984</td>
+<td>2217</td>
+</tr>
+<tr class="even">
+<td>Cincinnati</td>
+<td>10</td>
+<td>2109</td>
+<td>2191</td>
+<td>39,5</td>
+<td>51,9</td>
+<td>+6</td>
+<td>700</td>
+<td>57,2</td>
+<td>1917</td>
+<td>1758</td>
+</tr>
+<tr class="odd">
+<td>Cleveland</td>
+<td>9</td>
+<td>2295</td>
+<td>2229</td>
+<td>37,4</td>
+<td>53,6</td>
+<td>−5</td>
+<td>1037</td>
+<td>57,8</td>
+<td>1761</td>
+<td>2032</td>
+</tr>
+<tr class="even">
+<td>Denver</td>
+<td>9</td>
+<td>1932</td>
+<td>2204</td>
+<td>35,1</td>
+<td>71,4</td>
+<td>+3</td>
+<td>986</td>
+<td>58,6</td>
+<td>1790</td>
+<td>2025</td>
+</tr>
+<tr class="odd">
+<td>Detroit</td>
+<td>6</td>
+<td>2128</td>
+<td>2438</td>
+<td>38,8</td>
+<td>58,3</td>
+<td>+6</td>
+<td>819</td>
+<td>59,2</td>
+<td>1901</td>
+<td>1686</td>
+</tr>
+<tr class="even">
+<td>Green Bay</td>
+<td>5</td>
+<td>1722</td>
+<td>1730</td>
+<td>36,6</td>
+<td>52,6</td>
+<td>−19</td>
+<td>791</td>
+<td>54,4</td>
+<td>2288</td>
+<td>1835</td>
+</tr>
+<tr class="odd">
+<td>Houston</td>
+<td>5</td>
+<td>1498</td>
+<td>2072</td>
+<td>35,3</td>
+<td>59,3</td>
+<td>−5</td>
+<td>776</td>
+<td>49,6</td>
+<td>2072</td>
+<td>1914</td>
+</tr>
+<tr class="even">
+<td>Kansas City</td>
+<td>5</td>
+<td>1873</td>
+<td>2929</td>
+<td>41,1</td>
+<td>55,3</td>
+<td>+10</td>
+<td>789</td>
+<td>54,3</td>
+<td>2861</td>
+<td>2496</td>
+</tr>
+<tr class="odd">
+<td>Miami</td>
+<td>6</td>
+<td>2118</td>
+<td>2268</td>
+<td>38,2</td>
+<td>69,6</td>
+<td>+6</td>
+<td>582</td>
+<td>58,7</td>
+<td>2411</td>
+<td>2670</td>
+</tr>
+<tr class="even">
+<td>New Orleans</td>
+<td>4</td>
+<td>1775</td>
+<td>1983</td>
+<td>39,3</td>
+<td>78,3</td>
+<td>+7</td>
+<td>901</td>
+<td>51,7</td>
+<td>2289</td>
+<td>2202</td>
+</tr>
+<tr class="odd">
+<td>New York Giants</td>
+<td>3</td>
+<td>1904</td>
+<td>1792</td>
+<td>39,7</td>
+<td>38,1</td>
+<td>−9</td>
+<td>734</td>
+<td>61,9</td>
+<td>2203</td>
+<td>1988</td>
+</tr>
+<tr class="even">
+<td>New York Jets</td>
+<td>3</td>
+<td>1929</td>
+<td>1606</td>
+<td>39,7</td>
+<td>68,8</td>
+<td>−21</td>
+<td>627</td>
+<td>52,7</td>
+<td>2592</td>
+<td>2324</td>
+</tr>
+<tr class="odd">
+<td>Philadelphia</td>
+<td>4</td>
+<td>2080</td>
+<td>1492</td>
+<td>35,5</td>
+<td>68,8</td>
+<td>−8</td>
+<td>722</td>
+<td>57,8</td>
+<td>2053</td>
+<td>2550</td>
+</tr>
+<tr class="even">
+<td>St. Louis</td>
+<td>10</td>
+<td>2301</td>
+<td>2835</td>
+<td>35,3</td>
+<td>74,1</td>
+<td>+2</td>
+<td>683</td>
+<td>59,7</td>
+<td>1979</td>
+<td>2110</td>
+</tr>
+<tr class="odd">
+<td>San Diego</td>
+<td>6</td>
+<td>2040</td>
+<td>2416</td>
+<td>38,7</td>
+<td>50,0</td>
+<td>0</td>
+<td>576</td>
+<td>54,9</td>
+<td>2048</td>
+<td>2628</td>
+</tr>
+<tr class="even">
+<td>San Francisco</td>
+<td>8</td>
+<td>2447</td>
+<td>1638</td>
+<td>39,9</td>
+<td>57,1</td>
+<td>−8</td>
+<td>848</td>
+<td>65,3</td>
+<td>1786</td>
+<td>1776</td>
+</tr>
+<tr class="odd">
+<td>Seattle</td>
+<td>2</td>
+<td>1416</td>
+<td>2649</td>
+<td>37,4</td>
+<td>56,3</td>
+<td>−22</td>
+<td>684</td>
+<td>43,8</td>
+<td>2876</td>
+<td>2524</td>
+</tr>
+<tr class="even">
+<td>Tampa Bay</td>
+<td>0</td>
+<td>1503</td>
+<td>1503</td>
+<td>39,3</td>
+<td>47,0</td>
+<td>−9</td>
+<td>875</td>
+<td>53,5</td>
+<td>2560</td>
+<td>2241</td>
+</tr>
+</tbody>
+</table>
+<p>Definições das variáveis:</p>
 <ul>
-<li>Última atualização do site às <strong>13:36</strong> do dia <strong>23/03/2025</strong>.</li>
-<li>Monitores: Edimar e Wender.</li>
-<li><a href>Whatsapp da disciplina</a></li>
-<li><strong>Avaliação 1 (</strong><span class="math inline">\(A_1\)</span>): 26/3/2025.</li>
+<li><span class="math inline">\(y\)</span>: Jogos vencidos (por temporada de 14 jogos)</li>
+<li><span class="math inline">\(x_1\)</span>: Jardas conquistadas em corrida (temporada)</li>
+<li><span class="math inline">\(x_2\)</span>: Jardas de passe (temporada)</li>
+<li><span class="math inline">\(x_3\)</span>: Média de punt (jardas/punt)</li>
+<li><span class="math inline">\(x_4\)</span>: Percentual de acerto em field goal (field goals convertidos/field goals tentados na temporada)</li>
+<li><span class="math inline">\(x_5\)</span>: Diferença de turnovers (turnovers ganhos - turnovers perdidos)</li>
+<li><span class="math inline">\(x_6\)</span>: Jardas de penalidade (temporada)</li>
+<li><span class="math inline">\(x_7\)</span>: Percentual de corrida (corridas/jogadas totais)</li>
+<li><span class="math inline">\(x_8\)</span>: Jardas conquistadas em corrida pelos adversários (temporada)</li>
+<li><span class="math inline">\(x_9\)</span>: Jardas de passe dos adversários (temporada)</li>
 </ul>
-</section>
-<section id="ementa" class="level3">
-<h3 class="anchored" data-anchor-id="ementa">Ementa:</h3>
-<p>Análise de correlação. Regressão linear simples e múltipla. Regressão com variáveis qualitativas. Técnicas de diagnóstico em regressão. Seleção de variáveis e construção de modelos. Validação de modelos. Transformação de variáveis.</p>
-</section>
-<section id="notas-de-aula" class="level3">
-<h3 class="anchored" data-anchor-id="notas-de-aula">Notas de aula:</h3>
+<ol type="a">
+<li><p>Ajuste um modelo de regressão linear múltipla relacionando o número de jogos ganhos com as jardas aéreas do time (<span class="math inline">\(x_2\)</span>), a porcentagem de jogadas terrestres (<span class="math inline">\(x_7\)</span>) e as jardas terrestres dos adversários (<span class="math inline">\(x_8\)</span>).</p></li>
+<li><p>Construa a tabela de análise de variância (ANOVA) e teste a significância da regressão.</p></li>
+<li><p>Calcule as estatísticas <span class="math inline">\(t\)</span> para testar as hipóteses:</p></li>
+</ol>
+<p><span class="math inline">\(H_0: \beta_2 = 0\)</span>,</p>
+<p><span class="math inline">\(H_0: \beta_7 = 0\)</span>,</p>
+<p><span class="math inline">\(H_0: \beta_8 = 0\)</span>.</p>
+<p>Que conclusões você pode tirar sobre os papéis das variáveis <span class="math inline">\(x_2\)</span>, <span class="math inline">\(x_7\)</span> e <span class="math inline">\(x_8\)</span> no modelo?</p>
+<ol start="4" type="a">
+<li><p><em>Pesquise sobre <span class="math inline">\(R^2_{\text{aj}}\)</span> (ajustado). Calcule o <span class="math inline">\(R^2\)</span> e o <span class="math inline">\(R^2_{\text{aj}}\)</span> (ajustado) para este modelo.</em></p></li>
+<li><p><em>Pesquise sobre o teste <span class="math inline">\(F\)</span> parcial. Usando o teste <span class="math inline">\(F\)</span> parcial, determine a contribuição de <span class="math inline">\(x_7\)</span> para o modelo. Como essa estatística <span class="math inline">\(F\)</span> parcial está relacionada ao teste <span class="math inline">\(t\)</span> para <span class="math inline">\(\beta_7\)</span> calculado no item c?</em></p></li>
+</ol>
+<ol start="2" type="1">
+<li><p>Usando os resultados do exercício 1, mostre numericamente que o quadrado do coeficiente de correlação simples entre os valores observados <span class="math inline">\(y_i\)</span> e os valores ajustados <span class="math inline">\(\hat{y}_i\)</span> é igual ao <span class="math inline">\(R^2\)</span>.</p></li>
+<li><p>Considere as informações do exercício 1:</p></li>
+</ol>
+<ol type="a">
+<li><p>Encontre um intervalo de confiança (IC) de 95% para <span class="math inline">\(\beta_7\)</span>.</p></li>
+<li><p>Encontre um intervalo de confiança de 95% para o número médio de jogos ganhos por um time quando <span class="math inline">\(x_2 = 2300\)</span>, <span class="math inline">\(x_7 = 56,0\)</span> e <span class="math inline">\(x_8 = 2100\)</span>.</p></li>
+</ol>
+<ol start="4" type="1">
+<li>Para os dados da NFL do exercício 1, ajuste um modelo usando apenas <span class="math inline">\(x_7\)</span> e <span class="math inline">\(x_8\)</span> como regressores.</li>
+</ol>
+<ol type="a">
+<li><p>Teste a significância da regressão.</p></li>
+<li><p>Calcule o <span class="math inline">\(R^2\)</span> e o <span class="math inline">\(R^2_{\text{aj}}\)</span>. Como esses valores se comparam aos valores obtidos para o modelo obtido no exercício 1, que incluía um regressor adicional (<span class="math inline">\(x_2\)</span>)?</p></li>
+<li><p>Calcule um intervalo de confiança de 95% para <span class="math inline">\(\beta_7\)</span>. Calcule também um intervalo de confiança de 95% para o número médio de jogos ganhos por um time quando <span class="math inline">\(x_7 = 56,0\)</span> e <span class="math inline">\(x_8 = 2100\)</span>. Compare o comprimento desses intervalos com os intervalos correspondentes obtidos no exercício 3.</p></li>
+<li><p>Que conclusões você pode tirar deste problema sobre as consequências de se omitir um regressor importante de um modelo?</p></li>
+</ol>
+<ol start="5" type="1">
+<li>Considere os dados de preços de imóveis apresentados na Tabela 2 (<a href="tab_precos_imoveis.xlsx">.xlsx</a>).</li>
+</ol>
+<p>Tabela 2. Dados de avaliação de imóveis.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 11%">
+<col style="width: 9%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(y\)</span></th>
+<th><span class="math inline">\(x_1\)</span></th>
+<th><span class="math inline">\(x_2\)</span></th>
+<th><span class="math inline">\(x_3\)</span></th>
+<th><span class="math inline">\(x_4\)</span></th>
+<th><span class="math inline">\(x_5\)</span></th>
+<th><span class="math inline">\(x_6\)</span></th>
+<th><span class="math inline">\(x_7\)</span></th>
+<th><span class="math inline">\(x_8\)</span></th>
+<th><span class="math inline">\(x_9\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>25,9</td>
+<td>4,9176</td>
+<td>1,0</td>
+<td>3,472</td>
+<td>0,998</td>
+<td>1,0</td>
+<td>7</td>
+<td>4</td>
+<td>42</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>29,5</td>
+<td>5,0208</td>
+<td>1,0</td>
+<td>3,531</td>
+<td>1,500</td>
+<td>2,0</td>
+<td>7</td>
+<td>4</td>
+<td>62</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>27,9</td>
+<td>4,5429</td>
+<td>1,0</td>
+<td>2,275</td>
+<td>1,175</td>
+<td>1,0</td>
+<td>6</td>
+<td>3</td>
+<td>40</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>25,9</td>
+<td>4,5573</td>
+<td>1,0</td>
+<td>4,050</td>
+<td>1,232</td>
+<td>1,0</td>
+<td>6</td>
+<td>3</td>
+<td>54</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>29,9</td>
+<td>5,0597</td>
+<td>1,0</td>
+<td>4,455</td>
+<td>1,121</td>
+<td>1,0</td>
+<td>6</td>
+<td>3</td>
+<td>42</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>29,9</td>
+<td>3,8910</td>
+<td>1,0</td>
+<td>4,455</td>
+<td>0,988</td>
+<td>1,0</td>
+<td>6</td>
+<td>3</td>
+<td>56</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>30,9</td>
+<td>5,8980</td>
+<td>1,0</td>
+<td>5,850</td>
+<td>1,240</td>
+<td>1,0</td>
+<td>7</td>
+<td>3</td>
+<td>51</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>28,9</td>
+<td>5,6039</td>
+<td>1,0</td>
+<td>9,520</td>
+<td>1,501</td>
+<td>0,0</td>
+<td>6</td>
+<td>3</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>35,9</td>
+<td>5,8282</td>
+<td>1,0</td>
+<td>6,435</td>
+<td>1,225</td>
+<td>2,0</td>
+<td>6</td>
+<td>3</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>31,5</td>
+<td>5,3003</td>
+<td>1,0</td>
+<td>4,988</td>
+<td>1,552</td>
+<td>1,0</td>
+<td>6</td>
+<td>3</td>
+<td>30</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>31,0</td>
+<td>6,2712</td>
+<td>1,0</td>
+<td>5,520</td>
+<td>0,975</td>
+<td>1,0</td>
+<td>5</td>
+<td>2</td>
+<td>30</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>30,9</td>
+<td>5,9592</td>
+<td>1,0</td>
+<td>6,666</td>
+<td>1,121</td>
+<td>2,0</td>
+<td>6</td>
+<td>3</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>30,0</td>
+<td>5,0500</td>
+<td>1,0</td>
+<td>5,000</td>
+<td>1,020</td>
+<td>0,0</td>
+<td>5</td>
+<td>2</td>
+<td>46</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>36,9</td>
+<td>5,6039</td>
+<td>1,0</td>
+<td>5,150</td>
+<td>1,664</td>
+<td>2,0</td>
+<td>8</td>
+<td>4</td>
+<td>50</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>41,9</td>
+<td>8,2464</td>
+<td>1,5</td>
+<td>5,150</td>
+<td>1,664</td>
+<td>2,0</td>
+<td>7</td>
+<td>4</td>
+<td>22</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>40,5</td>
+<td>6,6969</td>
+<td>1,5</td>
+<td>6,902</td>
+<td>1,488</td>
+<td>1,5</td>
+<td>7</td>
+<td>3</td>
+<td>22</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>43,9</td>
+<td>7,7841</td>
+<td>1,5</td>
+<td>7,102</td>
+<td>1,376</td>
+<td>1,0</td>
+<td>6</td>
+<td>3</td>
+<td>17</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>37,5</td>
+<td>9,0384</td>
+<td>1,0</td>
+<td>7,800</td>
+<td>1,500</td>
+<td>1,5</td>
+<td>7</td>
+<td>3</td>
+<td>23</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>37,9</td>
+<td>5,9894</td>
+<td>1,0</td>
+<td>5,520</td>
+<td>1,256</td>
+<td>2,0</td>
+<td>6</td>
+<td>3</td>
+<td>40</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>44,5</td>
+<td>7,5422</td>
+<td>1,5</td>
+<td>5,000</td>
+<td>1,690</td>
+<td>1,0</td>
+<td>6</td>
+<td>3</td>
+<td>22</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>37,9</td>
+<td>8,7951</td>
+<td>1,5</td>
+<td>9,890</td>
+<td>1,820</td>
+<td>2,0</td>
+<td>8</td>
+<td>4</td>
+<td>50</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>38,9</td>
+<td>6,0831</td>
+<td>1,5</td>
+<td>6,727</td>
+<td>1,652</td>
+<td>1,0</td>
+<td>6</td>
+<td>3</td>
+<td>44</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>36,9</td>
+<td>8,3607</td>
+<td>1,5</td>
+<td>9,150</td>
+<td>1,777</td>
+<td>2,0</td>
+<td>8</td>
+<td>4</td>
+<td>48</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>45,8</td>
+<td>9,1416</td>
+<td>1,5</td>
+<td>7,326</td>
+<td>1,831</td>
+<td>1,5</td>
+<td>8</td>
+<td>4</td>
+<td>31</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>Definições das variáveis:</p>
 <ul>
-<li><p>Aula 1: apresentação do plano de ensino e introdução à regressão baseado no artigo de <a href="https://zenodo.org/records/1449548">Galton</a> (1886).</p>
-<p><em>Referência:</em> Galton, F. (1886). “Regression towards mediocrity in hereditary stature”. <em>The Journal of the Anthropological Institute of Great Britain and Ireland</em>. <strong>15</strong>: 246-263.</p></li>
-<li><p>Aula 2: definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, função de distribuição acumulada empírica, teorema de Glivenko-Cantelli, teorema (estimador para a transformação <span class="math inline">\(T(F) = \int f(x) dF\)</span>), estimador para a covariância e correlação, propriedades dos estimadores da covariância e correlação e exemplo com dados reais.</p></li>
-<li><p><a href="lista1.html">Lista 1</a>: covariância e correlação.</p></li>
-<li><p>Aula 3: revisão da aula 2, correlação como medida de proporção entre duas variáveis (padronizadas), estimação da relação funcional (modelo) entre duas variáveis, estimação de beta_0 e beta_1, exemplo com os dados de consumo de açúcar e taxa de depressão, correlação entre duas variáveis normais, estimação do modelo linear (reta) entre duas variáveis normais, comentários sobre correlação de Pearson (dados normais) e Spearman (postos dos dados), teste de hipóteses para correlação: 1) H_0: rho = 0 e 2) H_0: rho = rho_0 e exercício de teste de hipóteses para correlação.</p></li>
-<li><p><a href="lista2.html">Lista 2</a>: fórmula da correlação amostral e de Spearman.</p></li>
-<li><p>Aula 4: definição de modelo de regressão linear simples, diferentes métodos de calcular distâncias entre pontos (sugestão: leitura do livro do Rao (2008)), estimação de parâmetros beta_0 e beta_1 pelo método de mínimos quadrados, exemplo de estimação (exemplo foguete), propriedades dos estimadores de mínimos quadrados, esperança e variância dos estimadores (erro padrão), teorema de Gauss-Markov (estimadores não viciados e de variância mínima, BLUE).</p></li>
-<li><p>Aula 5: revisão da aula 4, modelo de regressão linear simples com variância constante e variância dependente de covariáveis, estimação de sigma (quadrado médio do erro), teste de hipóteses para regressão (análise de variância), desenvolvimento da análise de variância (Fisher), teste de hipóteses Wald (teste t) para beta_1 e beta_0, relação entre os testes t e F (t^2 = F), intervalos de confiança para beta_0 e beta_1 (fazer exercício), ic para sigma^2, sigma e cv (exercício).</p></li>
-<li><p><a href="lista3.html">Lista 3</a>: regressão linear simples.</p></li>
-<li><p>Aula 6: intervalo de confiança para valor estimado, intervalo de predição, coeficiente de determinação, regressão pela origem e estimação por máxima verossimilhança.</p></li>
-<li><p><a href="lista4.html">lista 4</a>: regressão linear simples.</p></li>
-<li><p>Aula 7: aula prática de resolução da <a href="lista4.html">lista 4</a>.</p></li>
-<li><p>Aula 8: definição de modelo de regressão linear múltipla, efeitos simples e de interação, modelo na forma matricial, estimação de parâmetros pelo método de mínimos quadrados pelo método escalar e matricial, exemplo de estimação, propriedades dos estimadores de mínimos quadrados, esperança e variância dos estimadores (erro padrão), estimação de sigma2, método de estimação da máxima verossimilhança, teste de hipóteses para regressão e coeficientes, exemplos de teste de hipóteses, intervalos de confiança para parâmetros, valor médio e novas observações e exemplos de intervalos de confiança. <em>Tarefa para casa: estudar sobre R2 ajustado, comparação entre modelo completo e reduzido, intervalos de confiança simultâneos (região de confiança) para os parâmetros, coeficientes padronizados (coeficientes beta) e multicolinearidade (sugestão: livro do Montgomery).</em></p></li>
-<li><p><a href="lista5.html">Lista 5</a>: regressão linear múltipla.</p></li>
-<li><p>Aula 9: <strong>aviso que na próxima aula será a avaliação 1</strong>. Revisão da aula anterior, intervalos de confiança para parâmetros, valor médio e novas observações, exemplos de intervalos de confiança. Cálculos usando o software R: <a href="exemplo_rlm.R">exemplo_rlm.R</a>. <em>Tarefa para casa: estudar sobre R2 ajustado, comparação entre modelo completo e reduzido, intervalos de confiança simultâneos (região de confiança) para os parâmetros, coeficientes padronizados (coeficientes beta) e multicolinearidade (sugestão: livro do Montgomery).</em></p></li>
-<li><p>Aula 10: avaliação 1 (escrita e computacional). A arguição oral será na próxima aula (Aula 11).</p></li>
+<li><span class="math inline">\(y\)</span>: Preço de venda da casa (×1000)</li>
+<li><span class="math inline">\(x_1\)</span>: Impostos locais, escolares e municipais (×1000)</li>
+<li><span class="math inline">\(x_2\)</span>: Número de banheiros</li>
+<li><span class="math inline">\(x_3\)</span>: Tamanho do lote (ft² ×1000)</li>
+<li><span class="math inline">\(x_4\)</span>: Área construída (ft² ×1000)</li>
+<li><span class="math inline">\(x_5\)</span>: Número de garagens</li>
+<li><span class="math inline">\(x_6\)</span>: Número de cômodos</li>
+<li><span class="math inline">\(x_7\)</span>: Número de quartos</li>
+<li><span class="math inline">\(x_8\)</span>: Idade da casa (anos)</li>
+<li><span class="math inline">\(x_9\)</span>: Número de lareiras</li>
 </ul>
-</section>
-<section id="avaliações" class="level3">
-<h3 class="anchored" data-anchor-id="avaliações">Avaliações:</h3>
-<ul>
-<li><span class="math inline">\(A_1\)</span>: escrita, computacional e arguição oral.</li>
-</ul>
-<p><em>Conteúdo:</em> análise de correlação, regressão linear simples e múltipla.</p>
-<ul>
-<li><span class="math inline">\(A_2\)</span>: escrita, computacional e arguição oral.</li>
-</ul>
-<p><em>Conteúdo:</em> todo o conteúdo da disciplina.</p>
-<ul>
-<li><p><span class="math inline">\(A_3\)</span>: relatório de análise de dados.</p></li>
-<li><p><span class="math inline">\(A_4\)</span>: média de todas as atividades realizadas em sala de aula.</p></li>
-</ul>
-<p>A média parcial (<span class="math inline">\(MP\)</span>) será calculada por:</p>
-<p><span class="math display">\[MP = 0,35 A_1 + 0,35 A_2 + 0,2 A_3 + 0,1 A_4.\]</span></p>
-</section>
-<section id="livro-texto" class="level3">
-<h3 class="anchored" data-anchor-id="livro-texto">Livro texto:</h3>
-<p>Montgomery, D. C., Peck, E. A., &amp; Vining, G. G. (2021). <em>Introduction to linear regression analysis</em> (6th ed.). Wiley.</p>
-</section>
-<section id="referências" class="level3">
-<h3 class="anchored" data-anchor-id="referências">Referências:</h3>
-<p>Devore, J. L., Berk, K. N., &amp; Carlton, M. A. (2021). <em>Modern mathematical statistics with applications</em> (3rd ed.). Springer.</p>
-<p>Seber, G. A. F., &amp; Lee, A. J. (2012). <em>Linear Regression Analysis</em> (2nd ed.). Wiley.</p>
-<p>Draper, N. R., &amp; Smith, H. (1998). <em>Applied regression analysis</em> (3rd ed.). Wiley.</p>
-<p>Rao, C. R., Toutenburg, H., Shalabh, &amp; Heumann, C. (2008). <em>Linear Models and Generalizations: Least Squares and Alternatives</em> (3rd ed.). Springer.</p>
-<p>Allen, M. P. (1997). <em>Understanding Regression Analysis</em>. Sage Publications.</p>
-<p>Kutner, M. H., Nachtsheim, C. J., Neter, J., &amp; Li, W. (2005). <em>Applied linear statistical models</em> (5th ed.). McGraw-Hill.</p>
-<p>Rencher, A. C., &amp; Schaalje, G. B. (2008). <em>Linear models in statistics</em> (2nd ed.). Wiley.</p>
-<p>Faraway, J. J. (2015). <em>Linear Models with R</em>. CRC Press.</p>
+<ol type="a">
+<li><p>Ajuste um modelo de regressão múltipla relacionando o preço de venda aos nove regressores disponíveis.</p></li>
+<li><p>Teste a significância da regressão. Quais conclusões você pode obter?</p></li>
+<li><p>Utilize testes <span class="math inline">\(t\)</span> para avaliar a contribuição de cada regressor ao modelo. Discuta seus resultados.</p></li>
+<li><p>Qual é a contribuição do tamanho do lote e da área construída ao modelo, considerando que todos os outros regressores já estão incluídos?</p></li>
+<li><p><em>Pesquise sobre multicolinearidade. A multicolinearidade é um problema potencial neste modelo?</em></p></li>
+</ol>
+<ol start="6" type="1">
+<li><p>Mostre que <span class="math inline">\(\text{Var}(\hat{y}) = \sigma^2 H\)</span>.</p></li>
+<li><p>Prove que as matrizes <span class="math inline">\(H\)</span> e <span class="math inline">\((I - H)\)</span> são idempotentes, isto é, que <span class="math inline">\(H H = H\)</span> e <span class="math inline">\((I - H)(I - H) = I - H\)</span>.</p></li>
+<li><p>Considere o modelo de regressão linear múltipla <span class="math inline">\(y = X\beta + \varepsilon\)</span>. Mostre que o estimador de mínimos quadrados pode ser escrito como <span class="math display">\[\hat{\beta} = \beta + R\,e \quad \text{onde} \quad R = \bigl(X&#39;X\bigr)^{-1} X&#39;.\]</span></p></li>
+<li><p>Mostre que os resíduos de um modelo de regressão linear podem ser expressos como <span class="math inline">\(e = (I - H)\,e.\)</span></p></li>
+<li><p>Para o modelo de regressão linear múltipla, mostre que <span class="math inline">\(\text{SSR}(\beta) = y&#39;Hy.\)</span> SSR é a soma de quadrados de regressão.</p></li>
+<li><p>Prove que <span class="math inline">\(R^2\)</span> é o quadrado da correlação entre <span class="math inline">\(y\)</span> e <span class="math inline">\(\hat{y}\)</span>.</p></li>
+<li><p>Suponha que <span class="math inline">\(y\)</span> seja as vendas semanais em uma lanchonete de fast-food (em reais), <span class="math inline">\(x_1\)</span> é o número de lanchonetes concorrentes em um raio de 5 quilômetros, e <span class="math inline">\(x_2\)</span> é a população em um raio de 5 quilômetros (em milhares de pessoas). Suponha que o verdadeiro modelo de regressão seja:</p></li>
+</ol>
+<p><span class="math display">\[
+Y = 10000 - 1400\,x_1 + 2100\,x_2 + \varepsilon
+\]</span></p>
+<ol type="a">
+<li><p>Determine as vendas esperadas quando o número de lanchonetes concorrentes é 2 e há 8000 pessoas em um raio de 5km.</p></li>
+<li><p>Determine as vendas esperadas para uma lanchonete que tem três lanchonetes concorrentes e 5000 pessoas em um raio de 5km.</p></li>
+<li><p>Interprete <span class="math inline">\(\beta_1\)</span> e <span class="math inline">\(\beta_2\)</span>.</p></li>
+<li><p>Interprete <span class="math inline">\(\beta_0\)</span>. Em que contexto esse valor faz sentido?</p></li>
+</ol>
 <hr>
 <div style="text-align: center;">
 <p><a href="https://instagram.com/profjulianobortolini">@profjulianobortolini</a>      <a href="http://www.julianobortolini.com.br">www.julianobortolini.com.br</a>      <a href="https://linkedin.com/in/julianobortolini">linkedin</a>      <a href="https://github.com/julianobortolini">github</a>       <a href="http://lattes.cnpq.br/6210909768845403">lattes</a></p>
