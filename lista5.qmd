@@ -173,7 +173,7 @@ e. *Pesquise sobre multicolinearidade. A multicolinearidade é um problema poten
 $$\hat{\beta} = \beta + R\,e \quad \text{onde} \quad R = \bigl(X'X\bigr)^{-1} X'.$$
 
 9. Mostre que os resíduos de um modelo de regressão linear podem ser expressos como
-$e = (I - H)\,e.$
+$e = (I - H)\,y.$
 
 10. Para o modelo de regressão linear múltipla, mostre que
 $\text{SSR}(\beta) = y'Hy.$ SSR é a soma de quadrados de regressão.
