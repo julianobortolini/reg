@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -3112,74 +3112,102 @@ window.Quarto = {
 
 <p><em>Bacharelado em Estatística - UFMT</em></p>
 <p><em>Período letivo: 2024/2</em></p>
-<section id="lista-de-exercícios-4" class="level3">
-<h3 class="anchored" data-anchor-id="lista-de-exercícios-4">Lista de exercícios 4</h3>
+<section id="avaliação-1" class="level3">
+<h3 class="anchored" data-anchor-id="avaliação-1">Avaliação 1</h3>
 <ol type="1">
-<li>’O artigo <em>“A Cross-National Relationship Between Sugar Consumption and Major Depression?”</em> (<em>Depression and Anxiety</em> 2002: 118–120) relatou os seguintes dados sobre <span class="math inline">\(x =\)</span> consumo diário de açúcar (calorias per capita) e <span class="math inline">\(y =\)</span> taxa anual de depressão majoritária (casos por 100 pessoas) para uma amostra de seis países.</li>
+<li>O artigo <strong>“Ecofriendly Dyeing of Silk with Extract of Yerba Mate”</strong> (Textile Res. J. 2017: 829–837) descreve um experimento para estudar os efeitos da concentração de corante (mg/L), da temperatura (°C) e do pH na adsorção de corante (mg de corante por grama de tecido). Adsorção de corante é um indicador de cor.</li>
 </ol>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Consumo diário de açúcar e taxa anual de depressão por país</caption>
+<table class="table">
 <thead>
 <tr class="header">
-<th style="text-align: left;">Country</th>
-<th style="text-align: right;">Sugar.consumption</th>
-<th style="text-align: right;">Depression.rate</th>
+<th style="text-align: right;">Conc.</th>
+<th style="text-align: right;">Temp.</th>
+<th style="text-align: right;">pH</th>
+<th style="text-align: right;">Adsorção</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">USA</td>
-<td style="text-align: right;">300</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">70</td>
 <td style="text-align: right;">3.0</td>
+<td style="text-align: right;">250</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Canada</td>
-<td style="text-align: right;">390</td>
-<td style="text-align: right;">5.2</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">520</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">France</td>
-<td style="text-align: right;">350</td>
-<td style="text-align: right;">4.4</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">387</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Germany</td>
-<td style="text-align: right;">375</td>
-<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">593</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">New Zealand</td>
-<td style="text-align: right;">480</td>
-<td style="text-align: right;">5.7</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">157</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">South Korea</td>
-<td style="text-align: right;">150</td>
-<td style="text-align: right;">2.3</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">377</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">225</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">451</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">3.5</td>
+<td style="text-align: right;">382</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">3.5</td>
+<td style="text-align: right;">373</td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
 <ol type="a">
-<li><p>Construa o gráfico de dispersão dos dados. Há evidência visual de relação linear entre as variáveis?</p></li>
-<li><p>Calcule as quantidades: <span class="math inline">\(\sum x_i\)</span>, <span class="math inline">\(\sum y_i\)</span>, <span class="math inline">\(\sum x_i^2\)</span>, <span class="math inline">\(\sum y_i^2\)</span>, <span class="math inline">\(\sum x_i y_i\)</span>, <span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(\bar{y}\)</span>, <span class="math inline">\(S_{xx}\)</span>, <span class="math inline">\(S_{yy}\)</span> e <span class="math inline">\(S_{xy}\)</span>.</p></li>
+<li><p>Construa o gráfico de dispersão dos dados: adsorção (eixo y) e concentração (eixo x). Há evidência visual de relação linear entre as variáveis?</p></li>
+<li><p>Considerando “y:adsorção” e “x:concentração”, calcule as quantidades: <span class="math inline">\(\sum x_i\)</span>, <span class="math inline">\(\sum y_i\)</span>, <span class="math inline">\(\sum x_i^2\)</span>, <span class="math inline">\(\sum y_i^2\)</span>, <span class="math inline">\(\sum x_i y_i\)</span>, <span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(\bar{y}\)</span>, <span class="math inline">\(S_{xx}\)</span>, <span class="math inline">\(S_{yy}\)</span> e <span class="math inline">\(S_{xy}\)</span>.</p></li>
 <li><p>Calcule o coeficiente de correlação entre as duas variáveis. Há evidência de correlação linear entre as variáveis?</p></li>
-<li><p>Verifique se a correlação é significativa a um nível de significância de <span class="math inline">\(5\%\)</span>. Construa o intervalo de confiança de <span class="math inline">\(95\%\)</span> para o coeficiente de correlação.</p></li>
-<li><p>Ajuste um modelo de regressão linear simples relacionando a taxa de depressão ao consumo diário de açúcar.</p></li>
+<li><p>Verifique se a correlação é significativa a um nível de significância de <span class="math inline">\(5\%\)</span>.</p></li>
+<li><p>Ajuste um modelo de regressão linear simples relacionando a concentração com a adsorção.</p></li>
 <li><p>Construa a tabela de análise de variância e teste a significância da regressão.</p></li>
-<li><p>Qual porcentagem da variabilidade total em <span class="math inline">\(y\)</span> é explicada por este modelo?</p></li>
-<li><p>Calcule os erros-padrões do coeficiente angular e do coeficiente linear.</p></li>
-<li><p>Calcule o intervalo de confiança de <span class="math inline">\(95\%\)</span> para o coeficiente angular e interprete-o.</p></li>
-<li><p>Realize o teste t para o coeficiente angular. Há evidência de que o consumo diário de açúcar afeta a taxa de depressão? Essa conclusão já foi obtida anteriormente?</p></li>
-<li><p>Encontre um intervalo de confiança de <span class="math inline">\(95\%\)</span> para a taxa média de depressão se o consumo diário de açúcar for limitado a 350 calorias.</p></li>
-<li><p>Encontre um intervalo de confiança de <span class="math inline">\(90\%\)</span> para a taxa média de depressão se o consumo diário de açúcar for limitado a 350 calorias.</p></li>
-<li><p>Encontre um intervalo de predição de <span class="math inline">\(95\%\)</span> para a taxa média de depressão se o consumo diário de açúcar for limitado a 400 calorias.</p></li>
-<li><p>Encontre um intervalo de predição de <span class="math inline">\(90\%\)</span> para a taxa média de depressão se o consumo diário de açúcar for limitado a 400 calorias.</p></li>
-<li><p>Apresente uma expressão para o intervalo de confiança de <span class="math inline">\(95\%\)</span> para a taxa média de depressão se o consumo diário de açúcar for <span class="math inline">\(x\)</span>.</p></li>
-<li><p>Apresente uma expressão para o intervalo de predição de <span class="math inline">\(95\%\)</span> para a taxa média de depressão se o consumo diário de açúcar for <span class="math inline">\(x\)</span>.</p></li>
+<li><p>Qual porcentagem da variabilidade total em <span class="math inline">\(y\)</span> é explicada por este modelo (cálculo do <span class="math inline">\(R^2\)</span>)?</p></li>
+<li><p>Calcule os erros-padrões do coeficiente linear (<span class="math inline">\(\beta_0\)</span>) e do coeficiente angular (<span class="math inline">\(\beta_1\)</span>).</p></li>
+<li><p>Calcule o intervalo de confiança de <span class="math inline">\(95\%\)</span> para o coeficiente angular (<span class="math inline">\(\beta_1\)</span>) e interprete-o.</p></li>
+<li><p>Realize o teste t para o coeficiente linear (<span class="math inline">\(\beta_0\)</span>) e interprete o resultado.</p></li>
+<li><p>Encontre um intervalo de confiança de <span class="math inline">\(95\%\)</span> para a adsorção média se a concentração for <span class="math inline">\(15mg/L\)</span>.</p></li>
+<li><p>Encontre um intervalo de predição de <span class="math inline">\(95\%\)</span> para a adsorção média se a concentração for <span class="math inline">\(12mg/L\)</span>.</p></li>
+<li><p>Apresente uma expressão para o intervalo de confiança de <span class="math inline">\(95\%\)</span> para a adsorção média se a concentração for <span class="math inline">\(x\)</span>.</p></li>
+<li><p>Apresente uma expressão para o intervalo de predição de <span class="math inline">\(95\%\)</span> para a adsorção média se a concentração for <span class="math inline">\(x\)</span>.</p></li>
+</ol>
+<ol start="2" type="1">
+<li><p>Para o modelo de regressão linear múltipla, mostre que <span class="math inline">\(\text{SSR}(\beta) = y&#39;Hy.\)</span> SSR é a soma de quadrados de regressão.</p></li>
+<li><p>Para quaisquer duas variáveis aleatórias <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>, demonstre que: <span class="math inline">\(\text{Cov}(X, Y) = \mathbb{E}(XY) - \mu_X \cdot \mu_Y\)</span> (fórmula alternativa da covariância).</p></li>
 </ol>
 <hr>
 <div style="text-align: center;">

@@ -1,0 +1,88 @@
+---
+title: "Análise de Regressão"
+author:
+  - name: Prof. Dr. Juliano Bortolini
+    email: profjulianobortolini@gmail.com
+    url: http://www.julianobortolini.com.br
+    affiliations:
+      - name: Universidade Federal de Mato Grosso
+format:
+  pdf:
+    embed-resources: true
+engine: knitr
+---
+
+*Bacharelado em Estatística - UFMT*
+
+*Período letivo: 2024/2*
+
+### Avaliação 1 (escrita)
+
+
+
+1. O artigo **“Ecofriendly Dyeing of Silk with Extract of Yerba Mate”** (Textile Res. J. 2017: 829–837) descreve um experimento para estudar os efeitos da concentração de corante (mg/L), da temperatura (°C) e do pH na adsorção de corante (mg de corante por grama de tecido). Adsorção de corante é um indicador de cor.
+
+<!-- | Conc. | Temp. | pH  | Adsorção | -->
+<!-- |------:|------:|----:|-----------:| -->
+<!-- |   10  |   70  | 3.0 |        250 | -->
+<!-- |   20  |   70  | 3.0 |        520 | -->
+<!-- |   20  |   80  | 3.0 |        387 | -->
+<!-- |   20  |   90  | 3.0 |        593 | -->
+<!-- |   10  |   70  | 4.0 |        157 | -->
+<!-- |   20  |   70  | 4.0 |        377 | -->
+<!-- |   10  |   90  | 4.0 |        225 | -->
+<!-- |   20  |   90  | 4.0 |        451 | -->
+<!-- |   15  |   80  | 3.5 |        382 | -->
+<!-- |   15  |   80  | 3.5 |        373 | -->
+
+
+| Concentração    | Adsorção |
+|------:|-----------:|
+|   10  |        250 |
+|   20  |        520 |
+|   20  |        387 |
+|   20  |        593 |
+|   10  |        157 |
+|   20  |        377 |
+|   10  |        225 |
+|   20  |        451 |
+|   15  |        382 |
+|   15  |        373 |
+
+
+a. (0,25) Construa o gráfico de dispersão dos dados: adsorção (eixo y) e concentração (eixo x). Há evidência visual de relação linear entre as variáveis?
+
+b. (0,25) Considerando "y:adsorção" e "x:concentração", calcule as quantidades: $\sum x_i$, $\sum y_i$, $\sum x_i^2$, $\sum y_i^2$, $\sum x_i y_i$, $\bar{x}$, $\bar{y}$, $S_{xx}$, $S_{yy}$ e $S_{xy}$.
+
+c. (0,25) Calcule o coeficiente de correlação entre as duas variáveis. Há evidência de correlação linear entre as variáveis?
+
+d. (0,25) Verifique se a correlação é significativa a um nível de significância de $5\%$.
+
+e. (0,50) Ajuste um modelo de regressão linear simples relacionando a concentração com a adsorção.
+
+f. (0,50) Construa a tabela de análise de variância e teste a significância da regressão.
+
+g. (0,25) Qual porcentagem da variabilidade total em $y$ é explicada por este modelo (cálculo do $R^2$)? 
+
+h. (0,25) Calcule os erros-padrões do coeficiente linear ($\beta_0$) e do coeficiente angular ($\beta_1$).
+
+i. (0,25) Calcule o intervalo de confiança de $95\%$ para o coeficiente angular ($\beta_1$) e interprete-o.
+
+j. (0,25) Realize o teste t para o coeficiente linear ($\beta_0$) e interprete o resultado.
+
+k. (0,25) Encontre um intervalo de confiança de $95\%$ para a adsorção média se a concentração for $15mg/L$.
+
+l. (0,25) Encontre um intervalo de predição de $95\%$ para a adsorção média se a concentração for $12mg/L$.
+
+
+2. (0,50) Para quaisquer duas variáveis aleatórias $X$ e $Y$, demonstre que: $\text{Cov}(X, Y) = \mathbb{E}(XY) - \mu_X \cdot \mu_Y$  (fórmula alternativa da covariância).
+
+
+
+
+
+<!-- ------------------------------------------------------------------------ -->
+
+<!-- ::: {style="text-align: center;"} -->
+<!-- [\@profjulianobortolini](https://instagram.com/profjulianobortolini)      [www.julianobortolini.com.br](http://www.julianobortolini.com.br)      [linkedin](https://linkedin.com/in/julianobortolini)      [github](https://github.com/julianobortolini)       [lattes](http://lattes.cnpq.br/6210909768845403) -->
+<!-- ::: -->

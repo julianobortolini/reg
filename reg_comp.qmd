@@ -1,0 +1,486 @@
+---
+title: "Análise de Regressão"
+subtitle: "Computacional"
+author:
+  - name: Prof. Dr. Juliano Bortolini
+    email: profjulianobortolini@gmail.com
+    url: http://www.julianobortolini.com.br
+    affiliations:
+      - name: Universidade Federal de Mato Grosso
+format: 
+  revealjs:
+    slide-number: true
+    theme: default
+    code-tools: true
+    code-overflow: wrap
+    width: 1400
+    height: 900
+    code-block-bg: true
+    code-block-border-left: "#ccc"
+execute:
+  echo: true           # Mostra código por padrão
+  results: show        # Mostra o output junto com o código
+  warning: false
+  message: false
+---
+
+# Modelo de Regressão Linear Simples
+
+## Experimento
+
+O artigo **“Ecofriendly Dyeing of Silk with Extract of Yerba Mate”** (Textile Res. J. 2017: 829–837) descreve um experimento para estudar os efeitos da concentração de corante (mg/L), da temperatura (°C) e do pH na adsorção de corante (mg de corante por grama de tecido). Adsorção de corante é um indicador de cor.
+
+
+$$
+Y = \beta_0 + \beta_1 X + \varepsilon
+$$
+
+- $Y$: adsorção  
+- $X$: concentração
+- $\varepsilon \sim N(0, \sigma^2)$
+
+::: {.cell-output-display}
+<style>
+.reveal pre code {
+  max-height: none !important;
+  overflow-y: visible !important;
+  white-space: pre-wrap;
+  font-size: 0.9em;
+}
+</style>
+:::
+
+---
+
+
+```{r}
+dados <- data.frame(
+  concentracao = c(10, 20, 20, 20, 10, 20, 10, 20, 15, 15),
+  adsorcao = c(250, 520, 387, 593, 157, 377, 225, 451, 382, 373)
+)
+dados
+```
+
+---
+
+## Estatísticas descritivas
+
+```{r}
+summary(dados)
+sd(dados$concentracao)
+sd(dados$adsorcao)
+```
+
+---
+
+## Correlação entre as variáveis
+
+```{r}
+plot(dados$concentracao, dados$adsorcao)
+```
+
+
+```{r}
+cor(dados$concentracao, dados$adsorcao)
+```
+
+---
+
+## Teste de hipóteses:
+
+$H_0: rho = 0$
+
+```{r}
+cor.test(dados$concentracao, dados$adsorcao)
+```
+
+- Observe o IC para $\rho$.
+
+---
+
+## Ajuste do modelo
+
+```{r}
+modelo <- lm(adsorcao ~ concentracao, data = dados)
+modelo
+```
+
+```{r}
+anova(modelo)
+```
+
+
+---
+
+Estimativas, erros-padrões, estatísticas $t$, valores $p$,  $\sigma$, $R^2$,  $R^2_{aj}$,  $F_c$ para regressão (e valor $p$):
+
+```{r}
+summary(modelo)
+```
+
+
+---
+
+## Coeficientes (betas estimados)
+
+```{r}
+coef(modelo) # coeficientes
+```
+
+
+```{r}
+confint(modelo) # IC para os coef.
+```
+
+- $\hat{\beta}_0$: adsorção média quando a concentração é zero
+- $\hat{\beta}_1$: variação média da adsorção para cada unidade de aumento na concentração
+
+---
+
+## Gráfico com a reta de regressão
+
+```{r}
+plot(dados$concentracao, dados$adsorcao,
+     main = "Concentração x Adsorção",
+     xlab = "Concentração (mg/L)",
+     ylab = "Adsorção (mg/g)")
+abline(modelo, col = "blue", lwd = 2)
+```
+
+---
+
+
+
+## SQ e QM dos resíduos:
+
+```{r}
+residuos <- residuals(modelo)
+SQRes <- sum(residuos^2)
+SQRes
+```
+
+```{r}
+GL_Res <- length(dados$adsorcao) - length(coef(modelo))
+GL_Res
+```
+
+```{r}
+QMRes <- SQRes / GL_Res
+QMRes
+sqrt(QMRes)
+```
+
+---
+
+## IC para resposta média
+
+```{r}
+preditos <- predict(modelo, interval = "confidence")
+head(preditos)
+colnames(preditos) <- c("adsorcao_estimada", "lim_inf", "lim_sup") 
+head(preditos)
+```
+
+---
+
+```{r}
+dados <- cbind(dados, preditos)
+dados
+```
+
+---
+
+**Ordernar o banco de dados pela concentração:**
+
+```{r}
+dados <- dados[order(dados$concentracao),]
+dados
+```
+
+
+---
+
+## Gráfico com IC para a resposta média
+
+```{r}
+# dispersão
+plot(dados$concentracao, dados$adsorcao,
+     main = "Concentração x Adsorção",
+     xlab = "Concentração (mg/L)",
+     ylab = "Adsorção (mg/g)",
+     xlim = c(10,20),
+     ylim = c(0, 600))
+# valores estimados
+lines(dados$concentracao, dados$adsorcao_estimada,
+      col = "blue", lty = 1, lwd = 2) 
+# IC
+lines(dados$concentracao, dados$lim_inf,
+      col = "blue", lty = 2, lwd = 2)
+lines(dados$concentracao, dados$lim_sup,
+      col = "blue", lty = 2, lwd = 2) 
+```
+
+---
+
+## IC para novas observações (IP)
+
+```{r}
+new_data <- data.frame(concentracao = seq(0,30, by = 1))
+preditos_new <- predict(modelo, newdata = new_data,
+                        interval = "prediction")
+preditos_new <- cbind(new_data, preditos_new)
+head(preditos_new)
+```
+
+---
+
+## Gráfico com IP para novas observações
+
+```{r}
+# dispersão
+plot(preditos_new$concentracao, preditos_new$fit,
+     main = "Concentração x Adsorção",
+     xlab = "Concentração (mg/L)",
+     ylab = "Adsorção (mg/g)",
+     xlim = c(0,30),
+     ylim = c(-300, 1000))
+# valores estimados
+lines(preditos_new$concentracao, preditos_new$fit,
+      col = "blue", lty = 1, lwd = 2) 
+# IP
+lines(preditos_new$concentracao, preditos_new$lwr,
+      col = "brown", lty = 2, lwd = 2)
+lines(preditos_new$concentracao, preditos_new$upr,
+      col = "brown", lty = 2, lwd = 2) 
+
+```
+
+
+---
+
+## Gráfico com IC e IP
+
+```{r}
+# dispersão
+plot(preditos_new$concentracao, preditos_new$fit,
+     main = "Concentração x Adsorção",
+     xlab = "Concentração (mg/L)",
+     ylab = "Adsorção (mg/g)",
+     xlim = c(0,30),
+     ylim = c(-300, 1000))
+
+# valores estimados
+lines(preditos_new$concentracao, preditos_new$fit,
+      col = "blue", lty = 1, lwd = 2) 
+
+# IC
+lines(dados$concentracao, dados$lim_inf,
+      col = "blue", lty = 2, lwd = 2)
+lines(dados$concentracao, dados$lim_sup,
+      col = "blue", lty = 2, lwd = 2)  
+
+# IP
+lines(preditos_new$concentracao, preditos_new$lwr,
+      col = "brown", lty = 2, lwd = 2)
+lines(preditos_new$concentracao, preditos_new$upr,
+      col = "brown", lty = 2, lwd = 2) 
+```
+
+
+---
+
+```{r, echo=FALSE}
+# dispersão
+plot(preditos_new$concentracao, preditos_new$fit,
+     main = "Concentração x Adsorção",
+     xlab = "Concentração (mg/L)",
+     ylab = "Adsorção (mg/g)",
+     xlim = c(0,30),
+     ylim = c(-300, 1000))
+
+# valores estimados
+lines(preditos_new$concentracao, preditos_new$fit,
+      col = "blue", lty = 1, lwd = 2) 
+
+# IC
+lines(dados$concentracao, dados$lim_inf,
+      col = "blue", lty = 2, lwd = 2)
+lines(dados$concentracao, dados$lim_sup,
+      col = "blue", lty = 2, lwd = 2)  
+
+# IP
+lines(preditos_new$concentracao, preditos_new$lwr,
+      col = "brown", lty = 2, lwd = 2)
+lines(preditos_new$concentracao, preditos_new$upr,
+      col = "brown", lty = 2, lwd = 2) 
+```
+
+---
+
+## Regressão pela origem
+
+```{r}
+modelo2 <- lm(adsorcao ~ -1 + concentracao, data = dados)
+modelo2
+anova(modelo2)
+```
+
+---
+
+```{r}
+summary(modelo2)
+```
+
+---
+
+## Comparação entre modelo completo e modelo reduzido (sem intercepto)
+
+```{r}
+anova(modelo2, modelo)
+```
+
+Se não há diferença entre os modelos, qual deve ser escolhido?
+
+---
+
+## Comparação entre modelo completo e modelo reduzido (sem intercepto)
+
+```{r}
+anova(modelo2, modelo)
+```
+
+Se não há diferença entre os modelos, qual deve ser escolhido?
+
+
+**O modelo mais simples: com menos parâmetros.**
+
+---
+
+## Comparação de R2 e R2ajustado 
+
+
+::: columns
+
+::: column
+```{r}
+summary(modelo)
+```
+:::
+
+::: column
+```{r}
+summary(modelo2)
+```
+:::
+
+:::
+
+
+---
+
+## Regressão múltipla
+
+
+```{r}
+dados <- data.frame(
+  conc = c(10, 20, 20, 20, 10, 20, 10, 20, 15, 15),
+  temp = c(70, 70, 80, 90, 70, 70, 90, 90, 80, 80),
+  ph = c(3.0, 3.0, 3.0, 3.0, 4.0, 4.0, 4.0, 4.0, 3.5, 3.5),
+  adsorcao = c(250, 520, 387, 593, 157, 377, 225, 451, 382, 373)
+)
+dados
+```
+
+---
+
+## Ajuste do modelo (regressão múltipla)
+
+```{r}
+# regressão múltipla
+modelo3 <- lm(adsorcao ~ conc + temp + ph, data = dados)
+modelo3
+anova(modelo3)
+```
+
+---
+
+```{r}
+coef(modelo3) # coeficientes
+```
+
+
+```{r}
+confint(modelo3) # IC para os coef.
+
+```
+
+
+---
+
+Estimativas, erros-padrões, estatísticas $t$, valores $p$,  $\sigma$, $R^2$,  $R^2_{aj}$,  $F_c$ para regressão (e valor $p$):
+
+```{r}
+summary(modelo3)
+```
+
+
+---
+
+## IC para resposta média
+
+```{r}
+preditos_mod3 <- predict(modelo3, interval = "confidence")
+head(preditos_mod3)
+colnames(preditos_mod3) <- c("adsorcao_estimada", "lim_inf", "lim_sup") 
+head(preditos_mod3)
+```
+
+---
+
+```{r}
+dados <- cbind(dados, preditos_mod3)
+dados
+```
+
+---
+
+## IC para novas observações (IP)
+
+```{r}
+new_data <- data.frame(conc = c(12, 12 , 25, 25),
+                       temp = c(50, 80, 50, 80),
+                       ph = c(6.0, 6.0, 6.0, 6.0))
+preditos_new_mod3 <- predict(modelo3, newdata = new_data,
+                        interval = "prediction")
+preditos_new_mod3 <- cbind(new_data, preditos_new_mod3)
+preditos_new_mod3
+```
+
+
+---
+
+## Próximos passos
+
+::: columns
+
+::: column
+- Análise de resíduos
+  - Normalidade
+  - Homocedasticidade
+  - Independência
+  - Transformação de variáveis
+:::
+
+::: column
+- Diagnóstico
+  - Outliers
+  - Pontos influentes
+  - Pontos alavancados
+- Regressão polinomial (revisão)
+- Variáveis dummies
+- Multicolinearidade
+- Seleção de modelos/variáveis
+- Validação de modelos
+:::
+
+:::
