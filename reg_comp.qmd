@@ -1,28 +1,21 @@
 ---
 title: "Análise de Regressão"
-subtitle: "Computacional"
+subtitle: "computacional"
 author:
   - name: Prof. Dr. Juliano Bortolini
     email: profjulianobortolini@gmail.com
     url: http://www.julianobortolini.com.br
     affiliations:
       - name: Universidade Federal de Mato Grosso
-format: 
-  revealjs:
-    slide-number: true
-    theme: default
-    code-tools: true
-    code-overflow: wrap
-    width: 1400
-    height: 900
-    code-block-bg: true
-    code-block-border-left: "#ccc"
-execute:
-  echo: true           # Mostra código por padrão
-  results: show        # Mostra o output junto com o código
-  warning: false
-  message: false
+format:
+  html:
+    embed-resources: true
+engine: knitr
 ---
+
+*Bacharelado em Estatística - UFMT*
+
+*Período letivo: 2024/2*
 
 # Modelo de Regressão Linear Simples
 
@@ -39,18 +32,18 @@ $$
 - $X$: concentração
 - $\varepsilon \sim N(0, \sigma^2)$
 
-::: {.cell-output-display}
-<style>
-.reveal pre code {
-  max-height: none !important;
-  overflow-y: visible !important;
-  white-space: pre-wrap;
-  font-size: 0.9em;
-}
-</style>
-:::
+<!-- ::: {.cell-output-display} -->
+<!-- <style> -->
+<!-- .reveal pre code { -->
+<!--   max-height: none !important; -->
+<!--   overflow-y: visible !important; -->
+<!--   white-space: pre-wrap; -->
+<!--   font-size: 0.9em; -->
+<!-- } -->
+<!-- </style> -->
+<!-- ::: -->
 
----
+<!-- --- -->
 
 
 ```{r}
@@ -61,7 +54,7 @@ dados <- data.frame(
 dados
 ```
 
----
+<!-- --- -->
 
 ## Estatísticas descritivas
 
@@ -71,7 +64,7 @@ sd(dados$concentracao)
 sd(dados$adsorcao)
 ```
 
----
+<!-- --- -->
 
 ## Correlação entre as variáveis
 
@@ -84,7 +77,7 @@ plot(dados$concentracao, dados$adsorcao)
 cor(dados$concentracao, dados$adsorcao)
 ```
 
----
+<!-- --- -->
 
 ## Teste de hipóteses:
 
@@ -96,7 +89,7 @@ cor.test(dados$concentracao, dados$adsorcao)
 
 - Observe o IC para $\rho$.
 
----
+<!-- --- -->
 
 ## Ajuste do modelo
 
@@ -110,7 +103,7 @@ anova(modelo)
 ```
 
 
----
+<!-- --- -->
 
 Estimativas, erros-padrões, estatísticas $t$, valores $p$,  $\sigma$, $R^2$,  $R^2_{aj}$,  $F_c$ para regressão (e valor $p$):
 
@@ -119,7 +112,7 @@ summary(modelo)
 ```
 
 
----
+<!-- --- -->
 
 ## Coeficientes (betas estimados)
 
@@ -135,7 +128,7 @@ confint(modelo) # IC para os coef.
 - $\hat{\beta}_0$: adsorção média quando a concentração é zero
 - $\hat{\beta}_1$: variação média da adsorção para cada unidade de aumento na concentração
 
----
+<!-- --- -->
 
 ## Gráfico com a reta de regressão
 
@@ -147,7 +140,7 @@ plot(dados$concentracao, dados$adsorcao,
 abline(modelo, col = "blue", lwd = 2)
 ```
 
----
+<!-- --- -->
 
 
 
@@ -170,7 +163,7 @@ QMRes
 sqrt(QMRes)
 ```
 
----
+<!-- --- -->
 
 ## IC para resposta média
 
@@ -181,14 +174,14 @@ colnames(preditos) <- c("adsorcao_estimada", "lim_inf", "lim_sup")
 head(preditos)
 ```
 
----
+<!-- --- -->
 
 ```{r}
 dados <- cbind(dados, preditos)
 dados
 ```
 
----
+<!-- --- -->
 
 **Ordernar o banco de dados pela concentração:**
 
@@ -198,7 +191,7 @@ dados
 ```
 
 
----
+<!-- --- -->
 
 ## Gráfico com IC para a resposta média
 
@@ -220,7 +213,7 @@ lines(dados$concentracao, dados$lim_sup,
       col = "blue", lty = 2, lwd = 2) 
 ```
 
----
+<!-- --- -->
 
 ## IC para novas observações (IP)
 
@@ -232,7 +225,7 @@ preditos_new <- cbind(new_data, preditos_new)
 head(preditos_new)
 ```
 
----
+<!-- --- -->
 
 ## Gráfico com IP para novas observações
 
@@ -256,7 +249,7 @@ lines(preditos_new$concentracao, preditos_new$upr,
 ```
 
 
----
+<!-- --- -->
 
 ## Gráfico com IC e IP
 
@@ -287,35 +280,35 @@ lines(preditos_new$concentracao, preditos_new$upr,
 ```
 
 
----
+<!-- --- -->
 
-```{r, echo=FALSE}
-# dispersão
-plot(preditos_new$concentracao, preditos_new$fit,
-     main = "Concentração x Adsorção",
-     xlab = "Concentração (mg/L)",
-     ylab = "Adsorção (mg/g)",
-     xlim = c(0,30),
-     ylim = c(-300, 1000))
+<!-- ```{r, echo=FALSE} -->
+<!-- # dispersão -->
+<!-- plot(preditos_new$concentracao, preditos_new$fit, -->
+<!--      main = "Concentração x Adsorção", -->
+<!--      xlab = "Concentração (mg/L)", -->
+<!--      ylab = "Adsorção (mg/g)", -->
+<!--      xlim = c(0,30), -->
+<!--      ylim = c(-300, 1000)) -->
 
-# valores estimados
-lines(preditos_new$concentracao, preditos_new$fit,
-      col = "blue", lty = 1, lwd = 2) 
+<!-- # valores estimados -->
+<!-- lines(preditos_new$concentracao, preditos_new$fit, -->
+<!--       col = "blue", lty = 1, lwd = 2)  -->
 
-# IC
-lines(dados$concentracao, dados$lim_inf,
-      col = "blue", lty = 2, lwd = 2)
-lines(dados$concentracao, dados$lim_sup,
-      col = "blue", lty = 2, lwd = 2)  
+<!-- # IC -->
+<!-- lines(dados$concentracao, dados$lim_inf, -->
+<!--       col = "blue", lty = 2, lwd = 2) -->
+<!-- lines(dados$concentracao, dados$lim_sup, -->
+<!--       col = "blue", lty = 2, lwd = 2)   -->
 
-# IP
-lines(preditos_new$concentracao, preditos_new$lwr,
-      col = "brown", lty = 2, lwd = 2)
-lines(preditos_new$concentracao, preditos_new$upr,
-      col = "brown", lty = 2, lwd = 2) 
-```
+<!-- # IP -->
+<!-- lines(preditos_new$concentracao, preditos_new$lwr, -->
+<!--       col = "brown", lty = 2, lwd = 2) -->
+<!-- lines(preditos_new$concentracao, preditos_new$upr, -->
+<!--       col = "brown", lty = 2, lwd = 2)  -->
+<!-- ``` -->
 
----
+<!-- --- -->
 
 ## Regressão pela origem
 
@@ -325,13 +318,13 @@ modelo2
 anova(modelo2)
 ```
 
----
+<!-- --- -->
 
 ```{r}
 summary(modelo2)
 ```
 
----
+<!-- --- -->
 
 ## Comparação entre modelo completo e modelo reduzido (sem intercepto)
 
@@ -341,7 +334,7 @@ anova(modelo2, modelo)
 
 Se não há diferença entre os modelos, qual deve ser escolhido?
 
----
+<!-- --- -->
 
 ## Comparação entre modelo completo e modelo reduzido (sem intercepto)
 
@@ -354,7 +347,7 @@ Se não há diferença entre os modelos, qual deve ser escolhido?
 
 **O modelo mais simples: com menos parâmetros.**
 
----
+<!-- --- -->
 
 ## Comparação de R2 e R2ajustado 
 
@@ -376,9 +369,19 @@ summary(modelo2)
 :::
 
 
----
+<!-- --- -->
 
-## Regressão múltipla
+# Modelo de Regressão Linear Múltipla
+
+$$
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \varepsilon
+$$
+
+- $Y$: adsorção  
+- $X_1$: concentração
+- $X_2$: temperatura
+- $X_3$: pH
+- $\varepsilon \sim N(0, \sigma^2)$
 
 
 ```{r}
@@ -391,7 +394,7 @@ dados <- data.frame(
 dados
 ```
 
----
+<!-- --- -->
 
 ## Ajuste do modelo (regressão múltipla)
 
@@ -402,7 +405,7 @@ modelo3
 anova(modelo3)
 ```
 
----
+<!-- --- -->
 
 ```{r}
 coef(modelo3) # coeficientes
@@ -415,7 +418,7 @@ confint(modelo3) # IC para os coef.
 ```
 
 
----
+<!-- --- -->
 
 Estimativas, erros-padrões, estatísticas $t$, valores $p$,  $\sigma$, $R^2$,  $R^2_{aj}$,  $F_c$ para regressão (e valor $p$):
 
@@ -424,7 +427,7 @@ summary(modelo3)
 ```
 
 
----
+<!-- --- -->
 
 ## IC para resposta média
 
@@ -435,14 +438,14 @@ colnames(preditos_mod3) <- c("adsorcao_estimada", "lim_inf", "lim_sup")
 head(preditos_mod3)
 ```
 
----
+<!-- --- -->
 
 ```{r}
 dados <- cbind(dados, preditos_mod3)
 dados
 ```
 
----
+<!-- --- -->
 
 ## IC para novas observações (IP)
 
@@ -457,9 +460,9 @@ preditos_new_mod3
 ```
 
 
----
+<!-- --- -->
 
-## Próximos passos
+# Próximos passos
 
 ::: columns
 
