@@ -231,7 +231,7 @@ head(preditos_new)
 
 ```{r}
 # dispersão
-plot(preditos_new$concentracao, preditos_new$fit,
+plot(dados$concentracao, dados$adsorcao,
      main = "Concentração x Adsorção",
      xlab = "Concentração (mg/L)",
      ylab = "Adsorção (mg/g)",
@@ -255,7 +255,7 @@ lines(preditos_new$concentracao, preditos_new$upr,
 
 ```{r}
 # dispersão
-plot(preditos_new$concentracao, preditos_new$fit,
+plot(dados$concentracao, dados$adsorcao,
      main = "Concentração x Adsorção",
      xlab = "Concentração (mg/L)",
      ylab = "Adsorção (mg/g)",
@@ -352,21 +352,21 @@ Se não há diferença entre os modelos, qual deve ser escolhido?
 ## Comparação de R2 e R2ajustado 
 
 
-::: columns
+<!-- ::: columns -->
 
-::: column
+<!-- ::: column -->
 ```{r}
 summary(modelo)
 ```
-:::
+<!-- ::: -->
 
-::: column
+<!-- ::: column -->
 ```{r}
 summary(modelo2)
 ```
-:::
+<!-- ::: -->
 
-:::
+<!-- ::: -->
 
 
 <!-- --- -->
