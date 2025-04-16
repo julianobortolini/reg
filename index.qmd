@@ -63,8 +63,11 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 -   Aula 11: avaliação 1 (arguição oral).
 
+
 -   Aula 12: regressão com suporte computacional. [Rotina computacional](reg_comp.html). *Tarefa (1 ponto extra na avaliação 1): refazer a avaliação 1 ([escrita](prova1.pdf) e [computacional](prova1comp.pdf)) usando a rotina da aula.* 
 
+
+-   Aula 13: Análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. [Rotina computacional](reg_comp.html).
 
 
 ### Avaliações:
