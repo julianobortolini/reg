@@ -460,30 +460,276 @@ preditos_new_mod3
 ```
 
 
+# Análise de resíduos
+
+
+
+Example 3.1 The Delivery Time Data (Montgomery, Peck e Vining, 2021, p. 76)
+
+> A soft drink bottler is analyzing the vending machine service routes in his distribution system. He is interested in predicting the amount of time required by the route driver to service the vending machines in an outlet. This service activity includes stocking the machine with beverage products and minor maintenance or housekeeping. The industrial engineer responsible for the study has suggested that the two most important variables affecting the delivery time (y) are the number of cases of product stocked (x1) and the distance walked by the route driver (x2). The engineer has collected 25 observations on delivery time:
+
+
+```{r}
+ID <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 
+        11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 
+        21, 22, 23, 24, 25)
+
+y <- c(16.68, 11.50, 12.03, 14.88, 13.75, 18.11, 8.00, 17.83, 79.24, 21.50,
+       40.33, 21.00, 13.50, 19.75, 24.00, 29.00, 15.35, 19.00, 9.50, 35.10,
+       17.90, 52.32, 18.75, 19.83, 10.75)
+
+x1 <- c(7, 3, 3, 4, 6, 7, 2, 7, 30, 5,
+        16, 10, 4, 6, 9, 10, 6, 7, 3, 17,
+        10, 26, 9, 8, 4)
+
+x2 <- c(560, 220, 340, 80, 150, 330, 110, 210, 1460, 605,
+        688, 215, 255, 462, 448, 776, 200, 132, 36, 770,
+        140, 810, 450, 635, 150)
+
+dados <- data.frame(ID, y, x1, x2)
+
+```
+
+
+```{r}
+# Ajuste do modelo linear múltiplo
+mod <- lm(y ~ x1 + x2, data = dados)
+
+# estimativas dos parâmetros/coeficientes
+summary(mod)
+
+# Resíduos
+
+# resíduos brutos
+res_1 <- residuals(mod)
+
+# resíduos padronizados
+res_2 <- res_1/summary(mod)$sigma
+
+# resíduos studentizados
+# res_3 <- rstandard(mod, type = "sd.1")
+res_3 <- rstandard(mod)
+
+# resíduos PRESS
+res_4 <- rstandard(mod, type = "pred")
+
+# resíduos R-Student
+res_5 <- rstudent(mod)
+
+residuos <- data.frame(
+  "brutos" = res_1,
+  "padronizados" = res_2,
+  "studentizado" = res_3,
+  "PRESS" = res_4,
+  "RStudent" = res_5
+)
+
+residuos
+```
+
+
+
+Nas análises de resíduos é indicado usar o resíduo studentizado ou o resíduo R-Student. É esperado que os valores dos resíduos sejam uma amostra da distribuição $t$ com $n-p-1$ graus de liberdade. Para tamanho amostral suficientemente grande, pode-se comparar com a distribuição normal padrão. 
+
+
+## Gráficos de resíduos
+
+```{r}
+# Gráfico qqnorm
+qqnorm(res_3)
+qqline(res_3, col = "blue", lwd = 2)
+
+
+# Gráfico de dispersão y_est x resíduos
+y_est <- fitted(mod)
+plot(y_est, res_3, xlim = c(0,80), ylim = c(-2,5),
+     main = "Gráfico de dispersão y_est x resíduos",
+     xlab = "y estimado",
+     ylab = "Resíduos studentizados")
+
+# Gráfico dos resíduos seguindo a ordem de coleta
+# ou execução dos dados
+# atenção: supondo que a coleta tenha sido na ordem da variável ID, o que nem sempre é verdade!
+plot(res_3 ~ dados$ID)
+
+```
+
+
+## Testes para os resíduos
+
+### Normalidade dos resíduos
+
+
+Alguns testes são: Qui-quadrado, **Kolmogorov-Smirnov**, Jarque-Bera, **Shapiro-Wilk**, Anderson-Darling, Cramér-von Mises, D'Agostino-Pearson, Lilliefors, e Shapiro-Francia.
+
+```{r}
+# Teste de Shapiro-Wilk
+shapiro.test(res_3)
+
+# Teste de Kolmogorov-Smirnov
+ks.test(res_3, "pnorm", mean = 0, sd = 1)
+```
+
+
+### Independência dos Resíduos
+
+
+Alguns testes são: **Durbin-Watson**, Breusch-Godfrey e Ljung-Box.
+
+Para testar a independência dos resíduos é necessário conhecer a ordem de coleta (ou execução) dos dados.
+
+Supondo que a coleta dos dados tenha sido conforme a variável $ID$ (no exemplo delivery time), então, o teste DW é:
+
+```{r message=FALSE}
+library(lmtest)
+dwtest(res_3 ~ dados$ID, alternative = "two.sided")
+```
+
+
+
+### Homocedasticidade dos Resíduos
+
+Alguns testes são: Bartlett, **Breusch-Pagan**, Levene, Samiuddin, O'Neill e Mathews, Layard, Park, White, Cochran, Hartley e Goldfeld-Quandt.
+
+
+```{r}
+# Teste de Breusch-Pagan
+# library(lmtest)
+bptest(mod)
+```
+
+
+
+## Valores discrepantes ou outliers
+```{r}
+# Análise de outliers
+cbind(dados, res_3)
+# é necessário verificar se a observação 9 é um outlier.
+
+
+# gráfico dos resíduos
+plot(res_3, main = "Resíduos studentizados",
+     ylab = "Resíduos studentizados",
+     xlab = "Observações")
+abline(h = 2, col = "red", lty = 2)
+abline(h = -2, col = "red", lty = 2)
+
+
+# Se for, de fato, um outlier, o que fazer?
+# Estimar novamente o modelo sem a observação 9.
+
+mod_2 <- lm(y ~ x1 + x2, data = dados[-9,])
+summary(mod_2)
+
+
+# comparar os resultados dos dois modelos:
+summary(mod)
+summary(mod_2)
+
+
+# Estatística PRESS
+PRESS_mod <- sum(res_4^2)
+PRESS_mod
+
+
+res_4_mod_2 <- rstandard(mod_2, type = "pred")
+PRESS_mod_2 <- sum(res_4_mod_2^2)
+PRESS_mod_2
+
+# Comparar as estatísticas PRESS
+PRESS_mod
+PRESS_mod_2
+```
+
+## Pontos de alavancagem (leverage points)
+
+```{r}
+# valores matriz H
+p <- 3 # qde de parâmetros (b0, b1 e b2)
+#ou
+p <- length(coef(mod))
+
+
+n <- 25 # qde de observaçoes
+# ou
+n <- length(dados$y)
+
+2*p/n  # limite para valores da matriz hat
+h <- hatvalues(mod)
+cbind(dados, h, 2*p/n, h > 2*p/n)
+
+# observações 9 e 22 são possíveis pontos de alavancagem.
+```
+
+
+## Distância de Cook
+
+```{r}
+# Distância de Cook
+D <- cooks.distance(mod)
+
+# comparar com o valor 1
+# Se D > 1, a observação é considerada um ponto influente.
+
+cbind(dados, D, 1, D > 1)
+```
+
+## DFBETAS
+
+```{r}
+# DFBETAS
+# a influência de cada observação em cada coeficiente
+# comparar com o valor 2/sqrt(n)
+
+dfbetas(mod)
+2/sqrt(n)
+round(dfbetas(mod), 2)
+
+abs(dfbetas(mod)) >= 2/sqrt(n)
+```
+
+
+## DFFITS
+
+```{r}
+# DFFITS
+# a influência de cada observação em cada predição
+# comparar com o valor 2*sqrt(p/n)
+
+dffits(mod)
+2*sqrt(p/n)
+round(dffits(mod), 2)
+
+abs(dffits(mod)) >= 2*sqrt(p/n)
+```
+
+
+
+
 <!-- --- -->
 
-# Próximos passos
+<!-- # Próximos passos -->
 
-::: columns
+<!-- ::: columns -->
 
-::: column
-- Análise de resíduos
-  - Normalidade
-  - Homocedasticidade
-  - Independência
-  - Transformação de variáveis
-:::
+<!-- ::: column -->
+<!-- - Análise de resíduos -->
+<!--   - Normalidade -->
+<!--   - Homocedasticidade -->
+<!--   - Independência -->
+<!--   - Transformação de variáveis -->
+<!-- ::: -->
 
-::: column
-- Diagnóstico
-  - Outliers
-  - Pontos influentes
-  - Pontos alavancados
-- Regressão polinomial (revisão)
-- Variáveis dummies
-- Multicolinearidade
-- Seleção de modelos/variáveis
-- Validação de modelos
-:::
+<!-- ::: column -->
+<!-- - Diagnóstico -->
+<!--   - Outliers -->
+<!--   - Pontos influentes -->
+<!--   - Pontos alavancados -->
+<!-- - Regressão polinomial (revisão) -->
+<!-- - Variáveis dummies -->
+<!-- - Multicolinearidade -->
+<!-- - Seleção de modelos/variáveis -->
+<!-- - Validação de modelos -->
+<!-- ::: -->
 
-:::
+<!-- ::: -->
