@@ -75,10 +75,10 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 -   Aula 14: Resolver a [lista 6](lista6.html).
 
 
--   Aula 15: Resolver a lista 7 (em breve).
+-   Aula 15 (30/4/2025): avaliação 2 (escrita, computacional e arquição oral) com todo o conteúdo da disciplina.
 
 
--   Aula 16 (30/4/2025): avaliação 2 (escrita, computacional e arquição oral) com todo o conteúdo da disciplina.
+-   Aula 16: entrega da avaliação 3 (relatório de análise de dados).
 
 
 ### Avaliações:
