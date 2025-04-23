@@ -22,6 +22,8 @@ engine: knitr
 -   Monitores: Edimar e Wender.
 -   [Whatsapp da disciplina]()
 -   **Avaliação 1 (**$A_1$): 26/3/2025.
+-   **Avaliação 2 (**$A_2$): 30/4/2025.
+
 
 ### Ementa:
 
@@ -68,6 +70,15 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 
 -   Aula 13: Análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. [Rotina computacional](reg_comp.html).
+
+
+-   Aula 14: Resolver a [lista 6](lista6.html).
+
+
+-   Aula 15: Resolver a lista 7 (em breve).
+
+
+-   Aula 16 (30/4/2025): avaliação 2 (escrita, computacional e arquição oral) com todo o conteúdo da disciplina.
 
 
 ### Avaliações:
