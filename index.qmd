@@ -72,7 +72,7 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 -   Aula 13: Análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. [Rotina computacional](reg_comp.html).
 
 
--   Aula 14: Resolver a [lista 6](lista6.html).
+-   Aula 14: Resolver a [lista 6](lista6.html) ([gabarito](lista6_gab.html), sem os comentários e justificativas nas resoluções). Conteúdos adicionais: teste F parcial para modelos de efeitos aleatórios (comparação de modelos de efeito fixo e efeito misto), multicolinearidade, métodos *forward*, *backward* e *stepwise* para seleção de variáveis e métodos *leave-one-out*, *leave-p-out* e *k-fold* para validação de modelos (validação cruzada).
 
 
 -   Aula 15 (30/4/2025): avaliação 2 (escrita, computacional e arquição oral) com todo o conteúdo da disciplina.
