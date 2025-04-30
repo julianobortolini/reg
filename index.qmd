@@ -77,6 +77,7 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 -   Aula 15 (30/4/2025): avaliação 2 (escrita, computacional e arquição oral) com todo o conteúdo da disciplina.
 
+-   [Avaliação 2](prova2.html)
 
 -   Aula 16: entrega da avaliação 3 (relatório de análise de dados).
 
