@@ -23,7 +23,7 @@ engine: knitr
 -   [Whatsapp da disciplina]()
 -   **Avaliação 1 (**$A_1$): 26/3/2025.
 -   **Avaliação 2 (**$A_2$): 30/4/2025.
-
+-   **Avaliação 3 (**$A_3$): 9/5/2025.
 
 ### Ementa:
 
@@ -79,7 +79,7 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 -   [Avaliação 2](prova2.html)
 
--   Aula 16: entrega da avaliação 3 (relatório de análise de dados).
+-   Aula 16 (9/5/2025): entrega da avaliação 3 (relatório de análise de dados).
 
 
 ### Avaliações:
