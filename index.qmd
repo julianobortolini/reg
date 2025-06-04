@@ -99,20 +99,23 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 ### Avaliações:
 
--   $A_1$: escrita, computacional e arguição oral.
+-   $A_1$: escrita, computacional e arguição oral. Nota: 0 a 10.
 
 *Conteúdo:* análise de correlação e regressão linear simples.
 
--   $A_2$: escrita, computacional e arguição oral.
+-   $A_2$: escrita, computacional e arguição oral. Nota: 0 a 10.
 
 *Conteúdo:* todo o conteúdo da disciplina.
 
--   $A_3$: relatório de análise de dados.
+-   $A_{31}$: relatório parcial de análise de dados. Nota: 0 a 5.
+-   $A_{32}$: relatório final de análise de dados. Nota: 0 a 5.
 
 
-A média parcial ($MP$) será calculada por:
+A média final ($MF$) será calculada por:
 
-$$MP = 0,4 A_1 + 0,4 A_2 + 0,2 A_3.$$
+$$MF = 0,4 A_1 + 0,4 A_2 + 0,2 (A_{31} + A_{32}).$$
+
+Se $MF\geq5$, o aluno será aprovado. Não haverá prova final.
 
 ### Livro texto:
 
