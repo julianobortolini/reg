@@ -99,9 +99,44 @@ x9 <- c(1917, 1575, 2175, 2476, 1866,
         1988, 2324, 2550, 2110, 2628,
         1776, 2524, 2241)
 
+
+
+
 tabela1 <- data.frame(equipe, y, x1, x2, x3, x4, x5, x6, x7, x8, x9)
+
 knitr::kable(tabela1, caption = "Tabela 1: Desempenho das Equipes da National Football League de 1976")
 ```
+
+```{r, echo = FALSE, include = FALSE}
+x <- cbind(x1, x2, x3, x4, x5, x6, x7, x8, x9,
+           x1*x2, x1*x3, x1*x4, x1*x6, x1*x7, x1*x8, x1*x9,
+           x2*x3, x2*x4, x2*x6, x2*x7, x2*x8, x2*x9,
+           x3*x4, x3*x6, x3*x7, x3*x8, x3*x9,
+           x4*x6, x4*x7, x4*x8, x4*x9,
+           x6*x7, x6*x8, x6*x9,
+           x7*x8, x7*x9,
+           x8*x9)
+colnames(x) <- c("x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8", "x9",
+                      "x1*x2", "x1*x3", "x1*x4", "x1*x6", "x1*x7", "x1*x8", "x1*x9",
+                      "x2*x3", "x2*x4", "x2*x6", "x2*x7", "x2*x8", "x2*x9",
+                      "x3*x4", "x3*x6", "x3*x7", "x3*x8", "x3*x9",
+                      "x4*x6", "x4*x7", "x4*x8", "x4*x9",
+                      "x6*x7", "x6*x8", "x6*x9",
+                      "x7*x8", "x7*x9",
+                      "x8*x9")
+logx <- log(x[,-5])
+colnames(logx) <- paste0("log", colnames(x)[-5])
+
+
+sqrtx <- sqrt(x[,-5])
+colnames(sqrtx) <- paste0("sqrt", colnames(x)[-5])
+recx <- 1/x[,-5]
+colnames(recx) <- paste0("rec", colnames(x)[-5])
+xx <- x[,-5]^2
+colnames(xx) <- paste0("x", colnames(x)[-5])
+tabela2 <- cbind(tabela1, logx, sqrtx, recx, xx)
+```
+
 
 <!-- Tabela 1: Desempenho das Equipes da National Football League de 1976 -->
 
@@ -180,11 +215,35 @@ Definições das variáveis:
 
 a.  Ajuste um modelo de regressão linear múltipla relacionando o número de jogos ganhos com as jardas aéreas do time ($x_2$), a porcentagem de jogadas terrestres ($x_7$) e as jardas terrestres dos adversários ($x_8$).
 
+```{r}
+m1 <- lm(y  ~ x2 + x7 + x8)
+m1
+```
+
+
 b.  Construa a tabela de análise de variância (ANOVA) e teste a significância da regressão.
+
+```{r}
+anova(m1)
+```
+
 
 c.  Calcule as estatísticas $t$ para testar as hipóteses: $H_0: \beta_2 = 0$, $H_0: \beta_7 = 0$ e $H_0: \beta_8 = 0$. Quais conclusões você pode tirar sobre os papéis das variáveis $x_2$, $x_7$ e $x_8$ no modelo?
 
+
+```{r}
+summary(m1)
+```
+
+
 d.  Calcule o $R^2$ e o $R^2_{\text{aj}}$ (ajustado) para este modelo.
+
+```{r}
+summary(m1)
+names(summary(m1))
+
+```
+
 
 e.  Usando o teste $F$ parcial, determine a contribuição de $x_7$ para o modelo. Como essa estatística $F$ parcial está relacionada ao teste $t$ para $\beta_7$ calculado no item c?
 
@@ -263,13 +322,15 @@ t.  Utilize o método de seleção de variáveis stepwise (passo a passo) para s
 # Modelo completo
 # Modelo máximo a ser considerado.
 # O modelo máximo pode ser um modelo completo (com todas as variáveis preditoras)
-modelo_completo <- lm(y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9,
-                  data = tabela1)
+
+formula_completo <- as.formula(paste0("y ~", paste0(colnames(tabela2)[-c(1, 2)], collapse = " + ")))
+modelo_completo <- lm(formula_completo,
+                      data = tabela2)
 
 # Modelo reduzido
 # Modelo mínimo a ser considerado.
 # O modelo mínimo pode ser um modelo nulo (sem variáveis preditoras)
-modelo_reduzido <- lm(y ~ 1, data = cbind(tabela1, x5_ind2))
+modelo_reduzido <- lm(y ~ 1, data = tabela2)
 
 # a) Forward selection
 modelo_forward <- step(modelo_reduzido,
@@ -285,6 +346,12 @@ modelo_stepwise <- step(modelo_reduzido,
                         scope = formula(modelo_completo),
                         direction = "both")
 
+m1 <- lm(y ~ x2 + x7 + x8)
+m2 <- lm(y ~ x2 + x8 + log(x7))
+
+summary(m1)
+summary(m2)
+summary(modelo_stepwise)
 # d) Comparar modelos finais
 summary(modelo_forward)
 summary(modelo_backward)
