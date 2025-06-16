@@ -19,28 +19,22 @@ engine: knitr
 ### Avisos:
 
 -   Última atualização do site às **`r format(Sys.time(), "%H:%M", tz='America/Cuiaba')`** do dia **`r format(Sys.time(), "%d/%m/%Y")`**.
--   Monitor: Heliton.
+-   Monitor: Heliton (quarta-feira das 18 às 19h)
 
 
 ### Ementa:
 
 Análise de correlação. Regressão linear simples e múltipla. Regressão com variáveis qualitativas. Técnicas de diagnóstico em regressão. Seleção de variáveis e construção de modelos. Validação de modelos. Transformação de variáveis.
 
-
 ### Notas de aula:
 
+-   Aulas 1 e 2: Apresentação da disciplina com ementa e avaliações. Introdução ao estudo de regressão a partir do artigo seminal de Francis Galton (1886): [Regression towards mediocrity in hereditary stature](https://zenodo.org/records/1449548), no qual se analisa a relação entre as estaturas de filhos e filhas em função das estaturas de pais e mães, destacando-se a tendência de regressão à média (aproximadamente 2/3). Exploração da obtenção de modelos por meio de equações diferenciais. Estudo do modelo de crescimento e decaimento exponencial. Introdução ao modelo de regressão linear simples, exemplificado pela relação entre tempo e distância de deslocamento. Ampliação para o modelo de regressão linear múltipla, incluindo variáveis indicadoras e efeitos de interação (por exemplo, a interação entre distância de deslocamento e o horário em que ocorre). Aplicações adicionais incluem a modelagem de relações entre variáveis em instrumentos psicométricos (escores) e a utilização de modelos de dose-resposta, com destaque para o modelo logístico.
 
 
-- Aula 1:
+-   Aula 3:
 
 
-- Aula 2:
-
-
-- Aula 3:
-
-
-- Aula 4:
+-   Aula 4:
 
 
 
@@ -101,21 +95,24 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 -   $A_1$: escrita, computacional e arguição oral. Nota: 0 a 10.
 
-*Conteúdo:* análise de correlação e regressão linear simples.
+*Conteúdo:* análise de correlação, regressão linear simples e múltipla.
 
 -   $A_2$: escrita, computacional e arguição oral. Nota: 0 a 10.
 
 *Conteúdo:* todo o conteúdo da disciplina.
 
 -   $A_{31}$: relatório parcial de análise de dados. Nota: 0 a 5.
+
 -   $A_{32}$: relatório final de análise de dados. Nota: 0 a 5.
+
 
 
 A média final ($MF$) será calculada por:
 
-$$MF = 0,4 A_1 + 0,4 A_2 + 0,2 (A_{31} + A_{32}).$$
+$$MP = 0,4 A_1 + 0,4 A_2 + 0,2(A_{31} + A_{32}).$$
 
-Se $MF\geq5$, o aluno será aprovado. Não haverá prova final.
+Se $MF \geq 5$, o aluno será aprovado. Não haverá prova final.
+
 
 ### Livro texto:
 
