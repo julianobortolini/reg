@@ -3224,82 +3224,438 @@ window.Quarto = {
 
 
 <p><em>Bacharelado em Estatística - UFMT</em></p>
-<p><em>Período letivo: 2025/1</em></p>
-<section id="avisos" class="level3">
-<h3 class="anchored" data-anchor-id="avisos">Avisos:</h3>
-<ul>
-<li>Última atualização do site às <strong>16:54</strong> do dia <strong>20/06/2025</strong>.</li>
-<li>Monitor: Heliton (quarta-feira das 18 às 19h)</li>
-</ul>
-</section>
-<section id="ementa" class="level3">
-<h3 class="anchored" data-anchor-id="ementa">Ementa:</h3>
-<p>Análise de correlação. Regressão linear simples e múltipla. Regressão com variáveis qualitativas. Técnicas de diagnóstico em regressão. Seleção de variáveis e construção de modelos. Validação de modelos. Transformação de variáveis.</p>
-</section>
-<section id="notas-de-aula" class="level3">
-<h3 class="anchored" data-anchor-id="notas-de-aula">Notas de aula:</h3>
-<ul>
-<li><p>Aulas 1 e 2: Apresentação da disciplina com ementa e avaliações. Introdução ao estudo de regressão a partir do artigo seminal de Francis Galton (1886): <a href="https://zenodo.org/records/1449548">Regression towards mediocrity in hereditary stature</a>, no qual se analisa a relação entre as estaturas de filhos e filhas em função das estaturas de pais e mães, destacando-se a tendência de regressão à média (aproximadamente 2/3). Exploração da obtenção de modelos por meio de equações diferenciais. Estudo do modelo de crescimento e decaimento exponencial. Introdução ao modelo de regressão linear simples, exemplificado pela relação entre tempo e distância de deslocamento. Ampliação para o modelo de regressão linear múltipla, incluindo variáveis indicadoras e efeitos de interação (por exemplo, a interação entre distância de deslocamento e o horário em que ocorre). Aplicações adicionais incluem a modelagem de relações entre variáveis em instrumentos psicométricos (escores) e a utilização de modelos de dose-resposta, com destaque para o modelo logístico.</p></li>
-<li><p>Aula 3: definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, estimador para a covariância e correlação, exemplo de cálculo de covariância e correlação com dados reais (consumo de açúcar e taxa de depressão), teste de hipóteses para correlação (teste 1: <span class="math inline">\(H_0: \rho = 0\)</span> versus <span class="math inline">\(H_1: \rho \neq 0\)</span> e teste 2: <span class="math inline">\(H_0: \rho = \rho_0\)</span> versus <span class="math inline">\(H_1: \rho \neq \rho_0\)</span>) e exercício de teste de hipóteses para correlação. <strong>Tarefa para casa:</strong> correlação como medida de proporção entre duas variáveis (padronizadas) <span class="math inline">\(Z_1 = k Z_2\)</span>.</p></li>
-<li><p><a href="lista1_2025-1.html">Lista 1</a>: covariância e correlação.</p></li>
-<li><p>Aula 4:</p></li>
-</ul>
-<!-- -   Aula 1: apresentação do plano de ensino e introdução à regressão baseado no artigo de [Galton](https://zenodo.org/records/1449548) (1886). -->
-<!--     *Referência:* Galton, F. (1886). "Regression towards mediocrity in hereditary stature". *The Journal of the Anthropological Institute of Great Britain and Ireland*. **15**: 246-263. -->
-<!-- -   Aula 2: definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, função de distribuição acumulada empírica, teorema de Glivenko-Cantelli, teorema (estimador para a transformação $T(F) = \int f(x) dF$), estimador para a covariância e correlação, propriedades dos estimadores da covariância e correlação e exemplo com dados reais. -->
-<!-- -   [Lista 1](lista1.html): covariância e correlação. -->
-<!-- -   Aula 3: revisão da aula 2, correlação como medida de proporção entre duas variáveis (padronizadas), estimação da relação funcional (modelo) entre duas variáveis, estimação de beta_0 e beta_1, exemplo com os dados de consumo de açúcar e taxa de depressão, correlação entre duas variáveis normais, estimação do modelo linear (reta) entre duas variáveis normais, comentários sobre correlação de Pearson (dados normais) e Spearman (postos dos dados), teste de hipóteses para correlação: 1) H_0: rho = 0 e 2) H_0: rho = rho_0 e exercício de teste de hipóteses para correlação. -->
-<!-- -   [Lista 2](lista2.html): fórmula da correlação amostral e de Spearman. -->
-<!-- -   Aula 4: definição de modelo de regressão linear simples, diferentes métodos de calcular distâncias entre pontos (sugestão: leitura do livro do Rao (2008)), estimação de parâmetros beta_0 e beta_1 pelo método de mínimos quadrados, exemplo de estimação (exemplo foguete), propriedades dos estimadores de mínimos quadrados, esperança e variância dos estimadores (erro padrão), teorema de Gauss-Markov (estimadores não viciados e de variância mínima, BLUE). -->
-<!-- -   Aula 5: revisão da aula 4, modelo de regressão linear simples com variância constante e variância dependente de covariáveis, estimação de sigma (quadrado médio do erro), teste de hipóteses para regressão (análise de variância), desenvolvimento da análise de variância (Fisher), teste de hipóteses Wald (teste t) para beta_1 e beta_0, relação entre os testes t e F (t\^2 = F), intervalos de confiança para beta_0 e beta_1 (fazer exercício), ic para sigma\^2, sigma e cv (exercício). -->
-<!-- -   [Lista 3](lista3.html): regressão linear simples. -->
-<!-- -   Aula 6: intervalo de confiança para valor estimado, intervalo de predição, coeficiente de determinação, regressão pela origem e estimação por máxima verossimilhança. -->
-<!-- -   [lista 4](lista4.html): regressão linear simples. -->
-<!-- -   Aula 7: aula prática de resolução da [lista 4](lista4.html). -->
-<!-- -   Aula 8: definição de modelo de regressão linear múltipla, efeitos simples e de interação, modelo na forma matricial, estimação de parâmetros pelo método de mínimos quadrados pelo método escalar e matricial, exemplo de estimação, propriedades dos estimadores de mínimos quadrados, esperança e variância dos estimadores (erro padrão), estimação de sigma2, método de estimação da máxima verossimilhança, teste de hipóteses para regressão e coeficientes, exemplos de teste de hipóteses, intervalos de confiança para parâmetros, valor médio e novas observações e exemplos de intervalos de confiança. *Tarefa para casa: estudar sobre R2 ajustado, comparação entre modelo completo e reduzido, intervalos de confiança simultâneos (região de confiança) para os parâmetros, coeficientes padronizados (coeficientes beta) e multicolinearidade (sugestão: livro do Montgomery).* -->
-<!-- -   [Lista 5](lista5.html): regressão linear múltipla. -->
-<!-- -   Aula 9: **aviso que na próxima aula será a avaliação 1**. Revisão da aula anterior, intervalos de confiança para parâmetros, valor médio e novas observações, exemplos de intervalos de confiança. Cálculos usando o software R: [exemplo_rlm.R](exemplo_rlm.R). *Tarefa para casa: estudar sobre R2 ajustado, comparação entre modelo completo e reduzido, intervalos de confiança simultâneos (região de confiança) para os parâmetros, coeficientes padronizados (coeficientes beta) e multicolinearidade (sugestão: livro do Montgomery).* -->
-<!-- -   Aula 10: avaliação 1 (escrita e computacional). A arguição oral será na próxima aula (Aula 11). -->
-<!-- -   Aula 11: avaliação 1 (arguição oral). -->
-<!-- -   Aula 12: regressão com suporte computacional. [Rotina computacional](reg_comp.html). *Tarefa (1 ponto extra na avaliação 1): refazer a avaliação 1 ([escrita](prova1.pdf) e [computacional](prova1comp.pdf)) usando a rotina da aula.*  -->
-<!-- -   Aula 13: Análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. [Rotina computacional](reg_comp.html). -->
-<!-- -   Aula 14: Resolver a [lista 6](lista6.html) ([gabarito](lista6_gab.html), sem os comentários e justificativas nas resoluções). Conteúdos adicionais: teste F parcial para modelos de efeitos aleatórios (comparação de modelos de efeito fixo e efeito misto), multicolinearidade, métodos *forward*, *backward* e *stepwise* para seleção de variáveis e métodos *leave-one-out*, *leave-p-out* e *k-fold* para validação de modelos (validação cruzada). -->
-<!-- -   Aula 15 (30/4/2025): avaliação 2 (escrita, computacional e arquição oral) com todo o conteúdo da disciplina. -->
-<!-- -   [Avaliação 2](prova2.html) -->
-<!-- -   Aula 16 (9/5/2025): entrega da avaliação 3 (relatório de análise de dados). -->
-</section>
-<section id="avaliações" class="level3">
-<h3 class="anchored" data-anchor-id="avaliações">Avaliações:</h3>
-<ul>
-<li><span class="math inline">\(A_1\)</span>: escrita, computacional e arguição oral. Nota: 0 a 10.</li>
-</ul>
-<p><em>Conteúdo:</em> análise de correlação, regressão linear simples e múltipla.</p>
-<ul>
-<li><span class="math inline">\(A_2\)</span>: escrita, computacional e arguição oral. Nota: 0 a 10.</li>
-</ul>
-<p><em>Conteúdo:</em> todo o conteúdo da disciplina.</p>
-<ul>
-<li><p><span class="math inline">\(A_{31}\)</span>: relatório parcial de análise de dados. Nota: 0 a 5.</p></li>
-<li><p><span class="math inline">\(A_{32}\)</span>: relatório final de análise de dados. Nota: 0 a 5.</p></li>
-</ul>
-<p>A média final (<span class="math inline">\(MF\)</span>) será calculada por:</p>
-<p><span class="math display">\[MP = 0,4 A_1 + 0,4 A_2 + 0,2(A_{31} + A_{32}).\]</span></p>
-<p>Se <span class="math inline">\(MF \geq 5\)</span>, o aluno será aprovado. Não haverá prova final.</p>
-</section>
-<section id="livro-texto" class="level3">
-<h3 class="anchored" data-anchor-id="livro-texto">Livro texto:</h3>
-<p>Montgomery, D. C., Peck, E. A., &amp; Vining, G. G. (2021). <em>Introduction to linear regression analysis</em> (6th ed.). Wiley.</p>
-</section>
-<section id="referências" class="level3">
-<h3 class="anchored" data-anchor-id="referências">Referências:</h3>
-<p>Devore, J. L., Berk, K. N., &amp; Carlton, M. A. (2021). <em>Modern mathematical statistics with applications</em> (3rd ed.). Springer.</p>
-<p>Seber, G. A. F., &amp; Lee, A. J. (2012). <em>Linear Regression Analysis</em> (2nd ed.). Wiley.</p>
-<p>Draper, N. R., &amp; Smith, H. (1998). <em>Applied regression analysis</em> (3rd ed.). Wiley.</p>
-<p>Rao, C. R., Toutenburg, H., Shalabh, &amp; Heumann, C. (2008). <em>Linear Models and Generalizations: Least Squares and Alternatives</em> (3rd ed.). Springer.</p>
-<p>Allen, M. P. (1997). <em>Understanding Regression Analysis</em>. Sage Publications.</p>
-<p>Kutner, M. H., Nachtsheim, C. J., Neter, J., &amp; Li, W. (2005). <em>Applied linear statistical models</em> (5th ed.). McGraw-Hill.</p>
-<p>Rencher, A. C., &amp; Schaalje, G. B. (2008). <em>Linear models in statistics</em> (2nd ed.). Wiley.</p>
-<p>Faraway, J. J. (2015). <em>Linear Models with R</em>. CRC Press.</p>
+<section id="lista-de-exercícios-1" class="level3">
+<h3 class="anchored" data-anchor-id="lista-de-exercícios-1">Lista de exercícios 1</h3>
+<ol type="1">
+<li><p>Demonstre as proposições a seguir: Para quaisquer duas variáveis aleatórias <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>:<br>
+</p>
+<ol type="a">
+<li><span class="math inline">\(\text{Cov}(X, Y) = \text{Cov}(Y, X)\)</span><br>
+</li>
+<li><span class="math inline">\(\text{Cov}(X, X) = V(X)\)</span><br>
+</li>
+<li>(Fórmula alternativa da covariância) <span class="math inline">\(\text{Cov}(X, Y) = \mathbb{E}(XY) - \mu_X \cdot \mu_Y\)</span><br>
+</li>
+<li>(Propriedade distributiva da covariância) Para qualquer variável aleatória <span class="math inline">\(Z\)</span> e quaisquer constantes <span class="math inline">\(a, b, c\)</span>: <span class="math display">\[\text{Cov}(aX + bY + c, Z) = a\text{Cov}(X, Z) + b\text{Cov}(Y, Z)\]</span></li>
+</ol></li>
+<li><p>Demonstre as proposições a seguir: Para quaisquer duas variáveis aleatórias <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>: a. <span class="math inline">\(\text{Corr}(X, Y) = \text{Corr}(Y, X)\)</span> b. <span class="math inline">\(\text{Corr}(X, X) = 1\)</span> c. (Propriedade de invariança à escala) Se <span class="math inline">\(a, b, c, d\)</span> são constantes e <span class="math inline">\(ac &gt; 0\)</span>, então: <span class="math display">\[\text{Corr}(aX + b, cY + d) = \text{Corr}(X, Y)\]</span> d. A correlação é limitada: <span class="math display">\[-1 \leq \text{Corr}(X, Y) \leq 1\]</span></p></li>
+<li><p>Mostre que, quando <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> são independentes, <span class="math display">\[\text{Cov}(X, Y) = \text{Corr}(X, Y) = 0.\]</span></p></li>
+<li></li>
+</ol>
+<!-- -->
+<ol type="a">
+<li>Use as propriedades da covariância para mostrar que<br>
+<span class="math display">\[\text{Cov}(aX + b, cY + d) = ac \, \text{Cov}(X, Y).\]</span></li>
+<li>Use a parte (a) juntamente com as propriedades de reescalonamento do desvio padrão para mostrar que<br>
+<span class="math display">\[ \text{Corr}(aX + b, cY + d) = \text{Corr}(X, Y)\]</span><br>
+quando <span class="math inline">\(ac &gt; 0\)</span> (esta é a propriedade de invariança à escala da correlação).</li>
+<li>O que acontece se <span class="math inline">\(a\)</span> e <span class="math inline">\(c\)</span> tiverem sinais opostos, de modo que <span class="math inline">\(ac &lt; 0\)</span>?</li>
+</ol>
+<!-- -->
+<ol start="5" type="1">
+<li><p>Verifique que, se <span class="math inline">\(Y = aX + b\)</span> com <span class="math inline">\(a \neq 0\)</span>, então<br>
+<span class="math display">\[\text{Corr}(X, Y) = +1 \text{ ou } -1.\]</span><br>
+Sob quais condições <span class="math inline">\(\rho = +1\)</span>?</p></li>
+<li><p>Considere as variáveis padronizadas <span class="math inline">\(Z_X = \frac{(X - \mu_X)}{\sigma_X}\)</span> e <span class="math inline">\(Z_Y = \frac{(Y - \mu_Y)}{\sigma_Y}\)</span>, e seja <span class="math inline">\(\rho = \text{Corr}(X, Y)\)</span>.<br>
+</p></li>
+</ol>
+<!-- -->
+<ol type="a">
+<li>Use as propriedades da covariância e da correlação para verificar que<br>
+<span class="math display">\[\text{Corr}(X, Y) = \text{Cov}(Z_X, Z_Y) = \mathbb{E}(Z_X Z_Y).\]</span></li>
+<li>Use a linearidade da esperança juntamente com a parte (a) para mostrar que<br>
+<span class="math display">\[\mathbb{E}[(Z_Y - \rho Z_X)^2] = 1 - \rho^2.\]</span><br>
+<em>Dica: Se</em> <span class="math inline">\(Z\)</span> é uma variável aleatória padronizada, quais são sua média e variância, e como isso pode ser usado para determinar <span class="math inline">\(\mathbb{E}(Z^2)\)</span>?</li>
+<li>Use a parte (b) para mostrar que<br>
+<span class="math display">\[-1 \leq \rho \leq 1.\]</span></li>
+<li>Use a parte (b) para mostrar que <span class="math inline">\(\rho = 1\)</span> implica que<br>
+<span class="math display">\[Y = aX + b, \quad \text{onde } a &gt; 0,\]</span><br>
+e que <span class="math inline">\(\rho = -1\)</span> implica que<br>
+<span class="math display">\[Y = aX + b, \quad \text{onde } a &lt; 0.\]</span></li>
+</ol>
+<!-- -->
+<ol start="7" type="1">
+<li>O <strong>coeficiente de correlação amostral</strong> (estimador da correlaçao) para os <span class="math inline">\(n\)</span> pares <span class="math inline">\((x_1, y_1), \dots, (x_n, y_n)\)</span> é dado por:</li>
+</ol>
+<p><span class="math display">\[\begin{align*}
+r = &amp; \frac{1}{n-1} \sum_{i=1}^{n} \left( \frac{x_i - \bar{x}}{s_x} \right) \left( \frac{y_i - \bar{y}}{s_y} \right) = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}} = \frac{S_{xy}}{\sqrt{S_{xx}} \sqrt{S_{yy}}},
+\end{align*}\]</span> em que <span class="math inline">\(S_{xy}= \sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})\)</span>, <span class="math inline">\(S_{xx} = \sum_{i=1}^{n} (x_i - \bar{x})^2\)</span> e <span class="math inline">\(S_{yy} = \sum_{i=1}^{n} (y_i - \bar{y})^2\)</span>.</p>
+<p>Cálcule o coeficiente de correlação amostral para os seguintes dados:</p>
+<blockquote class="blockquote">
+<p>’O artigo <em>“A Cross-National Relationship Between Sugar Consumption and Major Depression?”</em> (<em>Depression and Anxiety</em> 2002: 118–120) relatou os seguintes dados sobre <span class="math inline">\(x =\)</span> consumo diário de açúcar (calorias per capita) e <span class="math inline">\(y =\)</span> taxa anual de depressão majoritária (casos por 100 pessoas) para uma amostra de seis países.</p>
+</blockquote>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Consumo diário de açúcar e taxa anual de depressão por país</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">Sugar.consumption</th>
+<th style="text-align: right;">Depression.rate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">USA</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">3.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Canada</td>
+<td style="text-align: right;">390</td>
+<td style="text-align: right;">5.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">France</td>
+<td style="text-align: right;">350</td>
+<td style="text-align: right;">4.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Germany</td>
+<td style="text-align: right;">375</td>
+<td style="text-align: right;">5.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">New Zealand</td>
+<td style="text-align: right;">480</td>
+<td style="text-align: right;">5.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">South Korea</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">2.3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol start="8" type="1">
+<li><p>Demonstre que <span class="math display">\[\frac{1}{n-1} \sum_{i=1}^{n} \left( \frac{x_i - \bar{x}}{s_x} \right) \left( \frac{y_i - \bar{y}}{s_y} \right) = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}}.\]</span></p></li>
+<li><p>Para o teste de hipóteses <span class="math inline">\(H_0: \rho = 0\)</span> versus <span class="math inline">\(H_a: \rho \neq 0\)</span>, em que <span class="math inline">\(\rho\)</span> é o coeficiente de correlação populacional, o teste de correlação de Pearson é baseado na estatística de teste <span class="math display">\[
+T = \frac{R \sqrt{n - 2}}{\sqrt{1 - R^2}}
+\]</span> que segue uma distribuição <span class="math inline">\(t\)</span> com <span class="math inline">\(n - 2\)</span> graus de liberdade. A estatística <span class="math inline">\(R\)</span> é o coeficiente de correlação amostral.</p></li>
+</ol>
+<p>Para um teste de hipóteses sobre a correlação, as hipóteses nula e alternativa, e a região de rejeição são dadas a seguir:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 63%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Hipótese Alternativa</strong></th>
+<th><strong>Região de Rejeição para um Teste de Nível</strong> <span class="math inline">\(\alpha\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(H_a: \rho &gt; 0\)</span></td>
+<td><span class="math inline">\(t \geq t_{\alpha, n-2}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(H_a: \rho &lt; 0\)</span></td>
+<td><span class="math inline">\(t \leq -t_{\alpha, n-2}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(H_a: \rho \neq 0\)</span></td>
+<td><span class="math inline">\(t \geq t_{\alpha/2, n-2}\)</span> ou <span class="math inline">\(t \leq -t_{\alpha/2, n-2}\)</span></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>O <strong>Turbine Oil Oxidation Test (TOST)</strong> e o <strong>Rotating Bomb Oxidation Test (RBOT)</strong> são dois procedimentos diferentes para avaliar a estabilidade à oxidação de óleos de turbinas a vapor. O artigo <em>“Dependence of Oxidation Stability of Steam Turbine Oil on Base Oil Composition”</em> (<em>J. Soc. Tribologists Lubricat. Engrs.</em>, Out. 1997: 19–24) apresentou as seguintes observações para <span class="math inline">\(x =\)</span> tempo do teste TOST (horas) e <span class="math inline">\(y =\)</span> tempo do teste RBOT (minutos) em 12 amostras de óleo.</p>
+</blockquote>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Resultados dos testes TOST e RBOT para 12 amostras de óleo</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">TOST</th>
+<th style="text-align: right;">RBOT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">4200</td>
+<td style="text-align: right;">370</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3600</td>
+<td style="text-align: right;">340</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3750</td>
+<td style="text-align: right;">375</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3675</td>
+<td style="text-align: right;">310</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4050</td>
+<td style="text-align: right;">350</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2770</td>
+<td style="text-align: right;">200</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4870</td>
+<td style="text-align: right;">400</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4500</td>
+<td style="text-align: right;">375</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3450</td>
+<td style="text-align: right;">285</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2700</td>
+<td style="text-align: right;">225</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3750</td>
+<td style="text-align: right;">345</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3300</td>
+<td style="text-align: right;">285</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol type="a">
+<li>Calcule e interprete o valor do coeficiente de correlação amostral (como fizeram os autores do artigo).</li>
+<li>Como o valor de <span class="math inline">\(r\)</span> seria afetado se tivéssemos escolhido <span class="math inline">\(x =\)</span> tempo RBOT e <span class="math inline">\(y =\)</span> tempo TOST?</li>
+<li>Como o valor de <span class="math inline">\(r\)</span> seria afetado se o tempo RBOT fosse expresso em horas?</li>
+<li>Realize um teste de hipóteses para decidir se os tempos dos testes RBOT e TOST estão linearmente relacionados.</li>
+</ol>
+<!-- -->
+<ol start="10" type="1">
+<li>Quando <span class="math inline">\((X_1, Y_1), \dots, (X_n, Y_n)\)</span> é uma amostra de uma distribuição normal bivariada, a variável aleatória <span class="math display">\[
+V = \frac{1}{2} \ln \left( \frac{1 + R}{1 - R} \right)
+\]</span> segue aproximadamente uma distribuição normal com média e variância: <span class="math display">\[
+\mu_V = \frac{1}{2} \ln \left( \frac{1 + \rho}{1 - \rho} \right), \quad \sigma_V^2 = \frac{1}{n - 3}.
+\]</span> A estatística de teste para <span class="math inline">\(H_0: \rho = \rho_0\)</span> é dada por: <span class="math display">\[
+Z = \frac{V - \frac{1}{2} \ln [(1 + \rho_0) / (1 - \rho_0)]}{1 / \sqrt{n - 3}}
+\]</span> As hipóteses nula e alternativa, e a região de rejeição são dadas a seguir:</li>
+</ol>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 63%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Hipótese Alternativa</strong></th>
+<th><strong>Região de Rejeição para um Teste de Nível</strong> <span class="math inline">\(\alpha\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(H_a: \rho &gt; \rho_0\)</span></td>
+<td><span class="math inline">\(z \geq z_{\alpha}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(H_a: \rho &lt; \rho_0\)</span></td>
+<td><span class="math inline">\(z \leq -z_{\alpha}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(H_a: \rho \neq \rho_0\)</span></td>
+<td><span class="math inline">\(z \geq z_{\alpha/2}\)</span> ou <span class="math inline">\(z \leq -z_{\alpha/2}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Um intervalo de confiança de <span class="math inline">\(100(1 - \alpha)\%\)</span> para <span class="math inline">\(\rho\)</span> é dado por: <span class="math display">\[
+\left( \frac{e^{2c_1} - 1}{e^{2c_1} + 1}, \quad \frac{e^{2c_2} - 1}{e^{2c_2} + 1} \right),
+\]</span> em que <span class="math inline">\(c_1\)</span> e <span class="math inline">\(c_2\)</span> são os extremos inferior e superior do intervalo na seguinte expressão: <span class="math display">\[
+v \pm z_{\alpha/2} \cdot \sigma_V = \frac{1}{2} \ln \left( \frac{1 + r}{1 - r} \right) \pm \frac{z_{\alpha/2}}{\sqrt{n - 3}}.
+\]</span></p>
+<p>Usando os dados do exercício anterior, verifique a hipótese <span class="math inline">\(H_0: \rho = 0,70\)</span> versus <span class="math inline">\(H_a: \rho \neq 0,70\)</span> ao nível de significância de 5%. Calcule o intervalo de confiança de 95% para <span class="math inline">\(\rho\)</span>.</p>
+<ol start="11" type="1">
+<li><blockquote class="blockquote">
+<p>O hidrogênio é considerado um fator importante na porosidade de fundições de ligas de alumínio. O artigo <em>“The Reduced Pressure Test as a Measuring Tool in the Evaluation of Porosity/Hydrogen Content in A1–7 Wt Pct Si-10 Vol Pct SiC(p) Metal Matrix Composite”</em> (<em>Metallurg. Trans.</em> 1993: 1857–1868) apresenta os seguintes dados sobre <span class="math inline">\(x =\)</span> conteúdo de hidrogênio e <span class="math inline">\(y =\)</span> porosidade do gás para uma técnica específica de medição.</p>
+</blockquote></li>
+</ol>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Dados sobre conteúdo de hidrogênio e porosidade do gás</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">x</th>
+<th style="text-align: right;">y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">0.46</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">0.70</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">0.41</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">0.45</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">0.55</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">0.44</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.47</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.22</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.80</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.88</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">0.70</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">0.72</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">0.75</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol type="a">
+<li>Calcule e interprete o valor do coeficiente de correlação amostral.</li>
+<li>Realize um teste de hipóteses para decidir se o conteúdo de hidrogênio e a porosidade do gás estão linearmente relacionados.</li>
+<li>Calcule um intervalo de confiança de 95% para o coeficiente de correlação populacional.</li>
+</ol>
+<!-- -->
+<ol start="12" type="1">
+<li>Seja <span class="math inline">\(x\)</span> o número de horas de estudo por semana e <span class="math inline">\(y\)</span> a média de notas nas provas. Suponha que temos uma amostra de pares <span class="math inline">\((x, y)\)</span> para mulheres e outra para homens. Queremos testar a hipótese: <span class="math display">\[
+H_0: \rho_1 - \rho_2 = 0
+\]</span> contra a alternativa de que os coeficientes de correlação populacional são diferentes.</li>
+</ol>
+<!-- -->
+<ol type="a">
+<li><p>Utilize as propriedades da variável transformada <span class="math display">\[
+  V = \frac{1}{2} \ln \left( \frac{1 + R}{1 - R} \right)
+  \]</span> para propor uma estatística de teste apropriada e a região de rejeição. Considere <span class="math inline">\(R_1\)</span> e <span class="math inline">\(R_2\)</span> os coeficientes de correlação amostral das duas amostras.</p></li>
+<li><blockquote class="blockquote">
+<p>O artigo <em>“Relational Bonds and Customer’s Trust and Commitment: A Study on the Moderating Effects of Web Site Usage”</em> (<em>Serv. Ind. J.</em> 2003: 103–124) relatou que: <span class="math inline">\(n_1 = 261\)</span>, <span class="math inline">\(r_1 = 0.59\)</span>, <span class="math inline">\(n_2 = 557\)</span> e <span class="math inline">\(r_2 = 0.50\)</span>. A primeira amostra consistia de usuários corporativos de websites, enquanto a segunda amostra consistia de não usuários. Aqui, <span class="math inline">\(r\)</span> representa a correlação entre a avaliação da força dos laços econômicos e o desempenho.</p>
+</blockquote></li>
+</ol>
+<p>Realize o teste de hipóteses <span class="math inline">\(H_0: \rho_1 - \rho_2 = 0\)</span> para esses dados, conforme feito pelos autores do artigo citado.</p>
+<ol start="13" type="1">
+<li>Considere uma série temporal, ou seja, uma sequência de observações <span class="math inline">\(X_1, X_2, \dots\)</span> sobre alguma variável resposta (por exemplo, a concentração de um poluente, valor de uma ação, temperatura em uma região) ao longo do tempo. Suponha que os valores observados são <span class="math inline">\(x_1, x_2, \dots, x_n\)</span> ao longo de <span class="math inline">\(n\)</span> períodos de tempo. O <strong>coeficiente de autocorrelação de defasagem 1</strong> (lag 1), que avalia a força da relação entre os valores da série separados por uma unidade de tempo, é definido como: <span class="math display">\[r_1 = \frac{\sum_{i=1}^{n-1} (x_i - \bar{x}) (x_{i+1} - \bar{x})}{\sum_{i=1}^{n} (x_i - \bar{x})^2}\]</span> Os coeficientes de autocorrelação <span class="math inline">\(r_2, r_3, \dots\)</span> para defasagens <span class="math inline">\(2, 3, \cdots\)</span> são definidos de maneira análoga.</li>
+</ol>
+<!-- -->
+<ol type="a">
+<li>Calcule o valor de <span class="math inline">\(r_1\)</span> para os seguintes dados de temperatura coletados ao longo do tempo:</li>
+</ol>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Dados da temperatura ao longo do tempo</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Tempo</th>
+<th style="text-align: right;">Temperatura</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">47</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">54</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">53</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">46</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">46</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">47</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">51</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">46</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">52</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">50</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol start="2" type="a">
+<li>Faça um gráfico de dispersão da temperatura <span class="math inline">\(x_t\)</span> contra o tempo <span class="math inline">\(t\)</span> (gráfico de série temporal). Você observa algum padrão?</li>
+<li>Analogamente ao coeficiente de correlação populacional <span class="math inline">\(\rho\)</span>, seja <span class="math inline">\(\rho_i\)</span> (para <span class="math inline">\(i = 1, 2, 3, \dots\)</span>) o coeficiente de autocorrelação teórica para diferentes defasagens. Se todos esses <span class="math inline">\(\rho\)</span>’s forem zero, não há relação linear entre as observações da série temporal em nenhuma defasagem. Nesse caso, se <span class="math inline">\(n\)</span> for grande, cada <span class="math inline">\(R_i\)</span> segue aproximadamente uma distribuição normal com média 0 e desvio padrão <span class="math inline">\(1/\sqrt{n}\)</span>, e diferentes <span class="math inline">\(R_i\)</span> são quase independentes. Portanto, a hipótese nula <span class="math inline">\(H_0: \rho_i = 0\)</span> pode ser rejeitada em um nível de significância de aproximadamente <span class="math inline">\(0.05\)</span> se: <span class="math display">\[r_i \geq \frac{2}{\sqrt{n}} \quad \text{ou} \quad r_i \leq -\frac{2}{\sqrt{n}}.\]</span> Se <span class="math inline">\(n = 100\)</span> e os coeficientes amostrais observados forem: <span class="math display">\[r_1 = 0.16, \quad r_2 = -0.09, \quad r_3 = -0.15,\]</span> há evidências de autocorrelação teórica nas três primeiras defasagens? Está claro o motivo de rejeitar <span class="math inline">\(H_0\)</span> quando <span class="math inline">\(|r_i| &gt; 2/\sqrt{n}\)</span>? Dica: qual é o valor de <span class="math inline">\(z_{0.025}\)</span>?</li>
+</ol>
+<!-- -->
+<ol start="14" type="1">
+<li>Refaça todos os exercícios usando recursos computacionais (por exemplo, R, Python, Excel, etc.) para calcular os coeficientes de correlação, realizar os testes de hipóteses e construir os intervalos de confiança. <strong>Atenção:</strong> apenas agora (nesse exercício) é para usar recursos computacionais.</li>
+</ol>
 <hr>
 <div style="text-align: center;">
 <p><a href="https://instagram.com/profjulianobortolini">@profjulianobortolini</a>      <a href="http://www.julianobortolini.com.br">www.julianobortolini.com.br</a>      <a href="https://linkedin.com/in/julianobortolini">linkedin</a>      <a href="https://github.com/julianobortolini">github</a>       <a href="http://lattes.cnpq.br/6210909768845403">lattes</a></p>

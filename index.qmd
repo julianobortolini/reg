@@ -31,8 +31,10 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 -   Aulas 1 e 2: Apresentação da disciplina com ementa e avaliações. Introdução ao estudo de regressão a partir do artigo seminal de Francis Galton (1886): [Regression towards mediocrity in hereditary stature](https://zenodo.org/records/1449548), no qual se analisa a relação entre as estaturas de filhos e filhas em função das estaturas de pais e mães, destacando-se a tendência de regressão à média (aproximadamente 2/3). Exploração da obtenção de modelos por meio de equações diferenciais. Estudo do modelo de crescimento e decaimento exponencial. Introdução ao modelo de regressão linear simples, exemplificado pela relação entre tempo e distância de deslocamento. Ampliação para o modelo de regressão linear múltipla, incluindo variáveis indicadoras e efeitos de interação (por exemplo, a interação entre distância de deslocamento e o horário em que ocorre). Aplicações adicionais incluem a modelagem de relações entre variáveis em instrumentos psicométricos (escores) e a utilização de modelos de dose-resposta, com destaque para o modelo logístico.
 
 
--   Aula 3:
+-   Aula 3: definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, estimador para a covariância e correlação, exemplo de cálculo de covariância e correlação com dados reais (consumo de açúcar e taxa de depressão), teste de hipóteses para correlação (teste 1: $H_0: \rho = 0$ versus $H_1: \rho \neq 0$ e teste 2: $H_0: \rho = \rho_0$ versus $H_1: \rho \neq \rho_0$) e exercício de teste de hipóteses para correlação. **Tarefa para casa:** correlação como medida de proporção entre duas variáveis (padronizadas) $Z_1 = k Z_2$.
 
+
+-   [Lista 1](lista1_2025-1.html): covariância e correlação.
 
 -   Aula 4:
 
