@@ -3224,85 +3224,16 @@ window.Quarto = {
 
 
 <p><em>Bacharelado em Estatística - UFMT</em></p>
-<p><em>Período letivo: 2025/1</em></p>
-<section id="avisos" class="level3">
-<h3 class="anchored" data-anchor-id="avisos">Avisos:</h3>
-<ul>
-<li>Última atualização do site às <strong>09:38</strong> do dia <strong>30/06/2025</strong>.</li>
-<li>Monitor: Heliton (quarta-feira das 18 às 19h)</li>
-</ul>
-</section>
-<section id="ementa" class="level3">
-<h3 class="anchored" data-anchor-id="ementa">Ementa:</h3>
-<p>Análise de correlação. Regressão linear simples e múltipla. Regressão com variáveis qualitativas. Técnicas de diagnóstico em regressão. Seleção de variáveis e construção de modelos. Validação de modelos. Transformação de variáveis.</p>
-</section>
-<section id="notas-de-aula" class="level3">
-<h3 class="anchored" data-anchor-id="notas-de-aula">Notas de aula:</h3>
-<ul>
-<li><p>Aulas 1 e 2: Apresentação da disciplina com ementa e avaliações. Introdução ao estudo de regressão a partir do artigo seminal de Francis Galton (1886): <a href="https://zenodo.org/records/1449548">Regression towards mediocrity in hereditary stature</a>, no qual se analisa a relação entre as estaturas de filhos e filhas em função das estaturas de pais e mães, destacando-se a tendência de regressão à média (aproximadamente 2/3). Exploração da obtenção de modelos por meio de equações diferenciais. Estudo do modelo de crescimento e decaimento exponencial. Introdução ao modelo de regressão linear simples, exemplificado pela relação entre tempo e distância de deslocamento. Ampliação para o modelo de regressão linear múltipla, incluindo variáveis indicadoras e efeitos de interação (por exemplo, a interação entre distância de deslocamento e o horário em que ocorre). Aplicações adicionais incluem a modelagem de relações entre variáveis em instrumentos psicométricos (escores) e a utilização de modelos de dose-resposta, com destaque para o modelo logístico.</p></li>
-<li><p>Aula 3: definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, estimador para a covariância e correlação, exemplo de cálculo de covariância e correlação com dados reais (consumo de açúcar e taxa de depressão), teste de hipóteses para correlação (teste 1: <span class="math inline">\(H_0: \rho = 0\)</span> versus <span class="math inline">\(H_1: \rho \neq 0\)</span> e teste 2: <span class="math inline">\(H_0: \rho = \rho_0\)</span> versus <span class="math inline">\(H_1: \rho \neq \rho_0\)</span>) e exercício de teste de hipóteses para correlação. <strong>Tarefa para casa:</strong> correlação como medida de proporção entre duas variáveis (padronizadas) <span class="math inline">\(Z_1 = k Z_2\)</span>.</p></li>
-<li><p><a href="lista1_2025-1.html">Lista 1</a>: covariância e correlação.</p></li>
-<li><p>Aula 4: apresentação da definição formal do modelo de regressão, com exemplo motivacional. Construção e interpretação do gráfico de dispersão para visualização da relação entre duas variáveis. Modelo de regressão linear simples, com detalhamento de suas componentes e respectivas interpretações. Cálculo da média e da variância condicional de <span class="math inline">\(Y\)</span> dado <span class="math inline">\(x\)</span>, <span class="math inline">\(E(Y|x)\)</span> e <span class="math inline">\(\text{Var}(Y|x)\)</span>, com representação gráfica da reta de regressão e das curvas de densidade associadas. Discussão sobre o conceito de variância constante (homocedasticidade) e suas implicações para o ajuste do modelo. Definição do modelo de regressão linear múltipla, com apresentação de casos particulares, como o modelo de regressão polinomial. Distinção entre relação linear (ou não linear) entre variáveis e relação linear (ou não linear) entre os parâmetros do modelo. Estudo da estimação dos parâmetros do modelo de regressão linear simples por meio do método dos mínimos quadrados, acompanhado de um exemplo ilustrativo. <strong>Tarefa:</strong> estudar o método de estimação de máxima verossimilhanca, testes de hipóteses e intervalos de confiança para parâmetros.</p></li>
-<li><p><a href="lista2_2025-1.html">Lista 2</a>: um pouco mais sobre covariância e correlação.</p></li>
-<li><p><a href="lista3_2025-1.html">Lista 3</a>: ajuste de modelos de regressão linear simples.</p></li>
-<li><p>Aula 5:</p></li>
-</ul>
-<!-- -   Aula 1: apresentação do plano de ensino e introdução à regressão baseado no artigo de [Galton](https://zenodo.org/records/1449548) (1886). -->
-<!--     *Referência:* Galton, F. (1886). "Regression towards mediocrity in hereditary stature". *The Journal of the Anthropological Institute of Great Britain and Ireland*. **15**: 246-263. -->
-<!-- -   Aula 2: definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, função de distribuição acumulada empírica, teorema de Glivenko-Cantelli, teorema (estimador para a transformação $T(F) = \int f(x) dF$), estimador para a covariância e correlação, propriedades dos estimadores da covariância e correlação e exemplo com dados reais. -->
-<!-- -   [Lista 1](lista1.html): covariância e correlação. -->
-<!-- -   Aula 3: revisão da aula 2, correlação como medida de proporção entre duas variáveis (padronizadas), estimação da relação funcional (modelo) entre duas variáveis, estimação de beta_0 e beta_1, exemplo com os dados de consumo de açúcar e taxa de depressão, correlação entre duas variáveis normais, estimação do modelo linear (reta) entre duas variáveis normais, comentários sobre correlação de Pearson (dados normais) e Spearman (postos dos dados), teste de hipóteses para correlação: 1) H_0: rho = 0 e 2) H_0: rho = rho_0 e exercício de teste de hipóteses para correlação. -->
-<!-- -   [Lista 2](lista2.html): fórmula da correlação amostral e de Spearman. -->
-<!-- -   Aula 4: definição de modelo de regressão linear simples, diferentes métodos de calcular distâncias entre pontos (sugestão: leitura do livro do Rao (2008)), estimação de parâmetros beta_0 e beta_1 pelo método de mínimos quadrados, exemplo de estimação (exemplo foguete), propriedades dos estimadores de mínimos quadrados, esperança e variância dos estimadores (erro padrão), teorema de Gauss-Markov (estimadores não viciados e de variância mínima, BLUE). -->
-<!-- -   Aula 5: revisão da aula 4, modelo de regressão linear simples com variância constante e variância dependente de covariáveis, estimação de sigma (quadrado médio do erro), teste de hipóteses para regressão (análise de variância), desenvolvimento da análise de variância (Fisher), teste de hipóteses Wald (teste t) para beta_1 e beta_0, relação entre os testes t e F (t\^2 = F), intervalos de confiança para beta_0 e beta_1 (fazer exercício), ic para sigma\^2, sigma e cv (exercício). -->
-<!-- -   [Lista 3](lista3.html): regressão linear simples. -->
-<!-- -   Aula 6: intervalo de confiança para valor estimado, intervalo de predição, coeficiente de determinação, regressão pela origem e estimação por máxima verossimilhança. -->
-<!-- -   [lista 4](lista4.html): regressão linear simples. -->
-<!-- -   Aula 7: aula prática de resolução da [lista 4](lista4.html). -->
-<!-- -   Aula 8: definição de modelo de regressão linear múltipla, efeitos simples e de interação, modelo na forma matricial, estimação de parâmetros pelo método de mínimos quadrados pelo método escalar e matricial, exemplo de estimação, propriedades dos estimadores de mínimos quadrados, esperança e variância dos estimadores (erro padrão), estimação de sigma2, método de estimação da máxima verossimilhança, teste de hipóteses para regressão e coeficientes, exemplos de teste de hipóteses, intervalos de confiança para parâmetros, valor médio e novas observações e exemplos de intervalos de confiança. *Tarefa para casa: estudar sobre R2 ajustado, comparação entre modelo completo e reduzido, intervalos de confiança simultâneos (região de confiança) para os parâmetros, coeficientes padronizados (coeficientes beta) e multicolinearidade (sugestão: livro do Montgomery).* -->
-<!-- -   [Lista 5](lista5.html): regressão linear múltipla. -->
-<!-- -   Aula 9: **aviso que na próxima aula será a avaliação 1**. Revisão da aula anterior, intervalos de confiança para parâmetros, valor médio e novas observações, exemplos de intervalos de confiança. Cálculos usando o software R: [exemplo_rlm.R](exemplo_rlm.R). *Tarefa para casa: estudar sobre R2 ajustado, comparação entre modelo completo e reduzido, intervalos de confiança simultâneos (região de confiança) para os parâmetros, coeficientes padronizados (coeficientes beta) e multicolinearidade (sugestão: livro do Montgomery).* -->
-<!-- -   Aula 10: avaliação 1 (escrita e computacional). A arguição oral será na próxima aula (Aula 11). -->
-<!-- -   Aula 11: avaliação 1 (arguição oral). -->
-<!-- -   Aula 12: regressão com suporte computacional. [Rotina computacional](reg_comp.html). *Tarefa (1 ponto extra na avaliação 1): refazer a avaliação 1 ([escrita](prova1.pdf) e [computacional](prova1comp.pdf)) usando a rotina da aula.*  -->
-<!-- -   Aula 13: Análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. [Rotina computacional](reg_comp.html). -->
-<!-- -   Aula 14: Resolver a [lista 6](lista6.html) ([gabarito](lista6_gab.html), sem os comentários e justificativas nas resoluções). Conteúdos adicionais: teste F parcial para modelos de efeitos aleatórios (comparação de modelos de efeito fixo e efeito misto), multicolinearidade, métodos *forward*, *backward* e *stepwise* para seleção de variáveis e métodos *leave-one-out*, *leave-p-out* e *k-fold* para validação de modelos (validação cruzada). -->
-<!-- -   Aula 15 (30/4/2025): avaliação 2 (escrita, computacional e arquição oral) com todo o conteúdo da disciplina. -->
-<!-- -   [Avaliação 2](prova2.html) -->
-<!-- -   Aula 16 (9/5/2025): entrega da avaliação 3 (relatório de análise de dados). -->
-</section>
-<section id="avaliações" class="level3">
-<h3 class="anchored" data-anchor-id="avaliações">Avaliações:</h3>
-<ul>
-<li><span class="math inline">\(A_1\)</span>: escrita, computacional e arguição oral. Nota: 0 a 10.</li>
-</ul>
-<p><em>Conteúdo:</em> análise de correlação, regressão linear simples e múltipla.</p>
-<ul>
-<li><span class="math inline">\(A_2\)</span>: escrita, computacional e arguição oral. Nota: 0 a 10.</li>
-</ul>
-<p><em>Conteúdo:</em> todo o conteúdo da disciplina.</p>
-<ul>
-<li><p><span class="math inline">\(A_{31}\)</span>: relatório parcial de análise de dados. Nota: 0 a 5.</p></li>
-<li><p><span class="math inline">\(A_{32}\)</span>: relatório final de análise de dados. Nota: 0 a 5.</p></li>
-</ul>
-<p>A média final (<span class="math inline">\(MF\)</span>) será calculada por:</p>
-<p><span class="math display">\[MP = 0,4 A_1 + 0,4 A_2 + 0,2(A_{31} + A_{32}).\]</span></p>
-<p>Se <span class="math inline">\(MF \geq 5\)</span>, o aluno será aprovado. Não haverá prova final.</p>
-</section>
-<section id="livro-texto" class="level3">
-<h3 class="anchored" data-anchor-id="livro-texto">Livro texto:</h3>
-<p>Montgomery, D. C., Peck, E. A., &amp; Vining, G. G. (2021). <em>Introduction to linear regression analysis</em> (6th ed.). Wiley.</p>
-</section>
-<section id="referências" class="level3">
-<h3 class="anchored" data-anchor-id="referências">Referências:</h3>
-<p>Devore, J. L., Berk, K. N., &amp; Carlton, M. A. (2021). <em>Modern mathematical statistics with applications</em> (3rd ed.). Springer.</p>
-<p>Seber, G. A. F., &amp; Lee, A. J. (2012). <em>Linear Regression Analysis</em> (2nd ed.). Wiley.</p>
-<p>Draper, N. R., &amp; Smith, H. (1998). <em>Applied regression analysis</em> (3rd ed.). Wiley.</p>
-<p>Rao, C. R., Toutenburg, H., Shalabh, &amp; Heumann, C. (2008). <em>Linear Models and Generalizations: Least Squares and Alternatives</em> (3rd ed.). Springer.</p>
-<p>Allen, M. P. (1997). <em>Understanding Regression Analysis</em>. Sage Publications.</p>
-<p>Kutner, M. H., Nachtsheim, C. J., Neter, J., &amp; Li, W. (2005). <em>Applied linear statistical models</em> (5th ed.). McGraw-Hill.</p>
-<p>Rencher, A. C., &amp; Schaalje, G. B. (2008). <em>Linear models in statistics</em> (2nd ed.). Wiley.</p>
-<p>Faraway, J. J. (2015). <em>Linear Models with R</em>. CRC Press.</p>
+<section id="lista-de-exercícios-2" class="level3">
+<h3 class="anchored" data-anchor-id="lista-de-exercícios-2">Lista de exercícios 2</h3>
+<ol type="1">
+<li><p>Demonstre que a correlação amostral pode ser calculada por: <span class="math display">\[
+r = \frac{\sum_{i = 1}^n (X_i Y_i) - \frac{\sum_{i = 1}^n X_i \sum_{i = 1}^n Y_i}{n}}{\sqrt{\left( \sum_{i = 1}^n X_i^2 - \frac{(\sum_{i = 1}^n X_i)^2}{n} \right) \left( \sum_{i = 1}^n Y_i^2 - \frac{(\sum_{i = 1}^n Y_i)^2}{n} \right)}}
+\]</span> onde <span class="math inline">\(n\)</span> é o tamanho da amostra, <span class="math inline">\(\sum (X_i Y_i)\)</span> é o somatório dos produtos de <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>, <span class="math inline">\(\sum X_i\)</span> e <span class="math inline">\(\sum Y_i\)</span> são os somatórios individuais de <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>, <span class="math inline">\(\sum X_i^2\)</span> e <span class="math inline">\(\sum Y_i^2\)</span> são os somatórios dos quadrados de <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>.</p></li>
+<li><p>Demonstre que a correlação de Spearman pode ser derivada da fórmula da correlação amostral, substituindo os valores das variáveis <span class="math inline">\(X_i\)</span> e <span class="math inline">\(Y_i\)</span> pelos seus postos <span class="math inline">\(R(X_i)\)</span> e <span class="math inline">\(R(Y_i)\)</span>. Mostre que isso leva à fórmula simplificada de Spearman: <span class="math display">\[
+r_s = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)}
+\]</span> onde <span class="math inline">\(d_i = R(X_i) - R(Y_i)\)</span> é a diferença entre os postos das observações e <span class="math inline">\(n\)</span> é o tamanho da amostra.</p></li>
+</ol>
 <hr>
 <div style="text-align: center;">
 <p><a href="https://instagram.com/profjulianobortolini">@profjulianobortolini</a>      <a href="http://www.julianobortolini.com.br">www.julianobortolini.com.br</a>      <a href="https://linkedin.com/in/julianobortolini">linkedin</a>      <a href="https://github.com/julianobortolini">github</a>       <a href="http://lattes.cnpq.br/6210909768845403">lattes</a></p>

@@ -3224,85 +3224,572 @@ window.Quarto = {
 
 
 <p><em>Bacharelado em Estatística - UFMT</em></p>
-<p><em>Período letivo: 2025/1</em></p>
-<section id="avisos" class="level3">
-<h3 class="anchored" data-anchor-id="avisos">Avisos:</h3>
+<section id="lista-de-exercícios-3" class="level3">
+<h3 class="anchored" data-anchor-id="lista-de-exercícios-3">Lista de exercícios 3</h3>
+<ol type="1">
+<li>A Tabela 1 apresenta dados sobre o desempenho das 26 equipes da National Football League em 1976. Suspeita-se que o número de jardas conquistadas em corridas pelos adversários <span class="math inline">\(x_8\)</span> tenha um efeito sobre o número de jogos vencidos por uma equipe <span class="math inline">\(y\)</span>.</li>
+</ol>
+<ol type="a">
+<li><p>Ajuste um modelo de regressão linear simples relacionando o número de jogos vencidos <span class="math inline">\(y\)</span> ao número de jardas conquistadas em corridas pelos adversários <span class="math inline">\(x_8\)</span>.</p></li>
+<li><p>Construa a tabela de análise de variância e teste a significância da regressão.</p></li>
+<li><p>Encontre um intervalo de confiança de 95% para o coeficiente angular.</p></li>
+<li><p>Qual porcentagem da variabilidade total em <span class="math inline">\(y\)</span> é explicada por este modelo?</p></li>
+<li><p>Encontre um intervalo de confiança de <span class="math inline">\(95\%\)</span> para o número médio de jogos vencidos se o número de jardas conquistadas em corridas pelos adversários for limitado a 2000 jardas.</p></li>
+</ol>
+<p>Tabela 1: Desempenho das Equipes da National Football League de 1976</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Equipe</th>
+<th><span class="math inline">\(y\)</span></th>
+<th><span class="math inline">\(x_1\)</span></th>
+<th><span class="math inline">\(x_2\)</span></th>
+<th><span class="math inline">\(x_3\)</span></th>
+<th><span class="math inline">\(x_4\)</span></th>
+<th><span class="math inline">\(x_5\)</span></th>
+<th><span class="math inline">\(x_6\)</span></th>
+<th><span class="math inline">\(x_7\)</span></th>
+<th><span class="math inline">\(x_8\)</span></th>
+<th><span class="math inline">\(x_9\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Washington</td>
+<td>10</td>
+<td>2113</td>
+<td>1985</td>
+<td>38,9</td>
+<td>64,7</td>
+<td>+4</td>
+<td>868</td>
+<td>59,7</td>
+<td>2205</td>
+<td>1917</td>
+</tr>
+<tr class="even">
+<td>Minnesota</td>
+<td>11</td>
+<td>2003</td>
+<td>2855</td>
+<td>38,8</td>
+<td>61,3</td>
+<td>+3</td>
+<td>615</td>
+<td>55,0</td>
+<td>2096</td>
+<td>1575</td>
+</tr>
+<tr class="odd">
+<td>New England</td>
+<td>11</td>
+<td>2957</td>
+<td>1737</td>
+<td>40,1</td>
+<td>60,0</td>
+<td>+14</td>
+<td>914</td>
+<td>65,6</td>
+<td>1847</td>
+<td>2175</td>
+</tr>
+<tr class="even">
+<td>Oakland</td>
+<td>13</td>
+<td>2285</td>
+<td>2905</td>
+<td>41,6</td>
+<td>45,3</td>
+<td>−4</td>
+<td>957</td>
+<td>61,4</td>
+<td>1903</td>
+<td>2476</td>
+</tr>
+<tr class="odd">
+<td>Pittsburgh</td>
+<td>10</td>
+<td>2971</td>
+<td>1666</td>
+<td>39,2</td>
+<td>53,8</td>
+<td>+15</td>
+<td>836</td>
+<td>66,1</td>
+<td>1457</td>
+<td>1866</td>
+</tr>
+<tr class="even">
+<td>Baltimore</td>
+<td>11</td>
+<td>2309</td>
+<td>2927</td>
+<td>39,7</td>
+<td>74,1</td>
+<td>+8</td>
+<td>786</td>
+<td>61,0</td>
+<td>1848</td>
+<td>2339</td>
+</tr>
+<tr class="odd">
+<td>Los Angeles</td>
+<td>10</td>
+<td>2528</td>
+<td>2341</td>
+<td>38,1</td>
+<td>65,4</td>
+<td>+12</td>
+<td>754</td>
+<td>66,1</td>
+<td>1564</td>
+<td>2092</td>
+</tr>
+<tr class="even">
+<td>Dallas</td>
+<td>11</td>
+<td>2147</td>
+<td>2737</td>
+<td>37,0</td>
+<td>78,3</td>
+<td>−1</td>
+<td>761</td>
+<td>58,0</td>
+<td>1821</td>
+<td>1909</td>
+</tr>
+<tr class="odd">
+<td>Atlanta</td>
+<td>4</td>
+<td>1689</td>
+<td>1414</td>
+<td>42,1</td>
+<td>47,6</td>
+<td>−3</td>
+<td>714</td>
+<td>57,0</td>
+<td>2577</td>
+<td>2001</td>
+</tr>
+<tr class="even">
+<td>Buffalo</td>
+<td>2</td>
+<td>2566</td>
+<td>1838</td>
+<td>42,3</td>
+<td>54,2</td>
+<td>−1</td>
+<td>797</td>
+<td>58,9</td>
+<td>2476</td>
+<td>2254</td>
+</tr>
+<tr class="odd">
+<td>Chicago</td>
+<td>7</td>
+<td>2363</td>
+<td>1480</td>
+<td>37,3</td>
+<td>48,0</td>
+<td>+19</td>
+<td>984</td>
+<td>67,5</td>
+<td>1984</td>
+<td>2217</td>
+</tr>
+<tr class="even">
+<td>Cincinnati</td>
+<td>10</td>
+<td>2109</td>
+<td>2191</td>
+<td>39,5</td>
+<td>51,9</td>
+<td>+6</td>
+<td>700</td>
+<td>57,2</td>
+<td>1917</td>
+<td>1758</td>
+</tr>
+<tr class="odd">
+<td>Cleveland</td>
+<td>9</td>
+<td>2295</td>
+<td>2229</td>
+<td>37,4</td>
+<td>53,6</td>
+<td>−5</td>
+<td>1037</td>
+<td>57,8</td>
+<td>1761</td>
+<td>2032</td>
+</tr>
+<tr class="even">
+<td>Denver</td>
+<td>9</td>
+<td>1932</td>
+<td>2204</td>
+<td>35,1</td>
+<td>71,4</td>
+<td>+3</td>
+<td>986</td>
+<td>58,6</td>
+<td>1790</td>
+<td>2025</td>
+</tr>
+<tr class="odd">
+<td>Detroit</td>
+<td>6</td>
+<td>2128</td>
+<td>2438</td>
+<td>38,8</td>
+<td>58,3</td>
+<td>+6</td>
+<td>819</td>
+<td>59,2</td>
+<td>1901</td>
+<td>1686</td>
+</tr>
+<tr class="even">
+<td>Green Bay</td>
+<td>5</td>
+<td>1722</td>
+<td>1730</td>
+<td>36,6</td>
+<td>52,6</td>
+<td>−19</td>
+<td>791</td>
+<td>54,4</td>
+<td>2288</td>
+<td>1835</td>
+</tr>
+<tr class="odd">
+<td>Houston</td>
+<td>5</td>
+<td>1498</td>
+<td>2072</td>
+<td>35,3</td>
+<td>59,3</td>
+<td>−5</td>
+<td>776</td>
+<td>49,6</td>
+<td>2072</td>
+<td>1914</td>
+</tr>
+<tr class="even">
+<td>Kansas City</td>
+<td>5</td>
+<td>1873</td>
+<td>2929</td>
+<td>41,1</td>
+<td>55,3</td>
+<td>+10</td>
+<td>789</td>
+<td>54,3</td>
+<td>2861</td>
+<td>2496</td>
+</tr>
+<tr class="odd">
+<td>Miami</td>
+<td>6</td>
+<td>2118</td>
+<td>2268</td>
+<td>38,2</td>
+<td>69,6</td>
+<td>+6</td>
+<td>582</td>
+<td>58,7</td>
+<td>2411</td>
+<td>2670</td>
+</tr>
+<tr class="even">
+<td>New Orleans</td>
+<td>4</td>
+<td>1775</td>
+<td>1983</td>
+<td>39,3</td>
+<td>78,3</td>
+<td>+7</td>
+<td>901</td>
+<td>51,7</td>
+<td>2289</td>
+<td>2202</td>
+</tr>
+<tr class="odd">
+<td>New York Giants</td>
+<td>3</td>
+<td>1904</td>
+<td>1792</td>
+<td>39,7</td>
+<td>38,1</td>
+<td>−9</td>
+<td>734</td>
+<td>61,9</td>
+<td>2203</td>
+<td>1988</td>
+</tr>
+<tr class="even">
+<td>New York Jets</td>
+<td>3</td>
+<td>1929</td>
+<td>1606</td>
+<td>39,7</td>
+<td>68,8</td>
+<td>−21</td>
+<td>627</td>
+<td>52,7</td>
+<td>2592</td>
+<td>2324</td>
+</tr>
+<tr class="odd">
+<td>Philadelphia</td>
+<td>4</td>
+<td>2080</td>
+<td>1492</td>
+<td>35,5</td>
+<td>68,8</td>
+<td>−8</td>
+<td>722</td>
+<td>57,8</td>
+<td>2053</td>
+<td>2550</td>
+</tr>
+<tr class="even">
+<td>St. Louis</td>
+<td>10</td>
+<td>2301</td>
+<td>2835</td>
+<td>35,3</td>
+<td>74,1</td>
+<td>+2</td>
+<td>683</td>
+<td>59,7</td>
+<td>1979</td>
+<td>2110</td>
+</tr>
+<tr class="odd">
+<td>San Diego</td>
+<td>6</td>
+<td>2040</td>
+<td>2416</td>
+<td>38,7</td>
+<td>50,0</td>
+<td>0</td>
+<td>576</td>
+<td>54,9</td>
+<td>2048</td>
+<td>2628</td>
+</tr>
+<tr class="even">
+<td>San Francisco</td>
+<td>8</td>
+<td>2447</td>
+<td>1638</td>
+<td>39,9</td>
+<td>57,1</td>
+<td>−8</td>
+<td>848</td>
+<td>65,3</td>
+<td>1786</td>
+<td>1776</td>
+</tr>
+<tr class="odd">
+<td>Seattle</td>
+<td>2</td>
+<td>1416</td>
+<td>2649</td>
+<td>37,4</td>
+<td>56,3</td>
+<td>−22</td>
+<td>684</td>
+<td>43,8</td>
+<td>2876</td>
+<td>2524</td>
+</tr>
+<tr class="even">
+<td>Tampa Bay</td>
+<td>0</td>
+<td>1503</td>
+<td>1503</td>
+<td>39,3</td>
+<td>47,0</td>
+<td>−9</td>
+<td>875</td>
+<td>53,5</td>
+<td>2560</td>
+<td>2241</td>
+</tr>
+</tbody>
+</table>
+<p>Definições das variáveis:</p>
 <ul>
-<li>Última atualização do site às <strong>09:38</strong> do dia <strong>30/06/2025</strong>.</li>
-<li>Monitor: Heliton (quarta-feira das 18 às 19h)</li>
+<li><span class="math inline">\(y\)</span>: Jogos vencidos (por temporada de 14 jogos)</li>
+<li><span class="math inline">\(x_1\)</span>: Jardas conquistadas em corrida (temporada)</li>
+<li><span class="math inline">\(x_2\)</span>: Jardas de passe (temporada)</li>
+<li><span class="math inline">\(x_3\)</span>: Média de punt (jardas/punt)</li>
+<li><span class="math inline">\(x_4\)</span>: Percentual de acerto em field goal (field goals convertidos/field goals tentados na temporada)</li>
+<li><span class="math inline">\(x_5\)</span>: Diferença de turnovers (turnovers ganhos - turnovers perdidos)</li>
+<li><span class="math inline">\(x_6\)</span>: Jardas de penalidade (temporada)</li>
+<li><span class="math inline">\(x_7\)</span>: Percentual de corrida (corridas/jogadas totais)</li>
+<li><span class="math inline">\(x_8\)</span>: Jardas conquistadas em corrida pelos adversários (temporada)</li>
+<li><span class="math inline">\(x_9\)</span>: Jardas de passe dos adversários (temporada)</li>
 </ul>
-</section>
-<section id="ementa" class="level3">
-<h3 class="anchored" data-anchor-id="ementa">Ementa:</h3>
-<p>Análise de correlação. Regressão linear simples e múltipla. Regressão com variáveis qualitativas. Técnicas de diagnóstico em regressão. Seleção de variáveis e construção de modelos. Validação de modelos. Transformação de variáveis.</p>
-</section>
-<section id="notas-de-aula" class="level3">
-<h3 class="anchored" data-anchor-id="notas-de-aula">Notas de aula:</h3>
-<ul>
-<li><p>Aulas 1 e 2: Apresentação da disciplina com ementa e avaliações. Introdução ao estudo de regressão a partir do artigo seminal de Francis Galton (1886): <a href="https://zenodo.org/records/1449548">Regression towards mediocrity in hereditary stature</a>, no qual se analisa a relação entre as estaturas de filhos e filhas em função das estaturas de pais e mães, destacando-se a tendência de regressão à média (aproximadamente 2/3). Exploração da obtenção de modelos por meio de equações diferenciais. Estudo do modelo de crescimento e decaimento exponencial. Introdução ao modelo de regressão linear simples, exemplificado pela relação entre tempo e distância de deslocamento. Ampliação para o modelo de regressão linear múltipla, incluindo variáveis indicadoras e efeitos de interação (por exemplo, a interação entre distância de deslocamento e o horário em que ocorre). Aplicações adicionais incluem a modelagem de relações entre variáveis em instrumentos psicométricos (escores) e a utilização de modelos de dose-resposta, com destaque para o modelo logístico.</p></li>
-<li><p>Aula 3: definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, estimador para a covariância e correlação, exemplo de cálculo de covariância e correlação com dados reais (consumo de açúcar e taxa de depressão), teste de hipóteses para correlação (teste 1: <span class="math inline">\(H_0: \rho = 0\)</span> versus <span class="math inline">\(H_1: \rho \neq 0\)</span> e teste 2: <span class="math inline">\(H_0: \rho = \rho_0\)</span> versus <span class="math inline">\(H_1: \rho \neq \rho_0\)</span>) e exercício de teste de hipóteses para correlação. <strong>Tarefa para casa:</strong> correlação como medida de proporção entre duas variáveis (padronizadas) <span class="math inline">\(Z_1 = k Z_2\)</span>.</p></li>
-<li><p><a href="lista1_2025-1.html">Lista 1</a>: covariância e correlação.</p></li>
-<li><p>Aula 4: apresentação da definição formal do modelo de regressão, com exemplo motivacional. Construção e interpretação do gráfico de dispersão para visualização da relação entre duas variáveis. Modelo de regressão linear simples, com detalhamento de suas componentes e respectivas interpretações. Cálculo da média e da variância condicional de <span class="math inline">\(Y\)</span> dado <span class="math inline">\(x\)</span>, <span class="math inline">\(E(Y|x)\)</span> e <span class="math inline">\(\text{Var}(Y|x)\)</span>, com representação gráfica da reta de regressão e das curvas de densidade associadas. Discussão sobre o conceito de variância constante (homocedasticidade) e suas implicações para o ajuste do modelo. Definição do modelo de regressão linear múltipla, com apresentação de casos particulares, como o modelo de regressão polinomial. Distinção entre relação linear (ou não linear) entre variáveis e relação linear (ou não linear) entre os parâmetros do modelo. Estudo da estimação dos parâmetros do modelo de regressão linear simples por meio do método dos mínimos quadrados, acompanhado de um exemplo ilustrativo. <strong>Tarefa:</strong> estudar o método de estimação de máxima verossimilhanca, testes de hipóteses e intervalos de confiança para parâmetros.</p></li>
-<li><p><a href="lista2_2025-1.html">Lista 2</a>: um pouco mais sobre covariância e correlação.</p></li>
-<li><p><a href="lista3_2025-1.html">Lista 3</a>: ajuste de modelos de regressão linear simples.</p></li>
-<li><p>Aula 5:</p></li>
-</ul>
-<!-- -   Aula 1: apresentação do plano de ensino e introdução à regressão baseado no artigo de [Galton](https://zenodo.org/records/1449548) (1886). -->
-<!--     *Referência:* Galton, F. (1886). "Regression towards mediocrity in hereditary stature". *The Journal of the Anthropological Institute of Great Britain and Ireland*. **15**: 246-263. -->
-<!-- -   Aula 2: definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, função de distribuição acumulada empírica, teorema de Glivenko-Cantelli, teorema (estimador para a transformação $T(F) = \int f(x) dF$), estimador para a covariância e correlação, propriedades dos estimadores da covariância e correlação e exemplo com dados reais. -->
-<!-- -   [Lista 1](lista1.html): covariância e correlação. -->
-<!-- -   Aula 3: revisão da aula 2, correlação como medida de proporção entre duas variáveis (padronizadas), estimação da relação funcional (modelo) entre duas variáveis, estimação de beta_0 e beta_1, exemplo com os dados de consumo de açúcar e taxa de depressão, correlação entre duas variáveis normais, estimação do modelo linear (reta) entre duas variáveis normais, comentários sobre correlação de Pearson (dados normais) e Spearman (postos dos dados), teste de hipóteses para correlação: 1) H_0: rho = 0 e 2) H_0: rho = rho_0 e exercício de teste de hipóteses para correlação. -->
-<!-- -   [Lista 2](lista2.html): fórmula da correlação amostral e de Spearman. -->
-<!-- -   Aula 4: definição de modelo de regressão linear simples, diferentes métodos de calcular distâncias entre pontos (sugestão: leitura do livro do Rao (2008)), estimação de parâmetros beta_0 e beta_1 pelo método de mínimos quadrados, exemplo de estimação (exemplo foguete), propriedades dos estimadores de mínimos quadrados, esperança e variância dos estimadores (erro padrão), teorema de Gauss-Markov (estimadores não viciados e de variância mínima, BLUE). -->
-<!-- -   Aula 5: revisão da aula 4, modelo de regressão linear simples com variância constante e variância dependente de covariáveis, estimação de sigma (quadrado médio do erro), teste de hipóteses para regressão (análise de variância), desenvolvimento da análise de variância (Fisher), teste de hipóteses Wald (teste t) para beta_1 e beta_0, relação entre os testes t e F (t\^2 = F), intervalos de confiança para beta_0 e beta_1 (fazer exercício), ic para sigma\^2, sigma e cv (exercício). -->
-<!-- -   [Lista 3](lista3.html): regressão linear simples. -->
-<!-- -   Aula 6: intervalo de confiança para valor estimado, intervalo de predição, coeficiente de determinação, regressão pela origem e estimação por máxima verossimilhança. -->
-<!-- -   [lista 4](lista4.html): regressão linear simples. -->
-<!-- -   Aula 7: aula prática de resolução da [lista 4](lista4.html). -->
-<!-- -   Aula 8: definição de modelo de regressão linear múltipla, efeitos simples e de interação, modelo na forma matricial, estimação de parâmetros pelo método de mínimos quadrados pelo método escalar e matricial, exemplo de estimação, propriedades dos estimadores de mínimos quadrados, esperança e variância dos estimadores (erro padrão), estimação de sigma2, método de estimação da máxima verossimilhança, teste de hipóteses para regressão e coeficientes, exemplos de teste de hipóteses, intervalos de confiança para parâmetros, valor médio e novas observações e exemplos de intervalos de confiança. *Tarefa para casa: estudar sobre R2 ajustado, comparação entre modelo completo e reduzido, intervalos de confiança simultâneos (região de confiança) para os parâmetros, coeficientes padronizados (coeficientes beta) e multicolinearidade (sugestão: livro do Montgomery).* -->
-<!-- -   [Lista 5](lista5.html): regressão linear múltipla. -->
-<!-- -   Aula 9: **aviso que na próxima aula será a avaliação 1**. Revisão da aula anterior, intervalos de confiança para parâmetros, valor médio e novas observações, exemplos de intervalos de confiança. Cálculos usando o software R: [exemplo_rlm.R](exemplo_rlm.R). *Tarefa para casa: estudar sobre R2 ajustado, comparação entre modelo completo e reduzido, intervalos de confiança simultâneos (região de confiança) para os parâmetros, coeficientes padronizados (coeficientes beta) e multicolinearidade (sugestão: livro do Montgomery).* -->
-<!-- -   Aula 10: avaliação 1 (escrita e computacional). A arguição oral será na próxima aula (Aula 11). -->
-<!-- -   Aula 11: avaliação 1 (arguição oral). -->
-<!-- -   Aula 12: regressão com suporte computacional. [Rotina computacional](reg_comp.html). *Tarefa (1 ponto extra na avaliação 1): refazer a avaliação 1 ([escrita](prova1.pdf) e [computacional](prova1comp.pdf)) usando a rotina da aula.*  -->
-<!-- -   Aula 13: Análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. [Rotina computacional](reg_comp.html). -->
-<!-- -   Aula 14: Resolver a [lista 6](lista6.html) ([gabarito](lista6_gab.html), sem os comentários e justificativas nas resoluções). Conteúdos adicionais: teste F parcial para modelos de efeitos aleatórios (comparação de modelos de efeito fixo e efeito misto), multicolinearidade, métodos *forward*, *backward* e *stepwise* para seleção de variáveis e métodos *leave-one-out*, *leave-p-out* e *k-fold* para validação de modelos (validação cruzada). -->
-<!-- -   Aula 15 (30/4/2025): avaliação 2 (escrita, computacional e arquição oral) com todo o conteúdo da disciplina. -->
-<!-- -   [Avaliação 2](prova2.html) -->
-<!-- -   Aula 16 (9/5/2025): entrega da avaliação 3 (relatório de análise de dados). -->
-</section>
-<section id="avaliações" class="level3">
-<h3 class="anchored" data-anchor-id="avaliações">Avaliações:</h3>
-<ul>
-<li><span class="math inline">\(A_1\)</span>: escrita, computacional e arguição oral. Nota: 0 a 10.</li>
-</ul>
-<p><em>Conteúdo:</em> análise de correlação, regressão linear simples e múltipla.</p>
-<ul>
-<li><span class="math inline">\(A_2\)</span>: escrita, computacional e arguição oral. Nota: 0 a 10.</li>
-</ul>
-<p><em>Conteúdo:</em> todo o conteúdo da disciplina.</p>
-<ul>
-<li><p><span class="math inline">\(A_{31}\)</span>: relatório parcial de análise de dados. Nota: 0 a 5.</p></li>
-<li><p><span class="math inline">\(A_{32}\)</span>: relatório final de análise de dados. Nota: 0 a 5.</p></li>
-</ul>
-<p>A média final (<span class="math inline">\(MF\)</span>) será calculada por:</p>
-<p><span class="math display">\[MP = 0,4 A_1 + 0,4 A_2 + 0,2(A_{31} + A_{32}).\]</span></p>
-<p>Se <span class="math inline">\(MF \geq 5\)</span>, o aluno será aprovado. Não haverá prova final.</p>
-</section>
-<section id="livro-texto" class="level3">
-<h3 class="anchored" data-anchor-id="livro-texto">Livro texto:</h3>
-<p>Montgomery, D. C., Peck, E. A., &amp; Vining, G. G. (2021). <em>Introduction to linear regression analysis</em> (6th ed.). Wiley.</p>
-</section>
-<section id="referências" class="level3">
-<h3 class="anchored" data-anchor-id="referências">Referências:</h3>
-<p>Devore, J. L., Berk, K. N., &amp; Carlton, M. A. (2021). <em>Modern mathematical statistics with applications</em> (3rd ed.). Springer.</p>
-<p>Seber, G. A. F., &amp; Lee, A. J. (2012). <em>Linear Regression Analysis</em> (2nd ed.). Wiley.</p>
-<p>Draper, N. R., &amp; Smith, H. (1998). <em>Applied regression analysis</em> (3rd ed.). Wiley.</p>
-<p>Rao, C. R., Toutenburg, H., Shalabh, &amp; Heumann, C. (2008). <em>Linear Models and Generalizations: Least Squares and Alternatives</em> (3rd ed.). Springer.</p>
-<p>Allen, M. P. (1997). <em>Understanding Regression Analysis</em>. Sage Publications.</p>
-<p>Kutner, M. H., Nachtsheim, C. J., Neter, J., &amp; Li, W. (2005). <em>Applied linear statistical models</em> (5th ed.). McGraw-Hill.</p>
-<p>Rencher, A. C., &amp; Schaalje, G. B. (2008). <em>Linear models in statistics</em> (2nd ed.). Wiley.</p>
-<p>Faraway, J. J. (2015). <em>Linear Models with R</em>. CRC Press.</p>
+<ol start="2" type="1">
+<li>Em 1º de março de 1984, o <em>Wall Street Journal</em> publicou uma pesquisa sobre anúncios televisivos conduzida pela Video Board Tests, Inc., uma empresa de testes de publicidade de Nova York, que entrevistou 4000 adultos. Esses indivíduos eram consumidores regulares de produtos e foram questionados sobre comerciais que haviam assistido para determinada categoria de produto na última semana.</li>
+</ol>
+<p>Neste caso, a variável resposta é o número de milhões de impressões retidas por semana. A variável explicativa é o valor gasto pela empresa em publicidade. Os dados são apresentados a seguir:</p>
+<p>Tabela. Gastos em publicidade e impressões retidas</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Empresa</th>
+<th>Gasto (milhões)</th>
+<th>Impressões Retidas (milhões)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Miller Lite</td>
+<td>50,1</td>
+<td>32,1</td>
+</tr>
+<tr class="even">
+<td>Pepsi</td>
+<td>74,1</td>
+<td>99,6</td>
+</tr>
+<tr class="odd">
+<td>Stroh’s</td>
+<td>19,3</td>
+<td>11,7</td>
+</tr>
+<tr class="even">
+<td>Federal Express</td>
+<td>22,9</td>
+<td>21,9</td>
+</tr>
+<tr class="odd">
+<td>Burger King</td>
+<td>82,4</td>
+<td>60,8</td>
+</tr>
+<tr class="even">
+<td>Coca-Cola</td>
+<td>40,1</td>
+<td>78,6</td>
+</tr>
+<tr class="odd">
+<td>McDonald’s</td>
+<td>185,9</td>
+<td>92,4</td>
+</tr>
+<tr class="even">
+<td>MCI</td>
+<td>26,9</td>
+<td>50,7</td>
+</tr>
+<tr class="odd">
+<td>Diet Cola</td>
+<td>20,4</td>
+<td>21,4</td>
+</tr>
+<tr class="even">
+<td>Ford</td>
+<td>166,2</td>
+<td>40,1</td>
+</tr>
+<tr class="odd">
+<td>Levi’s</td>
+<td>27,0</td>
+<td>40,8</td>
+</tr>
+<tr class="even">
+<td>Bud Lite</td>
+<td>45,6</td>
+<td>10,4</td>
+</tr>
+<tr class="odd">
+<td>ATT Bell</td>
+<td>154,9</td>
+<td>88,9</td>
+</tr>
+<tr class="even">
+<td>Calvin Klein</td>
+<td>5,0</td>
+<td>12,0</td>
+</tr>
+<tr class="odd">
+<td>Wendy’s</td>
+<td>49,7</td>
+<td>29,2</td>
+</tr>
+<tr class="even">
+<td>Polaroid</td>
+<td>26,9</td>
+<td>38,0</td>
+</tr>
+<tr class="odd">
+<td>Shasta</td>
+<td>5,7</td>
+<td>10,0</td>
+</tr>
+<tr class="even">
+<td>Meow Mix</td>
+<td>7,6</td>
+<td>12,3</td>
+</tr>
+<tr class="odd">
+<td>Oscar Meyer</td>
+<td>9,2</td>
+<td>23,4</td>
+</tr>
+<tr class="even">
+<td>Crest</td>
+<td>32,4</td>
+<td>71,1</td>
+</tr>
+<tr class="odd">
+<td>Kibbles N Bits</td>
+<td>6,1</td>
+<td>4,4</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li><p>Ajuste um modelo de regressão linear simples para esses dados.</p></li>
+<li><p>Existe uma relação significativa entre o valor gasto por uma empresa em publicidade e as impressões retidas? Justifique sua resposta estatisticamente.</p></li>
+</ol>
+<ol start="3" type="1">
+<li>Considere o modelo de regressão linear simples <span class="math inline">\(y = \beta_0 + \beta_1 x + \varepsilon\)</span>, com <span class="math inline">\(E(\varepsilon) = 0\)</span>, <span class="math inline">\(Var(\varepsilon) = \sigma^2\)</span>, e os erros <span class="math inline">\(\varepsilon\)</span> são não correlacionados.</li>
+</ol>
+<ol type="a">
+<li>Mostre que:</li>
+</ol>
+<p><span class="math display">\[\text{Cov} \left( \hat{\beta}_0, \hat{\beta}_1 \right) = -\bar{x} \sigma^2/S_{xx}.\]</span></p>
+<ol start="2" type="a">
+<li>Mostre que:</li>
+</ol>
+<p><span class="math display">\[\text{Cov} \left( \bar{y}, \hat{\beta}_1 \right) = 0.\]</span></p>
+<ol start="3" type="a">
+<li>Mostre que:</li>
+</ol>
+<p><span class="math display">\[E(MS_R) = \sigma^2 + \beta_1^2 S_{xx}.\]</span></p>
+<ol start="4" type="a">
+<li>Mostre que:</li>
+</ol>
+<p><span class="math display">\[E(MS_{Res}) = \sigma^2.\]</span></p>
 <hr>
 <div style="text-align: center;">
 <p><a href="https://instagram.com/profjulianobortolini">@profjulianobortolini</a>      <a href="http://www.julianobortolini.com.br">www.julianobortolini.com.br</a>      <a href="https://linkedin.com/in/julianobortolini">linkedin</a>      <a href="https://github.com/julianobortolini">github</a>       <a href="http://lattes.cnpq.br/6210909768845403">lattes</a></p>

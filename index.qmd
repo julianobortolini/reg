@@ -36,9 +36,16 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 -   [Lista 1](lista1_2025-1.html): covariância e correlação.
 
--   Aula 4:
+-   Aula 4: apresentação da definição formal do modelo de regressão, com exemplo motivacional. Construção e interpretação do gráfico de dispersão para visualização da relação entre duas variáveis. Modelo de regressão linear simples, com detalhamento de suas componentes e respectivas interpretações. Cálculo da média e da variância condicional de $Y$ dado $x$, $E(Y|x)$ e $\text{Var}(Y|x)$, com representação gráfica da reta de regressão e das curvas de densidade associadas. Discussão sobre o conceito de variância constante (homocedasticidade) e suas implicações para o ajuste do modelo. Definição do modelo de regressão linear múltipla, com apresentação de casos particulares, como o modelo de regressão polinomial. Distinção entre relação linear (ou não linear) entre variáveis e relação linear (ou não linear) entre os parâmetros do modelo. Estudo da estimação dos parâmetros do modelo de regressão linear simples por meio do método dos mínimos quadrados, acompanhado de um exemplo ilustrativo. **Tarefa:** estudar o método de estimação de máxima verossimilhanca, testes de hipóteses e intervalos de confiança para parâmetros.
 
 
+-   [Lista 2](lista2_2025-1.html): um pouco mais sobre covariância e correlação.
+
+
+-   [Lista 3](lista3_2025-1.html): ajuste de modelos de regressão linear simples.
+
+
+-   Aula 5: 
 
 
 
