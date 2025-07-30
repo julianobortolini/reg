@@ -1,0 +1,261 @@
+---
+title: "Análise de Regressão"
+author:
+  - name: Prof. Dr. Juliano Bortolini
+    email: profjulianobortolini@gmail.com
+    url: http://www.julianobortolini.com.br
+    affiliations:
+      - name: Universidade Federal de Mato Grosso
+format:
+  html:
+    embed-resources: true
+engine: knitr
+---
+
+*Bacharelado em Estatística - UFMT*
+
+*Período letivo: 2024/2*
+
+## Prova 2
+
+A Leishmaniose Visceral Canina (LVC) é uma zoonose causada pelo protozoário *Leishmania infantum* e transmitida por flebotomíneos, principalmente do gênero *Lutzomyia*. Os cães são os principais reservatórios domésticos da infecção, desempenhando papel central na cadeia de transmissão para seres humanos. A doença apresenta evolução crônica e multissistêmica, com manifestações clínicas diversas, como perda de peso, lesões dermatológicas, linfadenopatia, alterações oculares e comprometimento renal.
+
+O tratamento utilizado neste estudo foi o Alopurinol. Esse medicamento atua inibindo a proliferação do parasito, promovendo melhora clínica e prolongando a sobrevida do animal, sendo uma das principais opções terapêuticas para o manejo da LVC.
+
+### Coleta de Dados
+
+Foram incluídos no estudo 17 cães diagnosticados com Leishmaniose Visceral Canina. Todos os animais foram submetidos exclusivamente ao tratamento com Alopurinol e acompanhados por um período inicial de 29 dias. As coletas de dados foram realizadas em dois momentos:
+
+- **Tempo 0**: na data do diagnóstico da LVC;
+- **Tempo 29**: 29 dias após o início do tratamento.
+
+### Variáveis Coletadas
+
+As seguintes variáveis clínicas, imunológicas, hematológicas e bioquímicas foram registradas para cada animal:
+
+- **Escore clínico**: medida semiquantitativa da gravidade clínica do animal, sendo que valores mais altos indicam maior comprometimento sistêmico.
+- **IL-2 (pg/mL)**: concentração de interleucina 2, associada à resposta imune do tipo Th1 (imunidade celular).    
+- **IL-4 (pg/mL)**: concentração de interleucina 4, relacionada à resposta imune do tipo Th2 (imunidade humoral).
+- **Hemoglobina (g/dL)**: indicador da capacidade de transporte de oxigênio, avalia presença de anemia.
+- **Hematócrito (%)**: percentual de células vermelhas no sangue total, também utilizado na avaliação de anemia.
+- **Plaquetas (mil/mm³)**: contagem plaquetária, utilizada para avaliação de hemostasia e possíveis citopenias.
+- **Leucócitos (mil/mm³)**: número total de leucócitos circulantes, indicando resposta inflamatória ou imunossupressão.
+- **Ureia (mg/dL)**: marcador da função renal, com elevação em casos de comprometimento glomerular ou tubular.
+- **Creatinina (mg/dL)**: outro indicador da função renal, mais específico para avaliação da taxa de filtração glomerular.
+- **Albumina (g/dL)**: proteína sintetizada no fígado, indicadora do estado nutricional e de processos inflamatórios crônicos.
+- **Proteína Total (g/dL)**: soma das proteínas plasmáticas, incluindo albumina e globulinas.
+- **Globulina (g/dL)**: fração proteica relacionada à resposta imunológica e inflamação crônica.
+
+
+**Todos os dados são fictícios (simulados)!**
+
+```{r}
+ID_Animal <- c(1, 1, 2, 2, 3, 
+        3, 4, 4, 5, 5, 
+        6, 6, 7, 7, 8, 
+        8, 9, 9, 10, 10, 
+        11, 11, 12, 12, 13, 
+        13, 14, 14, 15, 15, 
+        16, 16, 17, 17)
+
+Tempo <- c(0, 29, 0, 29, 0, 
+           29, 0, 29, 0, 29, 
+           0, 29, 0, 29, 0, 
+           29, 0, 29, 0, 29, 
+           0, 29, 0, 29, 0, 
+           29, 0, 29, 0, 29, 
+           0, 29, 0, 29)
+
+Escore <- c(16, 7, 17, 12, 7, 
+            2, 9, 5, 5, 3, 
+            16, 12, 12, 10, 22, 
+            15, 14, 11, 14, 8, 
+            13, 9, 5, 6, 10, 
+            8, 16, 11, 14, 11, 
+            19, 14, 11, 8)
+
+IL_2 <- c(12.6, 17.44, 18.08, 17.02, 6.24, 
+          14.67, 18.97, 13.26, 15.42, 19.2, 
+          22.92, 20.14, 12.76, 11.05, 3.98, 
+          9.79, 14.31, 12.76, 14.13, 16.81, 
+          10.62, 11.65, 13.26, 13.6, 12.93, 
+          18.97, 18.97, 14.67, 17.44, 11.8, 
+          14.67, 15.62, 22.65, 12.6)
+
+IL_4 <- c(20.63, 16.41, 29.38, 23.35, 16.19, 
+          22.78, 20.89, 20.37, 22.22, 29.03, 
+          19.13, 38.5, 21.15, 22.5, 16.19, 
+          9.5, 21.68, 23.64, 23.06, 27.34, 
+          18.41, 19.13, 19.13, 17.5, 19.13, 
+          16.62, 43.7, 23.06, 25.74, 21.15, 
+          23.93, 26.69, 30.45, 28.69)
+
+Hemoglobina <- c(9.1, 10.4, 9.6, 11.4, 12.5, 
+                 12.8, 13.8, 15.0, 15.0, 14.4, 
+                 8.1, 7.7, 15.1, 15.7, 8.6, 
+                 8.5, 8.0, 8.9, 9.2, 10.5, 
+                 9.7, 11.2, 7.5, 9.4, 9.3, 
+                 13.5, 12.4, 11.5, 9.7, 11.5, 
+                 7.3, 7.7, 7.3, 10.1)
+
+Hematocrito <- c(30, 32, 28, 34, 39, 
+                 39, 41, 46, 44, 41, 
+                 25, 24, 46, 45, 28, 
+                 26, 23, 26, 28, 31, 
+                 30, 32, 23, 29, 31, 
+                 43, 38, 34, 29, 34, 
+                 22, 24, 24, 32)
+
+Plaquetas <- c(66, 132, 240, 432, 226, 
+               426, 200, 162, 192, 147, 
+               84, 126, 150, 156, 150, 
+               168, 294, 122, 120, 174, 
+               257, 312, 192, 216, 72, 
+               95, 50, 78, 149, 273, 
+               200, 216, 96, 324)
+
+Leucocitos <- c(13.3, 11.9, 9.4, 6.5, 13.6, 
+                12.4, 8.2, 9.4, 8.3, 8.4, 
+                3.6, 3.2, 8.5, 7.2, 8.1, 
+                6.7, 27.7, 17.7, 6.6, 8.4, 
+                7.3, 7.2, 7.2, 2.4, 7.1, 
+                6.8, 7.3, 6.9, 8.8, 11.7, 
+                3.0, 7.4, 6.2, 5.8)
+
+Ureia <- c(22, 36, 31, 29, 33, 
+           36, 27, 29, 38, 36, 
+           38, 41, 58, 72, 32, 
+           61, 16, 14, 28, 25, 
+           27, 59, 42, 46, 49, 
+           35, 25, 28, 27, 14, 
+           34, 25, 34, 31)
+
+Creatinina <- c(0.6, 0.8, 0.7, 0.7, 1.0, 
+                1.0, 1.1, 1.2, 1.1, 0.9, 
+                0.8, 0.8, 1.4, 1.4, 0.9, 
+                0.9, 0.7, 0.7, 0.7, 0.7, 
+                0.7, 0.9, 0.9, 0.9, 1.1, 
+                1.2, 0.6, 0.7, 0.7, 0.8, 
+                0.8, 1.4, 0.9, 0.8)
+
+Albumina <- c(1.2, 1.5, 2.6, 2.6, 2.2, 
+              2.5, 2.7, 2.8, 3.4, 3.5, 
+              1.6, 2.1, 2.6, 2.7, 2.2, 
+              1.6, 1.5, 1.4, 2.3, 3.3, 
+              3.3, 3.2, 2.8, 3.1, 2.5, 
+              2.4, 2.4, 2.4, 2.4, 2.7, 
+              2.2, 2.7, 2.2, 2.8)
+
+Proteina_Total <- c(7.1, 8.2, 9.3, 9.9, 9.8, 
+                    9.8, 8.1, 7.9, 7.3, 7.3, 
+                    12.5, 16.1, 8.0, 8.3, 13.2, 
+                    13.1, 9.9, 9.9, 7.6, 9.7, 
+                    9.1, 9.8, 15.5, 11.5, 7.4, 
+                    8.7, 8.4, 8.6, 11.8, 8.8, 
+                    8.5, 9.5, 8.2, 12.0)
+
+Globulina <- c(5.9, 6.7, 6.7, 7.3, 7.6, 
+               7.3, 5.4, 5.1, 3.9, 3.8, 
+               10.9, 14.0, 5.4, 5.6, 11.0, 
+               11.5, 8.4, 8.5, 5.3, 6.4, 
+               5.8, 6.6, 12.7, 8.4, 4.9, 
+               6.3, 6.0, 6.2, 9.4, 6.1, 
+               6.3, 6.8, 6.0, 9.2)
+
+dados <- data.frame(
+  ID_Animal, Tempo, Escore, IL_2, IL_4,
+  Hemoglobina, Hematocrito, Plaquetas, Leucocitos,
+  Ureia, Creatinina, Albumina, Proteina_Total, Globulina
+)
+
+
+knitr::kable(dados)
+```
+
+
+```{r, include = FALSE, echo = FALSE}
+m0 <- lm(Escore ~ 1, data = dados)
+m1 <- lm(Escore ~ Tempo + Albumina + Leucocitos + Ureia + IL_2, data = dados)
+
+
+m1 <- lm(Escore ~ Hemoglobina + Tempo + Albumina + Leucocitos + 
+    Hematocrito + IL_2 + IL_4 + Ureia, data = dados)
+res_m1 <- rstandard(m1)
+shapiro.test(res_m1)
+lmtest::bptest(m1)
+
+summary(m1)
+m1 <- step(lm(Escore ~ 1, data = dados),
+           scope = ~ Tempo*IL_2 + Tempo*IL_4 + Tempo*Hemoglobina + 
+             Tempo*Hematocrito + 
+             Tempo*Plaquetas + Tempo*Leucocitos + 
+             Tempo*Ureia + Tempo*Creatinina + 
+             Tempo*Albumina + Tempo*Proteina_Total + 
+             Tempo*Globulina,
+            direction = "forward")
+
+res_m1 
+car::vif(m1)
+cor(dados)
+?step
+names(dados)
+  #lm(y ~ x2 + x7 + x8, data = tabela1)
+summary(m1)
+
+```
+
+
+a.  **(0,50)** Ajuste um modelo de regressão linear múltipla relacionando o Escore com as variáveis Tempo, IL_2,  Albumina, Leucocitos e Ureia.
+
+
+b.  **(0,25)** Construa a tabela de análise de variância (ANOVA) e teste a significância da regressão.
+
+
+c.  **(1,00)** Calcule as estatísticas $t$ para testar as hipóteses para cada coeficiente do modelo. Quais conclusões você pode tirar sobre a influência dessas variáveis no modelo?
+
+d.  **(0,25)** Calcule o $R^2$ e o $R^2_{\text{aj}}$ (ajustado) para este modelo.
+
+
+e.  **(0,50)** Usando o teste $F$ parcial, determine a contribuição da variável Tempo no modelo. Qual conclusão você pode tirar sobre a influência dessa variável no modelo?
+
+
+f.  **(0,50)** Usando o teste $F$ parcial, determine a contribuição das variáveis Ureia e IL_2 no modelo. Qual conclusão você pode tirar sobre a influência dessas variáveis no modelo?
+
+g.  **(0,50)** Construa um gráfico de probabilidade normal dos resíduos. Há indícios de violação da suposição de normalidade? Realize os testes de normalidade de Shapiro-Wilk e Kolmogorov-Smirnov. O que você conclui?
+
+
+h.  **(0,50)** Construa e interprete o gráfico dos resíduos studentizados em função da resposta predita. Realize o teste de homocedasticidade de Breusch-Pagan. O que você conclui?
+
+i.  **(0,50)** Calcule e interprete as correlações entre as variáveis independentes presentes no modelo.
+
+j.  **(0,25)** Calcule o VIF (Variance Inflation Factor) para as variáveis presentes no modelo. O que você conclui? Os valores do VIF são úteis para indicar multicolinearidade. Valores de VIF superior a 5 ou 10 sugerem multicolinearidade. *Use a função `vif()` do pacote `car` para calcular o VIF.*
+
+
+k.  **(0,50)** Calcule a estatística PRESS (Press Residual Sum of Squares) para os modelos completo (com as variáveis Tempo, Albumina, Leucocitos, Ureia e IL_2) e reduzido (apenas com Tempo,  Albumina e Leucocitos). O que você conclui? Defina um modelo como o que melhor representa os dados.
+
+
+l.  **(0,25)** Considerando o modelo definido no item `k`: calcule os valores dos pontos de alavancagem (leverage). Quais observações são consideradas influentes? **Lembre-se que valores superiores a** $2p/n$ (onde $p$ é o número de parâmetros do modelo e $n$ é o número de observações) são considerados influentes.
+
+m.  **(0,25)** Considerando o modelo definido no item `k`: calcule os valores da distância de Cook. Quais observações são consideradas influentes? **Lembre-se que valores superiores a 1 são considerados influentes.**
+
+n.  **(0,25)** Considerando o modelo definido no item `k`: calcule os valores de DFBETAS. Quais observações são consideradas influentes? **Lembre-se que valores superiores a** $2/\sqrt{n}$ merecem atenção.
+
+o.  **(0,25)** Considerando o modelo definido no item `k`: calcule os valores de DFFITS. Quais observações são consideradas influentes? **Lembre-se que valores superiores a** $2\sqrt{p/n}$ merecem atenção.
+
+p.  **(0,25)** Considerando todas as variáveis disponíveis, utilize o método de seleção de variáveis forward (seleção progressiva) para selecionar um modelo de regressão com subconjunto de variáveis. Comente sobre o modelo final. **O método de seleção de variáveis forward (seleção progressiva) é um método de seleção de variáveis que começa com um modelo nulo (sem variáveis preditoras) e adiciona variáveis preditoras uma a uma, com base em critérios estatísticos, até que não haja mais variáveis significativas a serem adicionadas.**
+
+q.  **(0,25)**Utilize o método de seleção de variáveis backward (eliminacão progressiva) para selecionar um modelo de regressão com subconjunto de variáveis. Comente sobre o modelo final. **O método de seleção de variáveis backward (eliminacão progressiva) é um método de seleção de variáveis que começa com um modelo completo (com todas as variáveis preditoras) e remove variáveis preditoras uma a uma, com base em critérios estatísticos, até que não haja mais variáveis insignificativas a serem removidas.**
+
+r.  **(0,25)** Utilize o método de seleção de variáveis stepwise (passo a passo) para selecionar um modelo de regressão com subconjunto de variáveis. Comente sobre o modelo final. **O método de seleção de variáveis stepwise (passo a passo) é um método de seleção de variáveis que combina os métodos forward e backward. Ele começa com um modelo nulo (sem variáveis preditoras) e adiciona variáveis preditoras uma a uma, com base em critérios estatísticos, mas também pode remover variáveis preditoras que se tornam não significativas à medida que novas variáveis são adicionadas.**
+
+
+u. **(3,00)**  Usando todo o conjunto de dados e os métodos de seleção de variáveis (itens `p`, `q` e `r`) defina um modelo de regressão linear múltipla. Comente sobre o modelo final. **O modelo final deve ser interpretado com cautela, considerando a significância das variáveis, medidas de ajuste, análise de resíduos e pontos influentes.**
+
+
+
+
+------------------------------------------------------------------------
+
+::: {style="text-align: center;"}
+[\@profjulianobortolini](https://instagram.com/profjulianobortolini)      [www.julianobortolini.com.br](http://www.julianobortolini.com.br)      [linkedin](https://linkedin.com/in/julianobortolini)      [github](https://github.com/julianobortolini)       [lattes](http://lattes.cnpq.br/6210909768845403)
+:::

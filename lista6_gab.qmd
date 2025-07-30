@@ -1,0 +1,442 @@
+---
+title: "Análise de Regressão"
+author:
+  - name: Prof. Dr. Juliano Bortolini
+    email: profjulianobortolini@gmail.com
+    url: http://www.julianobortolini.com.br
+    affiliations:
+      - name: Universidade Federal de Mato Grosso
+format:
+  html:
+    embed-resources: true
+engine: knitr
+---
+
+*Bacharelado em Estatística - UFMT*
+
+*Período letivo: 2024/2*
+
+### Lista de exercícios 6
+
+1.  Considere os dados da Liga Nacional de Futebol Americano (NFL) na Tabela 1.
+
+```{r}
+equipe <- c("Washington", "Minnesota", "New England", "Oakland", "Pittsburgh", 
+            "Baltimore", "Los Angeles", "Dallas", "Atlanta", "Buffalo",
+            "Chicago", "Cincinnati", "Cleveland", "Denver", "Detroit",
+            "Green Bay", "Houston", "Kansas City", "Miami", "New Orleans",
+            "New York Giants", "New York Jets", "Philadelphia", "St. Louis", "San Diego",
+            "San Francisco", "Seattle", "Tampa Bay")
+
+y <- c(10, 11, 11, 13, 10,
+       11, 10, 11, 4, 2,
+       7, 10, 9, 9, 6,
+       5, 5, 5, 6, 4, 
+       3, 3, 4, 10, 6, 
+       8, 2, 0)
+
+x1 <- c(2113, 2003, 2957, 2285, 2971,
+        2309, 2528, 2147, 1689, 2566,
+        2363, 2109, 2295, 1932, 2128,
+        1722, 1498, 1873, 2118, 1775,
+        1904, 1929, 2080, 2301, 2040,
+        2447, 1416, 1503)
+
+x2 <- c(1985, 2855, 1737, 2905, 1666,
+        2927, 2341, 2737, 1414, 1838,
+        1480, 2191, 2229, 2204, 2438,
+        1730, 2072, 2929, 2268, 1983,
+        1792, 1606, 1492, 2835, 2416,
+        1638, 2649, 1503)
+
+x3 <- c(38.9, 38.8, 40.1, 41.6, 39.2,
+        39.7, 38.1, 37.0, 42.1, 42.3,
+        37.3, 39.5, 37.4, 35.1, 38.8,
+        36.6, 35.3, 41.1, 38.2, 39.3,
+        39.7, 39.7, 35.5, 35.3, 38.7,
+        39.9, 37.4, 39.3)
+
+
+x4 <- c(64.7, 61.3, 60.0, 45.3, 53.8,
+        74.1, 65.4, 78.3, 47.6, 54.2,
+        48.0, 51.9, 53.6, 71.4, 58.3,
+        52.6, 59.3, 55.3, 69.6, 78.3,
+        38.1, 68.8, 68.8, 74.1, 50.0,
+        57.1, 56.3, 47.0)
+
+x5 <- c(4, 3, 14, -4, 15,
+        8, 12, -1, -3, -1,
+        19, 6, -5, 3, 6,
+        -19, -5, 10, 6, 7,
+        -9, -21, -8, 2, 0,
+        -8, -22, -9)
+
+x6 <- c(868, 615, 914, 957, 836,
+        786, 754, 761, 714, 797,
+        984, 700, 1037, 986, 819,
+        791, 776, 789, 582, 901,
+        734, 627, 722, 683, 576,
+        848, 684, 875)
+
+x7 <- c(59.7, 55.0, 65.6, 61.4, 66.1,
+        61.0, 66.1, 58.0, 57.0, 58.9,
+        67.5, 57.2, 57.8, 58.6, 59.2,
+        54.4, 49.6, 54.3, 58.7, 51.7,
+        61.9, 52.7, 57.8, 59.7, 54.9,
+        65.3, 43.8, 53.5)
+
+x8 <- c(2205, 2096, 1847, 1903, 1457,
+        1848, 1564, 1821, 2577, 2476,
+        1984, 1917, 1761, 1790, 1901,
+        2288, 2072, 2861, 2411, 2289,
+        2203, 2592, 2053, 1979, 2048,
+        1786, 2876, 2560)
+
+x9 <- c(1917, 1575, 2175, 2476, 1866,
+        2339, 2092, 1909, 2001, 2254,
+        2217, 1758, 2032, 2025, 1686,
+        1835, 1914, 2496, 2670, 2202,
+        1988, 2324, 2550, 2110, 2628,
+        1776, 2524, 2241)
+
+
+
+
+tabela1 <- data.frame(equipe, y, x1, x2, x3, x4, x5, x6, x7, x8, x9)
+
+knitr::kable(tabela1, caption = "Tabela 1: Desempenho das Equipes da National Football League de 1976")
+```
+
+
+Definições das variáveis:
+
+-   $y$: Jogos vencidos (por temporada de 14 jogos)
+-   $x_1$: Jardas conquistadas em corrida (temporada)
+-   $x_2$: Jardas de passe (temporada)
+-   $x_3$: Média de punt (jardas/punt)
+-   $x_4$: Percentual de acerto em field goal (field goals convertidos/field goals tentados na temporada)
+-   $x_5$: Diferença de turnovers (turnovers ganhos - turnovers perdidos)
+-   $x_6$: Jardas de penalidade (temporada)
+-   $x_7$: Percentual de corrida (corridas/jogadas totais)
+-   $x_8$: Jardas conquistadas em corrida pelos adversários (temporada)
+-   $x_9$: Jardas de passe dos adversários (temporada)
+
+a.  Ajuste um modelo de regressão linear múltipla relacionando o número de jogos ganhos com as jardas aéreas do time ($x_2$), a porcentagem de jogadas terrestres ($x_7$) e as jardas terrestres dos adversários ($x_8$).
+
+```{r}
+m1 <- lm(y  ~ x2 + x7 + x8, data = tabela1)
+m1
+```
+
+
+b.  Construa a tabela de análise de variância (ANOVA) e teste a significância da regressão.
+
+```{r}
+anova(m1)
+```
+
+
+c.  Calcule as estatísticas $t$ para testar as hipóteses: $H_0: \beta_2 = 0$, $H_0: \beta_7 = 0$ e $H_0: \beta_8 = 0$. Quais conclusões você pode tirar sobre os papéis das variáveis $x_2$, $x_7$ e $x_8$ no modelo?
+
+
+```{r}
+summary(m1)
+```
+
+
+d.  Calcule o $R^2$ e o $R^2_{\text{aj}}$ (ajustado) para este modelo.
+
+```{r}
+summary(m1)
+names(summary(m1))
+summary(m1)$r.squared
+summary(m1)$adj.r.squared
+```
+
+
+e.  Usando o teste $F$ parcial, determine a contribuição de $x_7$ para o modelo. Como essa estatística $F$ parcial está relacionada ao teste $t$ para $\beta_7$ calculado no item c?
+
+```{r}
+m2 <- lm(y ~ x2 + x8, data = tabela1)
+m2
+anova(m2, m1)
+```
+
+
+f.  Construa um gráfico de probabilidade normal dos resíduos. Há indícios de violação da suposição de normalidade? Realize os testes de normalidade de Shapiro-Wilk e Kolmogorov-Smirnov. O que você conclui?
+
+```{r}
+res_m1 <- rstandard(m1) # resíduos studentizados
+qqnorm(res_m1)
+qqline(res_m1)
+shapiro.test(res_m1)
+ks.test(res_m1, "pnorm", mean = 0, sd = 1)
+```
+
+
+
+g.  Calcule os resíduos studentizados e os resíduos Rstudent para este modelo. Que tipo de informação é fornecida por esses resíduos?
+
+```{r}
+res_m1 # resíduos studentizados já calculados
+# resíduos R-Student
+res_m1_rstudent <- rstudent(m1)
+cbind(res_m1, res_m1_rstudent)
+```
+
+
+
+h.  Construa e interprete o gráfico dos resíduos studentizados em função da resposta predita. Realize o teste de homocedasticidade de Breusch-Pagan. O que você conclui?
+
+
+```{r}
+y_estimado <- fitted(m1) # valores ajustados
+plot(y_estimado, res_m1,
+     xlab = "Valores ajustados",
+     ylab = "Resíduos studentizados"
+     )
+abline(h = -2, col = "red", lty = 2)
+abline(h = 2, col = "red", lty = 2)
+library(lmtest)
+bptest(m1)
+```
+
+
+i.  Calcule as correlações entre as variáveis independentes $x_2$, $x_7$ e $x_8$. Existe multicolinearidade entre essas variáveis? Justifique sua resposta.
+
+```{r}
+cor(tabela1[, c("x2", "x7", "x8")], use = "pairwise.complete.obs")
+```
+
+
+
+j.  Calcule o VIF (Variance Inflation Factor) para as variáveis $x_2$, $x_7$ e $x_8$. O que você conclui? Os valores do VIF são úteis para indicar multicolinearidade. Valores de VIF superior a 5 ou 10 sugerem multicolinearidade. *Use a função `vif()` do pacote `car` para calcular o VIF.*
+
+
+```{r}
+library(car)
+vif(m1)
+```
+
+
+k.  Calcule a estatística PRESS (Press Residual Sum of Squares) para os modelos completo (com $x_2$, $x_7$ e $x_8$) e reduzido (apenas com $x_2$ e $x_8$). O que você conclui?
+
+
+```{r}
+# Cálculo PRESS m1
+res_press_m1 <- rstandard(m1, type = "pred")
+PRESS_m1 <- sum(res_press_m1^2)
+PRESS_m1
+
+# Cálculo PRESS m2
+res_press_m2 <- rstandard(m2, type = "pred")
+PRESS_m2 <- sum(res_press_m2^2)
+PRESS_m2
+```
+
+
+l.  Calcule os valores dos pontos de alavancagem (leverage). Quais observações são consideradas influentes? **Lembre-se que valores superiores a** $2p/n$ (onde $p$ é o número de parâmetros do modelo e $n$ é o número de observações) são considerados influentes.
+
+
+```{r}
+# valores matriz H
+p <- length(coef(m1)) # qde de parâmetros (b0, b1, b2 e b3)
+
+
+n <- nrow(tabela1) # qde de observaçoes
+
+2*p/n  # limite para valores da matriz hat
+h <- hatvalues(m1)
+cbind(tabela1[, c("y", "x2", "x7", "x8")], y_estimado, h, 2*p/n, h > 2*p/n)
+
+which(h > 2*p/n)
+```
+
+
+
+m.  Calcule os valores da distância de Cook. Quais observações são consideradas influentes? **Lembre-se que valores superiores a 1 são considerados influentes.**
+
+
+```{r}
+# Distância de Cook
+D <- cooks.distance(m1)
+
+# comparar com o valor 1
+# Se D > 1, a observação é considerada um ponto influente.
+
+cbind(tabela1[, c("y", "x2", "x7", "x8")], y_estimado, D, 1, D > 1)
+```
+
+
+n.  Calcule os valores de DFBETAS. Quais observações são consideradas influentes? **Lembre-se que valores superiores a** $2/\sqrt{n}$ merecem atenção.
+
+
+
+```{r}
+# DFBETAS
+# a influência de cada observação em cada coeficiente
+# comparar com o valor 2/sqrt(n)
+
+dfbetas(m1)
+2/sqrt(n)
+round(dfbetas(m1), 2)
+
+abs(dfbetas(m1)) >= 2/sqrt(n)
+```
+
+
+o.  Calcule os valores de DFFITS. Quais observações são consideradas influentes? **Lembre-se que valores superiores a** $2\sqrt{p/n}$ merecem atenção.
+
+
+
+```{r}
+# DFFITS
+# a influência de cada observação em cada predição
+# comparar com o valor 2*sqrt(p/n)
+
+dffits(m1)
+2*sqrt(p/n)
+round(dffits(m1), 2)
+
+abs(dffits(m1)) >= 2*sqrt(p/n)
+```
+
+
+p.  Construa um modelo de regressão linear relacionando o número de jogos vencidos com:
+
+-   jardas terrestres dos adversários ($x_8$),
+
+-   porcentagem de jogadas terrestres ($x_7$) e
+
+-   *diferença de turnovers (turnovers ganhos - turnovers perdidos) (*$x_5$).
+
+Especificamente, *considere a diferença de turnovers como uma variável indicadora*, cuja codificação depende de o valor real do diferencial ser positivo, negativo ou igual a zero. Ou seja, considere $x_5$ como uma variável indicadora que assume os seguintes valores:
+
+\begin{align*}
+  x_5 = 1, & \text{ se } x_5 > 0 \\
+  x_5 = 0, & \text{ se } x_5 = 0 \\
+  x_5 = -1, & \text{ se } x_5 < 0.
+\end{align*}
+
+Quais conclusões podem ser obtidas sobre o efeito dos turnovers no número de jogos vencidos?
+
+```{r}
+I_x5 <- ifelse(x5 > 0, 1, ifelse(x5 == 0, 0, -1))
+I_x5 <- as.factor(I_x5)
+
+m3 <- lm(y ~ x7 + x8 + I_x5)
+summary(m3)
+```
+
+
+q.  Considerando o enunciado da letra anterior, e se a variável indicadora for definida como: 
+
+\begin{align*}
+  x_5 = 1, & \text{ se } x_5 > 0 \\
+  x_5 = 0, & \text{ se } x_5 \leq 0.
+\end{align*}
+
+Qual é a interpretação do coeficiente estimado para $x_5$? O que você conclui sobre o efeito dos turnovers no número de jogos vencidos?
+
+```{r}
+I2_x5 <- ifelse(x5 > 0, 1, 0)
+I2_x5 <- as.factor(I2_x5)
+m4 <- lm(y ~ x7 + x8 + I2_x5)
+summary(m4)
+```
+
+r.  Considerando todas as variáveis disponíveis, utilize o método de seleção de variáveis forward (seleção progressiva) para selecionar um modelo de regressão com subconjunto de variáveis. Comente sobre o modelo final. **O método de seleção de variáveis forward (seleção progressiva) é um método de seleção de variáveis que começa com um modelo nulo (sem variáveis preditoras) e adiciona variáveis preditoras uma a uma, com base em critérios estatísticos, até que não haja mais variáveis significativas a serem adicionadas.**
+
+
+```{r}
+# Modelo reduzido
+# Modelo mínimo a ser considerado.
+# O modelo mínimo pode ser um modelo nulo (sem variáveis preditoras)
+modelo_reduzido <- lm(y ~ 1, data = tabela1)
+
+# Forward selection
+modelo_forward <- step(modelo_reduzido,
+    scope = as.formula(y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9),
+    direction = "forward")
+summary(modelo_forward)
+```
+
+
+s.  Utilize o método de seleção de variáveis backward (eliminacão progressiva) para selecionar um modelo de regressão com subconjunto de variáveis. Comente sobre o modelo final. **O método de seleção de variáveis backward (eliminacão progressiva) é um método de seleção de variáveis que começa com um modelo completo (com todas as variáveis preditoras) e remove variáveis preditoras uma a uma, com base em critérios estatísticos, até que não haja mais variáveis insignificativas a serem removidas.**
+
+```{r}
+# Modelo completo
+# Modelo máximo a ser considerado.
+# O modelo máximo pode ser um modelo completo (com todas as variáveis preditoras)
+
+modelo_completo <- lm(y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9,
+                      data = tabela1)
+
+# Backward elimination
+modelo_backward <- step(modelo_completo,
+                        direction = "backward")
+summary(modelo_backward)
+```
+
+
+
+t.  Utilize o método de seleção de variáveis stepwise (passo a passo) para selecionar um modelo de regressão com subconjunto de variáveis. Comente sobre o modelo final. **O método de seleção de variáveis stepwise (passo a passo) é um método de seleção de variáveis que combina os métodos forward e backward. Ele começa com um modelo nulo (sem variáveis preditoras) e adiciona variáveis preditoras uma a uma, com base em critérios estatísticos, mas também pode remover variáveis preditoras que se tornam não significativas à medida que novas variáveis são adicionadas.**
+
+```{r}
+
+
+# Stepwise regression
+modelo_stepwise <- step(modelo_reduzido,
+        scope = formula(modelo_completo),
+        direction = "both")
+
+summary(modelo_stepwise)
+```
+
+u.  Usando o método de validação cruzada *leave-one-out* (LOOCV), estime o erro de previsão para os modelos (1) com as variáveis regressoras $x_2$, $x_7$ e $x_8$ e (2) com as variáveis regressoras $x_2$ e $x_8$. O que você conclui? **O método de validação cruzada leave-one-out (LOOCV) é uma técnica de validação cruzada onde cada observação do conjunto de dados é usada como um ponto de teste, enquanto todas as outras observações são usadas como pontos de treinamento. Isso é repetido para cada observação, e o erro médio de previsão é calculado. Existe também o método leave-p-out.**
+
+```{r}
+library(boot)
+# LOOCV
+m1 <- glm(y ~ x2 + x7 + x8,
+              data = tabela1,
+              family = gaussian(link = "identity"))
+K <- nrow(tabela1) # k subconjuntos (folds)
+cv_m1 <- cv.glm(data = tabela1, glmfit = m1, K = K)
+cv_m1$delta  # delta[1] = erro de validação cruzada
+
+
+m2 <- glm(y ~ x2 + x8,
+              data = tabela1,
+              family = gaussian(link = "identity"))
+cv_m2 <- cv.glm(data = tabela1, glmfit = m2, K = K)
+cv_m2$delta  # delta[1] = erro de validação cruzada
+```
+
+v.  Usando o método de validação cruzada *k-fold*, com $k = 3$, estime o erro de previsão para os modelos (1) com as variáveis regressoras $x_2$, $x_7$ e $x_8$ e (2) com as variáveis regressoras $x_2$ e $x_8$. O que você conclui? **O método de validação cruzada k-fold é uma técnica de validação cruzada onde o conjunto de dados é dividido em k subconjuntos (folds). O modelo é treinado em k-1 folds e testado no fold restante. Isso é repetido k vezes, e o erro médio de previsão é calculado.**
+
+```{r}
+# k-fold
+m1 <- glm(y ~ x2 + x7 + x8,
+              data = tabela1,
+              family = gaussian(link = "identity"))
+
+K <- 3 # k subconjuntos (folds)
+cv_m1 <- cv.glm(data = tabela1, glmfit = m1, K = K)
+cv_m1$delta  # delta[1] = erro de validação cruzada
+
+
+m2 <- glm(y ~ x2 + x8,
+              data = tabela1,
+              family = gaussian(link = "identity"))
+cv_m2 <- cv.glm(data = tabela1, glmfit = m2, K = K)
+cv_m2$delta  # delta[1] = erro de validação cruzada
+```
+
+
+
+------------------------------------------------------------------------
+
+::: {style="text-align: center;"}
+[\@profjulianobortolini](https://instagram.com/profjulianobortolini)      [www.julianobortolini.com.br](http://www.julianobortolini.com.br)      [linkedin](https://linkedin.com/in/julianobortolini)      [github](https://github.com/julianobortolini)       [lattes](http://lattes.cnpq.br/6210909768845403)
+:::
