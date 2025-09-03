@@ -58,6 +58,20 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 -   Aula 7: avaliação 1 (escrita).
 
+-  Aula 8: definição de modelo de regressão linear múltipla, efeitos simples e de interação, modelo na forma matricial, estimação de parâmetros pelo método de mínimos quadrados pelo método escalar e matricial, exemplo de estimação, propriedades dos estimadores de mínimos quadrados, esperança e variância dos estimadores (erro padrão), estimação de sigma2, método de estimação da máxima verossimilhança, teste de hipóteses para regressão e coeficientes, exemplos de teste de hipóteses, intervalos de confiança para parâmetros, valor médio e novas observações e exemplos de intervalos de confiança.
+
+-   Aula 9: revisão da aula anterior, intervalos de confiança para parâmetros, valor médio e novas observações, exemplos de intervalos de confiança.
+
+-   [Lista 5](lista5_2025-1.html): ajuste de modelos de regressão linear múltipla e inferência estatística (intervalos de confiança e testes de hipóteses).
+
+-   Aula 10: Análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras.
+
+
+-   Aula 11: regressão com suporte computacional. [Rotina computacional](reg_comp.html).
+
+
+- [Lista 6](lista6.html): ajuste de modelos de regressão linear múltipla, inferência estatística, análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras.
+
 <!-- -   Aula 1: apresentação do plano de ensino e introdução à regressão baseado no artigo de [Galton](https://zenodo.org/records/1449548) (1886). -->
 
 <!--     *Referência:* Galton, F. (1886). "Regression towards mediocrity in hereditary stature". *The Journal of the Anthropological Institute of Great Britain and Ireland*. **15**: 246-263. -->

@@ -14,8 +14,6 @@ engine: knitr
 
 *Bacharelado em Estatística - UFMT*
 
-*Período letivo: 2024/2*
-
 ### Lista de exercícios 6
 
 1.  Considere os dados da Liga Nacional de Futebol Americano (NFL) na Tabela 1.
@@ -107,7 +105,9 @@ tabela1 <- data.frame(equipe, y, x1, x2, x3, x4, x5, x6, x7, x8, x9)
 knitr::kable(tabela1, caption = "Tabela 1: Desempenho das Equipes da National Football League de 1976")
 ```
 
-```{r, echo = FALSE, include = FALSE}
+```{r include=FALSE}
+#| eval: false
+
 x <- cbind(x1, x2, x3, x4, x5, x6, x7, x8, x9,
            x1*x2, x1*x3, x1*x4, x1*x6, x1*x7, x1*x8, x1*x9,
            x2*x3, x2*x4, x2*x6, x2*x7, x2*x8, x2*x9,
@@ -215,7 +215,9 @@ Definições das variáveis:
 
 a.  Ajuste um modelo de regressão linear múltipla relacionando o número de jogos ganhos com as jardas aéreas do time ($x_2$), a porcentagem de jogadas terrestres ($x_7$) e as jardas terrestres dos adversários ($x_8$).
 
-```{r}
+```{r include=FALSE}
+#| eval: false
+
 m1 <- lm(y  ~ x2 + x7 + x8)
 m1
 ```
@@ -223,7 +225,9 @@ m1
 
 b.  Construa a tabela de análise de variância (ANOVA) e teste a significância da regressão.
 
-```{r}
+```{r include=FALSE}
+#| eval: false
+
 anova(m1)
 ```
 
@@ -231,14 +235,18 @@ anova(m1)
 c.  Calcule as estatísticas $t$ para testar as hipóteses: $H_0: \beta_2 = 0$, $H_0: \beta_7 = 0$ e $H_0: \beta_8 = 0$. Quais conclusões você pode tirar sobre os papéis das variáveis $x_2$, $x_7$ e $x_8$ no modelo?
 
 
-```{r}
+```{r include=FALSE}
+#| eval: false
+
 summary(m1)
 ```
 
 
 d.  Calcule o $R^2$ e o $R^2_{\text{aj}}$ (ajustado) para este modelo.
 
-```{r}
+```{r include=FALSE}
+#| eval: false
+
 summary(m1)
 names(summary(m1))
 
@@ -294,7 +302,9 @@ q.  Considerando o enunciado da letra anterior, e se a variável indicadora for 
 
 Qual é a interpretação do coeficiente estimado para $x_5$? O que você conclui sobre o efeito dos turnovers no número de jogos vencidos?
 
-```{r, echo = FALSE, include = FALSE}
+```{r include=FALSE}
+#| eval: false
+
 
 x5_ind <- ifelse(x5 > 0, 1, ifelse(x5 == 0, 0, -1))
 x5_ind <- as.factor(x5_ind)
@@ -317,7 +327,9 @@ s.  Utilize o método de seleção de variáveis backward (eliminacão progressi
 
 t.  Utilize o método de seleção de variáveis stepwise (passo a passo) para selecionar um modelo de regressão com subconjunto de variáveis. Comente sobre o modelo final. **O método de seleção de variáveis stepwise (passo a passo) é um método de seleção de variáveis que combina os métodos forward e backward. Ele começa com um modelo nulo (sem variáveis preditoras) e adiciona variáveis preditoras uma a uma, com base em critérios estatísticos, mas também pode remover variáveis preditoras que se tornam não significativas à medida que novas variáveis são adicionadas.**
 
-```{r, echo = FALSE, include = FALSE}
+```{r include=FALSE}
+#| eval: false
+
 
 # Modelo completo
 # Modelo máximo a ser considerado.
@@ -338,8 +350,8 @@ modelo_forward <- step(modelo_reduzido,
                        direction = "forward")
 
 # b) Backward elimination
-modelo_backward <- step(modelo_completo,
-                        direction = "backward")
+# modelo_backward <- step(modelo_completo,
+#                         direction = "backward")
 
 # c) Stepwise regression
 modelo_stepwise <- step(modelo_reduzido,
@@ -354,13 +366,15 @@ summary(m2)
 summary(modelo_stepwise)
 # d) Comparar modelos finais
 summary(modelo_forward)
-summary(modelo_backward)
+# summary(modelo_backward)
 summary(modelo_stepwise)
 ```
 
 u.  Usando o método de validação cruzada *leave-one-out* (LOOCV), estime o erro de previsão para os modelos (1) com as variáveis regressoras $x_2$, $x_7$ e $x_8$ e (2) com as variáveis regressoras $x_2$ e $x_8$. O que você conclui? **O método de validação cruzada leave-one-out (LOOCV) é uma técnica de validação cruzada onde cada observação do conjunto de dados é usada como um ponto de teste, enquanto todas as outras observações são usadas como pontos de treinamento. Isso é repetido para cada observação, e o erro médio de previsão é calculado. Existe também o método leave-p-out.**
 
-```{r, echo = FALSE, include = FALSE}
+```{r include=FALSE}
+#| eval: false
+
 library(boot)
 # LOOCV
 m1 <- glm(y ~ x2 + x7 + x8,
@@ -381,6 +395,9 @@ cv_m2$delta  # delta[1] = erro de validação cruzada
 v.  Usando o método de validação cruzada *k-fold*, com $k = 3$, estime o erro de previsão para os modelos (1) com as variáveis regressoras $x_2$, $x_7$ e $x_8$ e (2) com as variáveis regressoras $x_2$ e $x_8$. O que você conclui? **O método de validação cruzada k-fold é uma técnica de validação cruzada onde o conjunto de dados é dividido em k subconjuntos (folds). O modelo é treinado em k-1 folds e testado no fold restante. Isso é repetido k vezes, e o erro médio de previsão é calculado.**
 
 ```{r, echo = FALSE, include = FALSE}
+#| eval: false
+
+
 # k-fold
 m1 <- glm(y ~ x2 + x7 + x8,
               data = tabela1,
@@ -398,7 +415,8 @@ cv_m2 <- cv.glm(data = tabela1, glmfit = m2, K = K)
 cv_m2$delta  # delta[1] = erro de validação cruzada
 ```
 
-```{r, echo = FALSE, include = FALSE}
+```{r include=FALSE}
+#| eval: false
 
 
 m1 <- lm(y ~ x2 + x7 + x8)

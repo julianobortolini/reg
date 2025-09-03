@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
 }
-
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-{ counter-reset: source-line 0; }
-pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-}
-pre.numberSource { margin-left: 3em; padding-left: 4px; }
-div.sourceCode
-{ }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -3258,527 +3224,408 @@ window.Quarto = {
 
 
 <p><em>Bacharelado em Estatística - UFMT</em></p>
-<section id="lista-de-exercícios-6" class="level3">
-<h3 class="anchored" data-anchor-id="lista-de-exercícios-6">Lista de exercícios 6</h3>
+<section id="lista-de-exercícios-5" class="level3">
+<h3 class="anchored" data-anchor-id="lista-de-exercícios-5">Lista de exercícios 5</h3>
 <ol type="1">
 <li>Considere os dados da Liga Nacional de Futebol Americano (NFL) na Tabela 1.</li>
 </ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>equipe <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Washington&quot;</span>, <span class="st">&quot;Minnesota&quot;</span>, <span class="st">&quot;New England&quot;</span>, <span class="st">&quot;Oakland&quot;</span>, <span class="st">&quot;Pittsburgh&quot;</span>, </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;Baltimore&quot;</span>, <span class="st">&quot;Los Angeles&quot;</span>, <span class="st">&quot;Dallas&quot;</span>, <span class="st">&quot;Atlanta&quot;</span>, <span class="st">&quot;Buffalo&quot;</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;Chicago&quot;</span>, <span class="st">&quot;Cincinnati&quot;</span>, <span class="st">&quot;Cleveland&quot;</span>, <span class="st">&quot;Denver&quot;</span>, <span class="st">&quot;Detroit&quot;</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;Green Bay&quot;</span>, <span class="st">&quot;Houston&quot;</span>, <span class="st">&quot;Kansas City&quot;</span>, <span class="st">&quot;Miami&quot;</span>, <span class="st">&quot;New Orleans&quot;</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;New York Giants&quot;</span>, <span class="st">&quot;New York Jets&quot;</span>, <span class="st">&quot;Philadelphia&quot;</span>, <span class="st">&quot;St. Louis&quot;</span>, <span class="st">&quot;San Diego&quot;</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;San Francisco&quot;</span>, <span class="st">&quot;Seattle&quot;</span>, <span class="st">&quot;Tampa Bay&quot;</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">11</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">10</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>       <span class="dv">11</span>, <span class="dv">10</span>, <span class="dv">11</span>, <span class="dv">4</span>, <span class="dv">2</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>       <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">6</span>,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>       <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">4</span>, </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>       <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">10</span>, <span class="dv">6</span>, </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>       <span class="dv">8</span>, <span class="dv">2</span>, <span class="dv">0</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2113</span>, <span class="dv">2003</span>, <span class="dv">2957</span>, <span class="dv">2285</span>, <span class="dv">2971</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="dv">2309</span>, <span class="dv">2528</span>, <span class="dv">2147</span>, <span class="dv">1689</span>, <span class="dv">2566</span>,</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="dv">2363</span>, <span class="dv">2109</span>, <span class="dv">2295</span>, <span class="dv">1932</span>, <span class="dv">2128</span>,</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="dv">1722</span>, <span class="dv">1498</span>, <span class="dv">1873</span>, <span class="dv">2118</span>, <span class="dv">1775</span>,</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="dv">1904</span>, <span class="dv">1929</span>, <span class="dv">2080</span>, <span class="dv">2301</span>, <span class="dv">2040</span>,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="dv">2447</span>, <span class="dv">1416</span>, <span class="dv">1503</span>)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1985</span>, <span class="dv">2855</span>, <span class="dv">1737</span>, <span class="dv">2905</span>, <span class="dv">1666</span>,</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="dv">2927</span>, <span class="dv">2341</span>, <span class="dv">2737</span>, <span class="dv">1414</span>, <span class="dv">1838</span>,</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="dv">1480</span>, <span class="dv">2191</span>, <span class="dv">2229</span>, <span class="dv">2204</span>, <span class="dv">2438</span>,</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        <span class="dv">1730</span>, <span class="dv">2072</span>, <span class="dv">2929</span>, <span class="dv">2268</span>, <span class="dv">1983</span>,</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="dv">1792</span>, <span class="dv">1606</span>, <span class="dv">1492</span>, <span class="dv">2835</span>, <span class="dv">2416</span>,</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        <span class="dv">1638</span>, <span class="dv">2649</span>, <span class="dv">1503</span>)</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>x3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">38.9</span>, <span class="fl">38.8</span>, <span class="fl">40.1</span>, <span class="fl">41.6</span>, <span class="fl">39.2</span>,</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="fl">39.7</span>, <span class="fl">38.1</span>, <span class="fl">37.0</span>, <span class="fl">42.1</span>, <span class="fl">42.3</span>,</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        <span class="fl">37.3</span>, <span class="fl">39.5</span>, <span class="fl">37.4</span>, <span class="fl">35.1</span>, <span class="fl">38.8</span>,</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        <span class="fl">36.6</span>, <span class="fl">35.3</span>, <span class="fl">41.1</span>, <span class="fl">38.2</span>, <span class="fl">39.3</span>,</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        <span class="fl">39.7</span>, <span class="fl">39.7</span>, <span class="fl">35.5</span>, <span class="fl">35.3</span>, <span class="fl">38.7</span>,</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>        <span class="fl">39.9</span>, <span class="fl">37.4</span>, <span class="fl">39.3</span>)</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>x4 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">64.7</span>, <span class="fl">61.3</span>, <span class="fl">60.0</span>, <span class="fl">45.3</span>, <span class="fl">53.8</span>,</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>        <span class="fl">74.1</span>, <span class="fl">65.4</span>, <span class="fl">78.3</span>, <span class="fl">47.6</span>, <span class="fl">54.2</span>,</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>        <span class="fl">48.0</span>, <span class="fl">51.9</span>, <span class="fl">53.6</span>, <span class="fl">71.4</span>, <span class="fl">58.3</span>,</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        <span class="fl">52.6</span>, <span class="fl">59.3</span>, <span class="fl">55.3</span>, <span class="fl">69.6</span>, <span class="fl">78.3</span>,</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        <span class="fl">38.1</span>, <span class="fl">68.8</span>, <span class="fl">68.8</span>, <span class="fl">74.1</span>, <span class="fl">50.0</span>,</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        <span class="fl">57.1</span>, <span class="fl">56.3</span>, <span class="fl">47.0</span>)</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>x5 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">14</span>, <span class="sc">-</span><span class="dv">4</span>, <span class="dv">15</span>,</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        <span class="dv">8</span>, <span class="dv">12</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">3</span>, <span class="sc">-</span><span class="dv">1</span>,</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>        <span class="dv">19</span>, <span class="dv">6</span>, <span class="sc">-</span><span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">6</span>,</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span><span class="dv">19</span>, <span class="sc">-</span><span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">6</span>, <span class="dv">7</span>,</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span><span class="dv">9</span>, <span class="sc">-</span><span class="dv">21</span>, <span class="sc">-</span><span class="dv">8</span>, <span class="dv">2</span>, <span class="dv">0</span>,</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">22</span>, <span class="sc">-</span><span class="dv">9</span>)</span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>x6 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">868</span>, <span class="dv">615</span>, <span class="dv">914</span>, <span class="dv">957</span>, <span class="dv">836</span>,</span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>        <span class="dv">786</span>, <span class="dv">754</span>, <span class="dv">761</span>, <span class="dv">714</span>, <span class="dv">797</span>,</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>        <span class="dv">984</span>, <span class="dv">700</span>, <span class="dv">1037</span>, <span class="dv">986</span>, <span class="dv">819</span>,</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>        <span class="dv">791</span>, <span class="dv">776</span>, <span class="dv">789</span>, <span class="dv">582</span>, <span class="dv">901</span>,</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>        <span class="dv">734</span>, <span class="dv">627</span>, <span class="dv">722</span>, <span class="dv">683</span>, <span class="dv">576</span>,</span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>        <span class="dv">848</span>, <span class="dv">684</span>, <span class="dv">875</span>)</span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>x7 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">59.7</span>, <span class="fl">55.0</span>, <span class="fl">65.6</span>, <span class="fl">61.4</span>, <span class="fl">66.1</span>,</span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>        <span class="fl">61.0</span>, <span class="fl">66.1</span>, <span class="fl">58.0</span>, <span class="fl">57.0</span>, <span class="fl">58.9</span>,</span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>        <span class="fl">67.5</span>, <span class="fl">57.2</span>, <span class="fl">57.8</span>, <span class="fl">58.6</span>, <span class="fl">59.2</span>,</span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>        <span class="fl">54.4</span>, <span class="fl">49.6</span>, <span class="fl">54.3</span>, <span class="fl">58.7</span>, <span class="fl">51.7</span>,</span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>        <span class="fl">61.9</span>, <span class="fl">52.7</span>, <span class="fl">57.8</span>, <span class="fl">59.7</span>, <span class="fl">54.9</span>,</span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>        <span class="fl">65.3</span>, <span class="fl">43.8</span>, <span class="fl">53.5</span>)</span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>x8 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2205</span>, <span class="dv">2096</span>, <span class="dv">1847</span>, <span class="dv">1903</span>, <span class="dv">1457</span>,</span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>        <span class="dv">1848</span>, <span class="dv">1564</span>, <span class="dv">1821</span>, <span class="dv">2577</span>, <span class="dv">2476</span>,</span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>        <span class="dv">1984</span>, <span class="dv">1917</span>, <span class="dv">1761</span>, <span class="dv">1790</span>, <span class="dv">1901</span>,</span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>        <span class="dv">2288</span>, <span class="dv">2072</span>, <span class="dv">2861</span>, <span class="dv">2411</span>, <span class="dv">2289</span>,</span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>        <span class="dv">2203</span>, <span class="dv">2592</span>, <span class="dv">2053</span>, <span class="dv">1979</span>, <span class="dv">2048</span>,</span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>        <span class="dv">1786</span>, <span class="dv">2876</span>, <span class="dv">2560</span>)</span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>x9 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1917</span>, <span class="dv">1575</span>, <span class="dv">2175</span>, <span class="dv">2476</span>, <span class="dv">1866</span>,</span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>        <span class="dv">2339</span>, <span class="dv">2092</span>, <span class="dv">1909</span>, <span class="dv">2001</span>, <span class="dv">2254</span>,</span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>        <span class="dv">2217</span>, <span class="dv">1758</span>, <span class="dv">2032</span>, <span class="dv">2025</span>, <span class="dv">1686</span>,</span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>        <span class="dv">1835</span>, <span class="dv">1914</span>, <span class="dv">2496</span>, <span class="dv">2670</span>, <span class="dv">2202</span>,</span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>        <span class="dv">1988</span>, <span class="dv">2324</span>, <span class="dv">2550</span>, <span class="dv">2110</span>, <span class="dv">2628</span>,</span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>        <span class="dv">1776</span>, <span class="dv">2524</span>, <span class="dv">2241</span>)</span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>tabela1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(equipe, y, x1, x2, x3, x4, x5, x6, x7, x8, x9)</span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(tabela1, <span class="at">caption =</span> <span class="st">&quot;Tabela 1: Desempenho das Equipes da National Football League de 1976&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Tabela 1: Desempenho das Equipes da National Football League de 1976</caption>
+<p>Tabela 1: Desempenho das Equipes da National Football League de 1976</p>
+<table class="caption-top table">
 <colgroup>
-<col style="width: 25%">
-<col style="width: 4%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 6%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
+<col style="width: 18%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">equipe</th>
-<th style="text-align: right;">y</th>
-<th style="text-align: right;">x1</th>
-<th style="text-align: right;">x2</th>
-<th style="text-align: right;">x3</th>
-<th style="text-align: right;">x4</th>
-<th style="text-align: right;">x5</th>
-<th style="text-align: right;">x6</th>
-<th style="text-align: right;">x7</th>
-<th style="text-align: right;">x8</th>
-<th style="text-align: right;">x9</th>
+<th>Equipe</th>
+<th><span class="math inline">\(y\)</span></th>
+<th><span class="math inline">\(x_1\)</span></th>
+<th><span class="math inline">\(x_2\)</span></th>
+<th><span class="math inline">\(x_3\)</span></th>
+<th><span class="math inline">\(x_4\)</span></th>
+<th><span class="math inline">\(x_5\)</span></th>
+<th><span class="math inline">\(x_6\)</span></th>
+<th><span class="math inline">\(x_7\)</span></th>
+<th><span class="math inline">\(x_8\)</span></th>
+<th><span class="math inline">\(x_9\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Washington</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">2113</td>
-<td style="text-align: right;">1985</td>
-<td style="text-align: right;">38.9</td>
-<td style="text-align: right;">64.7</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">868</td>
-<td style="text-align: right;">59.7</td>
-<td style="text-align: right;">2205</td>
-<td style="text-align: right;">1917</td>
+<td>Washington</td>
+<td>10</td>
+<td>2113</td>
+<td>1985</td>
+<td>38,9</td>
+<td>64,7</td>
+<td>+4</td>
+<td>868</td>
+<td>59,7</td>
+<td>2205</td>
+<td>1917</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Minnesota</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">2003</td>
-<td style="text-align: right;">2855</td>
-<td style="text-align: right;">38.8</td>
-<td style="text-align: right;">61.3</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">615</td>
-<td style="text-align: right;">55.0</td>
-<td style="text-align: right;">2096</td>
-<td style="text-align: right;">1575</td>
+<td>Minnesota</td>
+<td>11</td>
+<td>2003</td>
+<td>2855</td>
+<td>38,8</td>
+<td>61,3</td>
+<td>+3</td>
+<td>615</td>
+<td>55,0</td>
+<td>2096</td>
+<td>1575</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">New England</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">2957</td>
-<td style="text-align: right;">1737</td>
-<td style="text-align: right;">40.1</td>
-<td style="text-align: right;">60.0</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">914</td>
-<td style="text-align: right;">65.6</td>
-<td style="text-align: right;">1847</td>
-<td style="text-align: right;">2175</td>
+<td>New England</td>
+<td>11</td>
+<td>2957</td>
+<td>1737</td>
+<td>40,1</td>
+<td>60,0</td>
+<td>+14</td>
+<td>914</td>
+<td>65,6</td>
+<td>1847</td>
+<td>2175</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Oakland</td>
-<td style="text-align: right;">13</td>
-<td style="text-align: right;">2285</td>
-<td style="text-align: right;">2905</td>
-<td style="text-align: right;">41.6</td>
-<td style="text-align: right;">45.3</td>
-<td style="text-align: right;">-4</td>
-<td style="text-align: right;">957</td>
-<td style="text-align: right;">61.4</td>
-<td style="text-align: right;">1903</td>
-<td style="text-align: right;">2476</td>
+<td>Oakland</td>
+<td>13</td>
+<td>2285</td>
+<td>2905</td>
+<td>41,6</td>
+<td>45,3</td>
+<td>−4</td>
+<td>957</td>
+<td>61,4</td>
+<td>1903</td>
+<td>2476</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Pittsburgh</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">2971</td>
-<td style="text-align: right;">1666</td>
-<td style="text-align: right;">39.2</td>
-<td style="text-align: right;">53.8</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">836</td>
-<td style="text-align: right;">66.1</td>
-<td style="text-align: right;">1457</td>
-<td style="text-align: right;">1866</td>
+<td>Pittsburgh</td>
+<td>10</td>
+<td>2971</td>
+<td>1666</td>
+<td>39,2</td>
+<td>53,8</td>
+<td>+15</td>
+<td>836</td>
+<td>66,1</td>
+<td>1457</td>
+<td>1866</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Baltimore</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">2309</td>
-<td style="text-align: right;">2927</td>
-<td style="text-align: right;">39.7</td>
-<td style="text-align: right;">74.1</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">786</td>
-<td style="text-align: right;">61.0</td>
-<td style="text-align: right;">1848</td>
-<td style="text-align: right;">2339</td>
+<td>Baltimore</td>
+<td>11</td>
+<td>2309</td>
+<td>2927</td>
+<td>39,7</td>
+<td>74,1</td>
+<td>+8</td>
+<td>786</td>
+<td>61,0</td>
+<td>1848</td>
+<td>2339</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Los Angeles</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">2528</td>
-<td style="text-align: right;">2341</td>
-<td style="text-align: right;">38.1</td>
-<td style="text-align: right;">65.4</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">754</td>
-<td style="text-align: right;">66.1</td>
-<td style="text-align: right;">1564</td>
-<td style="text-align: right;">2092</td>
+<td>Los Angeles</td>
+<td>10</td>
+<td>2528</td>
+<td>2341</td>
+<td>38,1</td>
+<td>65,4</td>
+<td>+12</td>
+<td>754</td>
+<td>66,1</td>
+<td>1564</td>
+<td>2092</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Dallas</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">2147</td>
-<td style="text-align: right;">2737</td>
-<td style="text-align: right;">37.0</td>
-<td style="text-align: right;">78.3</td>
-<td style="text-align: right;">-1</td>
-<td style="text-align: right;">761</td>
-<td style="text-align: right;">58.0</td>
-<td style="text-align: right;">1821</td>
-<td style="text-align: right;">1909</td>
+<td>Dallas</td>
+<td>11</td>
+<td>2147</td>
+<td>2737</td>
+<td>37,0</td>
+<td>78,3</td>
+<td>−1</td>
+<td>761</td>
+<td>58,0</td>
+<td>1821</td>
+<td>1909</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Atlanta</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">1689</td>
-<td style="text-align: right;">1414</td>
-<td style="text-align: right;">42.1</td>
-<td style="text-align: right;">47.6</td>
-<td style="text-align: right;">-3</td>
-<td style="text-align: right;">714</td>
-<td style="text-align: right;">57.0</td>
-<td style="text-align: right;">2577</td>
-<td style="text-align: right;">2001</td>
+<td>Atlanta</td>
+<td>4</td>
+<td>1689</td>
+<td>1414</td>
+<td>42,1</td>
+<td>47,6</td>
+<td>−3</td>
+<td>714</td>
+<td>57,0</td>
+<td>2577</td>
+<td>2001</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Buffalo</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2566</td>
-<td style="text-align: right;">1838</td>
-<td style="text-align: right;">42.3</td>
-<td style="text-align: right;">54.2</td>
-<td style="text-align: right;">-1</td>
-<td style="text-align: right;">797</td>
-<td style="text-align: right;">58.9</td>
-<td style="text-align: right;">2476</td>
-<td style="text-align: right;">2254</td>
+<td>Buffalo</td>
+<td>2</td>
+<td>2566</td>
+<td>1838</td>
+<td>42,3</td>
+<td>54,2</td>
+<td>−1</td>
+<td>797</td>
+<td>58,9</td>
+<td>2476</td>
+<td>2254</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Chicago</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">2363</td>
-<td style="text-align: right;">1480</td>
-<td style="text-align: right;">37.3</td>
-<td style="text-align: right;">48.0</td>
-<td style="text-align: right;">19</td>
-<td style="text-align: right;">984</td>
-<td style="text-align: right;">67.5</td>
-<td style="text-align: right;">1984</td>
-<td style="text-align: right;">2217</td>
+<td>Chicago</td>
+<td>7</td>
+<td>2363</td>
+<td>1480</td>
+<td>37,3</td>
+<td>48,0</td>
+<td>+19</td>
+<td>984</td>
+<td>67,5</td>
+<td>1984</td>
+<td>2217</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Cincinnati</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">2109</td>
-<td style="text-align: right;">2191</td>
-<td style="text-align: right;">39.5</td>
-<td style="text-align: right;">51.9</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">700</td>
-<td style="text-align: right;">57.2</td>
-<td style="text-align: right;">1917</td>
-<td style="text-align: right;">1758</td>
+<td>Cincinnati</td>
+<td>10</td>
+<td>2109</td>
+<td>2191</td>
+<td>39,5</td>
+<td>51,9</td>
+<td>+6</td>
+<td>700</td>
+<td>57,2</td>
+<td>1917</td>
+<td>1758</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Cleveland</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">2295</td>
-<td style="text-align: right;">2229</td>
-<td style="text-align: right;">37.4</td>
-<td style="text-align: right;">53.6</td>
-<td style="text-align: right;">-5</td>
-<td style="text-align: right;">1037</td>
-<td style="text-align: right;">57.8</td>
-<td style="text-align: right;">1761</td>
-<td style="text-align: right;">2032</td>
+<td>Cleveland</td>
+<td>9</td>
+<td>2295</td>
+<td>2229</td>
+<td>37,4</td>
+<td>53,6</td>
+<td>−5</td>
+<td>1037</td>
+<td>57,8</td>
+<td>1761</td>
+<td>2032</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Denver</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">1932</td>
-<td style="text-align: right;">2204</td>
-<td style="text-align: right;">35.1</td>
-<td style="text-align: right;">71.4</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">986</td>
-<td style="text-align: right;">58.6</td>
-<td style="text-align: right;">1790</td>
-<td style="text-align: right;">2025</td>
+<td>Denver</td>
+<td>9</td>
+<td>1932</td>
+<td>2204</td>
+<td>35,1</td>
+<td>71,4</td>
+<td>+3</td>
+<td>986</td>
+<td>58,6</td>
+<td>1790</td>
+<td>2025</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Detroit</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">2128</td>
-<td style="text-align: right;">2438</td>
-<td style="text-align: right;">38.8</td>
-<td style="text-align: right;">58.3</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">819</td>
-<td style="text-align: right;">59.2</td>
-<td style="text-align: right;">1901</td>
-<td style="text-align: right;">1686</td>
+<td>Detroit</td>
+<td>6</td>
+<td>2128</td>
+<td>2438</td>
+<td>38,8</td>
+<td>58,3</td>
+<td>+6</td>
+<td>819</td>
+<td>59,2</td>
+<td>1901</td>
+<td>1686</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Green Bay</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">1722</td>
-<td style="text-align: right;">1730</td>
-<td style="text-align: right;">36.6</td>
-<td style="text-align: right;">52.6</td>
-<td style="text-align: right;">-19</td>
-<td style="text-align: right;">791</td>
-<td style="text-align: right;">54.4</td>
-<td style="text-align: right;">2288</td>
-<td style="text-align: right;">1835</td>
+<td>Green Bay</td>
+<td>5</td>
+<td>1722</td>
+<td>1730</td>
+<td>36,6</td>
+<td>52,6</td>
+<td>−19</td>
+<td>791</td>
+<td>54,4</td>
+<td>2288</td>
+<td>1835</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Houston</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">1498</td>
-<td style="text-align: right;">2072</td>
-<td style="text-align: right;">35.3</td>
-<td style="text-align: right;">59.3</td>
-<td style="text-align: right;">-5</td>
-<td style="text-align: right;">776</td>
-<td style="text-align: right;">49.6</td>
-<td style="text-align: right;">2072</td>
-<td style="text-align: right;">1914</td>
+<td>Houston</td>
+<td>5</td>
+<td>1498</td>
+<td>2072</td>
+<td>35,3</td>
+<td>59,3</td>
+<td>−5</td>
+<td>776</td>
+<td>49,6</td>
+<td>2072</td>
+<td>1914</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Kansas City</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">1873</td>
-<td style="text-align: right;">2929</td>
-<td style="text-align: right;">41.1</td>
-<td style="text-align: right;">55.3</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">789</td>
-<td style="text-align: right;">54.3</td>
-<td style="text-align: right;">2861</td>
-<td style="text-align: right;">2496</td>
+<td>Kansas City</td>
+<td>5</td>
+<td>1873</td>
+<td>2929</td>
+<td>41,1</td>
+<td>55,3</td>
+<td>+10</td>
+<td>789</td>
+<td>54,3</td>
+<td>2861</td>
+<td>2496</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Miami</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">2118</td>
-<td style="text-align: right;">2268</td>
-<td style="text-align: right;">38.2</td>
-<td style="text-align: right;">69.6</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">582</td>
-<td style="text-align: right;">58.7</td>
-<td style="text-align: right;">2411</td>
-<td style="text-align: right;">2670</td>
+<td>Miami</td>
+<td>6</td>
+<td>2118</td>
+<td>2268</td>
+<td>38,2</td>
+<td>69,6</td>
+<td>+6</td>
+<td>582</td>
+<td>58,7</td>
+<td>2411</td>
+<td>2670</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">New Orleans</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">1775</td>
-<td style="text-align: right;">1983</td>
-<td style="text-align: right;">39.3</td>
-<td style="text-align: right;">78.3</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">901</td>
-<td style="text-align: right;">51.7</td>
-<td style="text-align: right;">2289</td>
-<td style="text-align: right;">2202</td>
+<td>New Orleans</td>
+<td>4</td>
+<td>1775</td>
+<td>1983</td>
+<td>39,3</td>
+<td>78,3</td>
+<td>+7</td>
+<td>901</td>
+<td>51,7</td>
+<td>2289</td>
+<td>2202</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">New York Giants</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1904</td>
-<td style="text-align: right;">1792</td>
-<td style="text-align: right;">39.7</td>
-<td style="text-align: right;">38.1</td>
-<td style="text-align: right;">-9</td>
-<td style="text-align: right;">734</td>
-<td style="text-align: right;">61.9</td>
-<td style="text-align: right;">2203</td>
-<td style="text-align: right;">1988</td>
+<td>New York Giants</td>
+<td>3</td>
+<td>1904</td>
+<td>1792</td>
+<td>39,7</td>
+<td>38,1</td>
+<td>−9</td>
+<td>734</td>
+<td>61,9</td>
+<td>2203</td>
+<td>1988</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">New York Jets</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1929</td>
-<td style="text-align: right;">1606</td>
-<td style="text-align: right;">39.7</td>
-<td style="text-align: right;">68.8</td>
-<td style="text-align: right;">-21</td>
-<td style="text-align: right;">627</td>
-<td style="text-align: right;">52.7</td>
-<td style="text-align: right;">2592</td>
-<td style="text-align: right;">2324</td>
+<td>New York Jets</td>
+<td>3</td>
+<td>1929</td>
+<td>1606</td>
+<td>39,7</td>
+<td>68,8</td>
+<td>−21</td>
+<td>627</td>
+<td>52,7</td>
+<td>2592</td>
+<td>2324</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Philadelphia</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">2080</td>
-<td style="text-align: right;">1492</td>
-<td style="text-align: right;">35.5</td>
-<td style="text-align: right;">68.8</td>
-<td style="text-align: right;">-8</td>
-<td style="text-align: right;">722</td>
-<td style="text-align: right;">57.8</td>
-<td style="text-align: right;">2053</td>
-<td style="text-align: right;">2550</td>
+<td>Philadelphia</td>
+<td>4</td>
+<td>2080</td>
+<td>1492</td>
+<td>35,5</td>
+<td>68,8</td>
+<td>−8</td>
+<td>722</td>
+<td>57,8</td>
+<td>2053</td>
+<td>2550</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">St. Louis</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">2301</td>
-<td style="text-align: right;">2835</td>
-<td style="text-align: right;">35.3</td>
-<td style="text-align: right;">74.1</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">683</td>
-<td style="text-align: right;">59.7</td>
-<td style="text-align: right;">1979</td>
-<td style="text-align: right;">2110</td>
+<td>St. Louis</td>
+<td>10</td>
+<td>2301</td>
+<td>2835</td>
+<td>35,3</td>
+<td>74,1</td>
+<td>+2</td>
+<td>683</td>
+<td>59,7</td>
+<td>1979</td>
+<td>2110</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">San Diego</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">2040</td>
-<td style="text-align: right;">2416</td>
-<td style="text-align: right;">38.7</td>
-<td style="text-align: right;">50.0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">576</td>
-<td style="text-align: right;">54.9</td>
-<td style="text-align: right;">2048</td>
-<td style="text-align: right;">2628</td>
+<td>San Diego</td>
+<td>6</td>
+<td>2040</td>
+<td>2416</td>
+<td>38,7</td>
+<td>50,0</td>
+<td>0</td>
+<td>576</td>
+<td>54,9</td>
+<td>2048</td>
+<td>2628</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">San Francisco</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">2447</td>
-<td style="text-align: right;">1638</td>
-<td style="text-align: right;">39.9</td>
-<td style="text-align: right;">57.1</td>
-<td style="text-align: right;">-8</td>
-<td style="text-align: right;">848</td>
-<td style="text-align: right;">65.3</td>
-<td style="text-align: right;">1786</td>
-<td style="text-align: right;">1776</td>
+<td>San Francisco</td>
+<td>8</td>
+<td>2447</td>
+<td>1638</td>
+<td>39,9</td>
+<td>57,1</td>
+<td>−8</td>
+<td>848</td>
+<td>65,3</td>
+<td>1786</td>
+<td>1776</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Seattle</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1416</td>
-<td style="text-align: right;">2649</td>
-<td style="text-align: right;">37.4</td>
-<td style="text-align: right;">56.3</td>
-<td style="text-align: right;">-22</td>
-<td style="text-align: right;">684</td>
-<td style="text-align: right;">43.8</td>
-<td style="text-align: right;">2876</td>
-<td style="text-align: right;">2524</td>
+<td>Seattle</td>
+<td>2</td>
+<td>1416</td>
+<td>2649</td>
+<td>37,4</td>
+<td>56,3</td>
+<td>−22</td>
+<td>684</td>
+<td>43,8</td>
+<td>2876</td>
+<td>2524</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Tampa Bay</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1503</td>
-<td style="text-align: right;">1503</td>
-<td style="text-align: right;">39.3</td>
-<td style="text-align: right;">47.0</td>
-<td style="text-align: right;">-9</td>
-<td style="text-align: right;">875</td>
-<td style="text-align: right;">53.5</td>
-<td style="text-align: right;">2560</td>
-<td style="text-align: right;">2241</td>
+<td>Tampa Bay</td>
+<td>0</td>
+<td>1503</td>
+<td>1503</td>
+<td>39,3</td>
+<td>47,0</td>
+<td>−9</td>
+<td>875</td>
+<td>53,5</td>
+<td>2560</td>
+<td>2241</td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<!-- Tabela 1: Desempenho das Equipes da National Football League de 1976 -->
-<!-- | Equipe        | $y$  | $x_1$  | $x_2$  | $x_3$  | $x_4$  | $x_5$  | $x_6$  | $x_7$  | $x_8$  | $x_9$  | -->
-<!-- |--------------|------|------|------|------|------|------|------|------|------|------| -->
-<!-- | Washington   | 10   | 2113  | 1985  | 38,9  | 64,7  | +4   | 868  | 59,7  | 2205  | 1917  | -->
-<!-- | Minnesota    | 11   | 2003  | 2855  | 38,8  | 61,3  | +3   | 615  | 55,0  | 2096  | 1575  | -->
-<!-- | New England  | 11   | 2957  | 1737  | 40,1  | 60,0  | +14  | 914  | 65,6  | 1847  | 2175  | -->
-<!-- | Oakland      | 13   | 2285  | 2905  | 41,6  | 45,3  | −4   | 957  | 61,4  | 1903  | 2476  | -->
-<!-- | Pittsburgh   | 10   | 2971  | 1666  | 39,2  | 53,8  | +15  | 836  | 66,1  | 1457  | 1866  | -->
-<!-- | Baltimore    | 11   | 2309  | 2927  | 39,7  | 74,1  | +8   | 786  | 61,0  | 1848  | 2339  | -->
-<!-- | Los Angeles  | 10   | 2528  | 2341  | 38,1  | 65,4  | +12  | 754  | 66,1  | 1564  | 2092  | -->
-<!-- | Dallas       | 11   | 2147  | 2737  | 37,0  | 78,3  | −1   | 761  | 58,0  | 1821  | 1909  | -->
-<!-- | Atlanta      | 4    | 1689  | 1414  | 42,1  | 47,6  | −3   | 714  | 57,0  | 2577  | 2001  | -->
-<!-- | Buffalo      | 2    | 2566  | 1838  | 42,3  | 54,2  | −1   | 797  | 58,9  | 2476  | 2254  | -->
-<!-- | Chicago      | 7    | 2363  | 1480  | 37,3  | 48,0  | +19  | 984  | 67,5  | 1984  | 2217  | -->
-<!-- | Cincinnati   | 10   | 2109  | 2191  | 39,5  | 51,9  | +6   | 700  | 57,2  | 1917  | 1758  | -->
-<!-- | Cleveland    | 9    | 2295  | 2229  | 37,4  | 53,6  | −5   | 1037 | 57,8  | 1761  | 2032  | -->
-<!-- | Denver       | 9    | 1932  | 2204  | 35,1  | 71,4  | +3   | 986  | 58,6  | 1790  | 2025  | -->
-<!-- | Detroit      | 6    | 2128  | 2438  | 38,8  | 58,3  | +6   | 819  | 59,2  | 1901  | 1686  | -->
-<!-- | Green Bay    | 5    | 1722  | 1730  | 36,6  | 52,6  | −19  | 791  | 54,4  | 2288  | 1835  | -->
-<!-- | Houston      | 5    | 1498  | 2072  | 35,3  | 59,3  | −5   | 776  | 49,6  | 2072  | 1914  | -->
-<!-- | Kansas City  | 5    | 1873  | 2929  | 41,1  | 55,3  | +10  | 789  | 54,3  | 2861  | 2496  | -->
-<!-- | Miami        | 6    | 2118  | 2268  | 38,2  | 69,6  | +6   | 582  | 58,7  | 2411  | 2670  | -->
-<!-- | New Orleans  | 4    | 1775  | 1983  | 39,3  | 78,3  | +7   | 901  | 51,7  | 2289  | 2202  | -->
-<!-- | New York Giants | 3 | 1904  | 1792  | 39,7  | 38,1  | −9   | 734  | 61,9  | 2203  | 1988  | -->
-<!-- | New York Jets | 3   | 1929  | 1606  | 39,7  | 68,8  | −21  | 627  | 52,7  | 2592  | 2324  | -->
-<!-- | Philadelphia | 4    | 2080  | 1492  | 35,5  | 68,8  | −8   | 722  | 57,8  | 2053  | 2550  | -->
-<!-- | St. Louis    | 10   | 2301  | 2835  | 35,3  | 74,1  | +2   | 683  | 59,7  | 1979  | 2110  | -->
-<!-- | San Diego    | 6    | 2040  | 2416  | 38,7  | 50,0  | 0    | 576  | 54,9  | 2048  | 2628  | -->
-<!-- | San Francisco | 8   | 2447  | 1638  | 39,9  | 57,1  | −8   | 848  | 65,3  | 1786  | 1776  | -->
-<!-- | Seattle      | 2    | 1416  | 2649  | 37,4  | 56,3  | −22  | 684  | 43,8  | 2876  | 2524  | -->
-<!-- | Tampa Bay    | 0    | 1503  | 1503  | 39,3  | 47,0  | −9   | 875  | 53,5  | 2560  | 2241  | -->
 <p>Definições das variáveis:</p>
 <ul>
 <li><span class="math inline">\(y\)</span>: Jogos vencidos (por temporada de 14 jogos)</li>
@@ -3795,162 +3642,45 @@ window.Quarto = {
 <ol type="a">
 <li><p>Ajuste um modelo de regressão linear múltipla relacionando o número de jogos ganhos com as jardas aéreas do time (<span class="math inline">\(x_2\)</span>), a porcentagem de jogadas terrestres (<span class="math inline">\(x_7\)</span>) e as jardas terrestres dos adversários (<span class="math inline">\(x_8\)</span>).</p></li>
 <li><p>Construa a tabela de análise de variância (ANOVA) e teste a significância da regressão.</p></li>
-<li><p>Calcule as estatísticas <span class="math inline">\(t\)</span> para testar as hipóteses: <span class="math inline">\(H_0: \beta_2 = 0\)</span>, <span class="math inline">\(H_0: \beta_7 = 0\)</span> e <span class="math inline">\(H_0: \beta_8 = 0\)</span>. Quais conclusões você pode tirar sobre os papéis das variáveis <span class="math inline">\(x_2\)</span>, <span class="math inline">\(x_7\)</span> e <span class="math inline">\(x_8\)</span> no modelo?</p></li>
-<li><p>Calcule o <span class="math inline">\(R^2\)</span> e o <span class="math inline">\(R^2_{\text{aj}}\)</span> (ajustado) para este modelo.</p></li>
-<li><p>Usando o teste <span class="math inline">\(F\)</span> parcial, determine a contribuição de <span class="math inline">\(x_7\)</span> para o modelo. Como essa estatística <span class="math inline">\(F\)</span> parcial está relacionada ao teste <span class="math inline">\(t\)</span> para <span class="math inline">\(\beta_7\)</span> calculado no item c?</p></li>
-<li><p>Construa um gráfico de probabilidade normal dos resíduos. Há indícios de violação da suposição de normalidade? Realize os testes de normalidade de Shapiro-Wilk e Kolmogorov-Smirnov. O que você conclui?</p></li>
-<li><p>Calcule os resíduos studentizados e os resíduos Rstudent para este modelo. Que tipo de informação é fornecida por esses resíduos?</p></li>
-<li><p>Construa e interprete o gráfico dos resíduos studentizados em função da resposta predita. Realize o teste de homocedasticidade de Breusch-Pagan. O que você conclui?</p></li>
-<li><p>Calcule as correlações entre as variáveis independentes <span class="math inline">\(x_2\)</span>, <span class="math inline">\(x_7\)</span> e <span class="math inline">\(x_8\)</span>. Existe multicolinearidade entre essas variáveis? Justifique sua resposta.</p></li>
-<li><p>Calcule o VIF (Variance Inflation Factor) para as variáveis <span class="math inline">\(x_2\)</span>, <span class="math inline">\(x_7\)</span> e <span class="math inline">\(x_8\)</span>. O que você conclui? Os valores do VIF são úteis para indicar multicolinearidade. Valores de VIF superior a 5 ou 10 sugerem multicolinearidade. <em>Use a função <code>vif()</code> do pacote <code>car</code> para calcular o VIF.</em></p></li>
-<li><p>Calcule a estatística PRESS (Press Residual Sum of Squares) para os modelos completo (com <span class="math inline">\(x_2\)</span>, <span class="math inline">\(x_7\)</span> e <span class="math inline">\(x_8\)</span>) e reduzido (apenas com <span class="math inline">\(x_2\)</span> e <span class="math inline">\(x_8\)</span>). O que você conclui?</p></li>
-<li><p>Calcule os valores dos pontos de alavancagem (leverage). Quais observações são consideradas influentes? <strong>Lembre-se que valores superiores a</strong> <span class="math inline">\(2p/n\)</span> (onde <span class="math inline">\(p\)</span> é o número de parâmetros do modelo e <span class="math inline">\(n\)</span> é o número de observações) são considerados influentes.</p></li>
-<li><p>Calcule os valores da distância de Cook. Quais observações são consideradas influentes? <strong>Lembre-se que valores superiores a 1 são considerados influentes.</strong></p></li>
-<li><p>Calcule os valores de DFBETAS. Quais observações são consideradas influentes? <strong>Lembre-se que valores superiores a</strong> <span class="math inline">\(2/\sqrt{n}\)</span> merecem atenção.</p></li>
-<li><p>Calcule os valores de DFFITS. Quais observações são consideradas influentes? <strong>Lembre-se que valores superiores a</strong> <span class="math inline">\(2\sqrt{p/n}\)</span> merecem atenção.</p></li>
-<li><p>Construa um modelo de regressão linear relacionando o número de jogos vencidos com:</p></li>
+<li><p>Calcule as estatísticas <span class="math inline">\(t\)</span> para testar as hipóteses:</p></li>
 </ol>
-<ul>
-<li><p>jardas terrestres dos adversários (<span class="math inline">\(x_8\)</span>),</p></li>
-<li><p>porcentagem de jogadas terrestres (<span class="math inline">\(x_7\)</span>) e</p></li>
-<li><p><em>diferença de turnovers (turnovers ganhos - turnovers perdidos) (</em><span class="math inline">\(x_5\)</span>).</p></li>
-</ul>
-<p>Especificamente, <em>considere a diferença de turnovers como uma variável indicadora</em>, cuja codificação depende de o valor real do diferencial ser positivo, negativo ou igual a zero. Ou seja, considere <span class="math inline">\(x_5\)</span> como uma variável indicadora que assume os seguintes valores:</p>
-<p><span class="math display">\[\begin{align*}
-  x_5 = 1, &amp; \text{ se } x_5 &gt; 0 \\
-  x_5 = 0, &amp; \text{ se } x_5 = 0 \\
-  x_5 = -1, &amp; \text{ se } x_5 &lt; 0.
-\end{align*}\]</span></p>
-<p>Quais conclusões podem ser obtidas sobre o efeito dos turnovers no número de jogos vencidos?</p>
-<ol start="17" type="a">
-<li>Considerando o enunciado da letra anterior, e se a variável indicadora for definida como:</li>
+<p><span class="math inline">\(H_0: \beta_2 = 0\)</span>, <span class="math inline">\(H_0: \beta_7 = 0\)</span>, <span class="math inline">\(H_0: \beta_8 = 0\)</span>. Que conclusões você pode tirar sobre os papéis das variáveis <span class="math inline">\(x_2\)</span>, <span class="math inline">\(x_7\)</span> e <span class="math inline">\(x_8\)</span> no modelo?</p>
+<p><strong>d. Pesquise sobre <span class="math inline">\(R^2_{\text{aj}}\)</span> (ajustado). Calcule o <span class="math inline">\(R^2\)</span> e o <span class="math inline">\(R^2_{\text{aj}}\)</span> (ajustado) para este modelo.</strong></p>
+<p><strong>e. Pesquise sobre teste <span class="math inline">\(F\)</span> parcial. Usando o teste <span class="math inline">\(F\)</span> parcial, determine a contribuição de <span class="math inline">\(x_7\)</span> para o modelo. Como essa estatística <span class="math inline">\(F\)</span> parcial está relacionada ao teste <span class="math inline">\(t\)</span> para <span class="math inline">\(\beta_7\)</span> calculado no item c?</strong></p>
+<ol start="2" type="1">
+<li><p>Usando os resultados do exercício 1, mostre numericamente que o quadrado do coeficiente de correlação simples entre os valores observados <span class="math inline">\(y_i\)</span> e os valores ajustados <span class="math inline">\(\hat{y}_i\)</span> é igual ao <span class="math inline">\(R^2\)</span>.</p></li>
+<li><p>Considerando o exercício 1:</p></li>
 </ol>
-<p><span class="math display">\[\begin{align*}
-  x_5 = 1, &amp; \text{ se } x_5 &gt; 0 \\
-  x_5 = 0, &amp; \text{ se } x_5 \leq 0.
-\end{align*}\]</span></p>
-<p>Qual é a interpretação do coeficiente estimado para <span class="math inline">\(x_5\)</span>? O que você conclui sobre o efeito dos turnovers no número de jogos vencidos?</p>
-<ol start="18" type="a">
-<li><p>Considerando todas as variáveis disponíveis, utilize o método de seleção de variáveis forward (seleção progressiva) para selecionar um modelo de regressão com subconjunto de variáveis. Comente sobre o modelo final. <strong>O método de seleção de variáveis forward (seleção progressiva) é um método de seleção de variáveis que começa com um modelo nulo (sem variáveis preditoras) e adiciona variáveis preditoras uma a uma, com base em critérios estatísticos, até que não haja mais variáveis significativas a serem adicionadas.</strong></p></li>
-<li><p>Utilize o método de seleção de variáveis backward (eliminacão progressiva) para selecionar um modelo de regressão com subconjunto de variáveis. Comente sobre o modelo final. <strong>O método de seleção de variáveis backward (eliminacão progressiva) é um método de seleção de variáveis que começa com um modelo completo (com todas as variáveis preditoras) e remove variáveis preditoras uma a uma, com base em critérios estatísticos, até que não haja mais variáveis insignificativas a serem removidas.</strong></p></li>
-<li><p>Utilize o método de seleção de variáveis stepwise (passo a passo) para selecionar um modelo de regressão com subconjunto de variáveis. Comente sobre o modelo final. <strong>O método de seleção de variáveis stepwise (passo a passo) é um método de seleção de variáveis que combina os métodos forward e backward. Ele começa com um modelo nulo (sem variáveis preditoras) e adiciona variáveis preditoras uma a uma, com base em critérios estatísticos, mas também pode remover variáveis preditoras que se tornam não significativas à medida que novas variáveis são adicionadas.</strong></p></li>
-<li><p>Usando o método de validação cruzada <em>leave-one-out</em> (LOOCV), estime o erro de previsão para os modelos (1) com as variáveis regressoras <span class="math inline">\(x_2\)</span>, <span class="math inline">\(x_7\)</span> e <span class="math inline">\(x_8\)</span> e (2) com as variáveis regressoras <span class="math inline">\(x_2\)</span> e <span class="math inline">\(x_8\)</span>. O que você conclui? <strong>O método de validação cruzada leave-one-out (LOOCV) é uma técnica de validação cruzada onde cada observação do conjunto de dados é usada como um ponto de teste, enquanto todas as outras observações são usadas como pontos de treinamento. Isso é repetido para cada observação, e o erro médio de previsão é calculado. Existe também o método leave-p-out.</strong></p></li>
-<li><p>Usando o método de validação cruzada <em>k-fold</em>, com <span class="math inline">\(k = 3\)</span>, estime o erro de previsão para os modelos (1) com as variáveis regressoras <span class="math inline">\(x_2\)</span>, <span class="math inline">\(x_7\)</span> e <span class="math inline">\(x_8\)</span> e (2) com as variáveis regressoras <span class="math inline">\(x_2\)</span> e <span class="math inline">\(x_8\)</span>. O que você conclui? <strong>O método de validação cruzada k-fold é uma técnica de validação cruzada onde o conjunto de dados é dividido em k subconjuntos (folds). O modelo é treinado em k-1 folds e testado no fold restante. Isso é repetido k vezes, e o erro médio de previsão é calculado.</strong></p></li>
+<ol type="a">
+<li><p>Encontre um intervalo de confiança (IC) de 95% para <span class="math inline">\(\beta_7\)</span>.</p></li>
+<li><p>Encontre um intervalo de confiança de 95% para o número médio de jogos ganhos por um time quando <span class="math inline">\(x_2 = 2300\)</span>, <span class="math inline">\(x_7 = 56,0\)</span> e <span class="math inline">\(x_8 = 2100\)</span>.</p></li>
 </ol>
-<!-- 2. Usando os resultados do exercício 1, mostre numericamente que o quadrado do coeficiente de correlação simples entre os valores observados $y_i$ e os valores ajustados $\hat{y}_i$ é igual ao $R^2$. -->
-<!-- 3. Considerando o exercício 1: -->
-<!-- a. Encontre um intervalo de confiança (IC) de 95% para $\beta_7$. -->
-<!-- b. Encontre um intervalo de confiança de 95% para o número médio de jogos ganhos por um time quando $x_2 = 2300$, $x_7 = 56,0$ e $x_8 = 2100$. -->
-<!-- 4. Considerando os dados do exercício 1, ajuste um modelo usando apenas $x_7$ e $x_8$ como regressores. -->
-<!-- a. Teste a significância da regressão. -->
-<!-- b. Calcule o $R^2$ e o $R^2_{\text{aj}}$. Como esses valores se comparam aos valores obtidos para o modelo do exercício 1, que incluía um regressor adicional ($x_2$)? -->
-<!-- c. Calcule um intervalo de confiança de 95% para $\beta_7$. Calcule também um intervalo de confiança de 95% para o número médio de jogos ganhos por um time quando $x_7 = 56,0$ e $x_8 = 2100$. Compare o comprimento desses intervalos com os intervalos correspondentes obtidos no exercício 3. -->
-<!-- d. Que conclusões você pode tirar deste problema sobre as consequências de se omitir um regressor importante de um modelo? -->
-<!-- 5. McDonald e Ayers (1978) apresentam dados de um estudo inicial que examinou a possível relação entre poluição do ar e mortalidade. A Tabela B.15 resume os dados. A variável resposta MORT é a mortalidade total ajustada por idade, considerando todas as causas, em mortes por 100.000 habitantes. O regressor PRECIP é a precipitação anual média (em polegadas), EDUC é o número mediano de anos escolares completos para pessoas com idade igual ou superior a 25 anos, NONWHITE é a porcentagem da população não branca de 1960, NOX é o potencial relativo de poluição por óxidos de nitrogênio, e SO₂ é o potencial relativo de poluição por dióxido de enxofre. O "potencial relativo de poluição" é o produto das toneladas emitidas por dia por quilômetro quadrado e um fator de correção das dimensões e exposição das SMSA (áreas metropolitanas). -->
-<!-- a. Ajuste um modelo de regressão linear múltipla relacionando a taxa de mortalidade a esses regressores. -->
-<!-- b. Teste a significância da regressão. Que conclusões você pode tirar? -->
-<!-- c. Utilize testes $t$ para avaliar a contribuição de cada regressor ao modelo. Discuta seus achados. -->
-<!-- d. Calcule o $R^2$ e o $R^2_{\text{aj}}$ para este modelo. -->
-<!-- e. Obtenha um intervalo de confiança de 95% para o coeficiente de regressão de SO₂ -->
-<!-- 2. Suponha que desejamos utilizar o modelo desenvolvido no exercício 1 para prever o número de jogos que uma equipe vencerá se conseguir limitar o número de jardas conquistadas em corridas pelos adversários a 1800 jardas.  -->
-<!--   a. Encontre uma estimativa pontual para o número de jogos vencidos quando $x_8 = 1800$.  -->
-<!--   b. Encontre um intervalo de predição de $90\%$ para o número de jogos vencidos. -->
-<!-- 3. Em 1º de março de 1984, o *Wall Street Journal* publicou uma pesquisa sobre anúncios televisivos conduzida pela Video Board Tests, Inc., uma empresa de testes de publicidade de Nova York, que entrevistou 4000 adultos. Esses indivíduos eram consumidores regulares de produtos e foram questionados sobre comerciais que haviam assistido para determinada categoria de produto na última semana.  -->
-<!-- Neste caso, a variável resposta é o número de milhões de impressões retidas por semana. A variável explicativa é o valor gasto pela empresa em publicidade. Os dados são apresentados a seguir: -->
-<!-- Tabela. Gastos em publicidade e impressões retidas -->
-<!-- | Empresa        | Gasto (milhões) | Impressões Retidas (milhões) | -->
-<!-- |---------------|----------------|------------------------------| -->
-<!-- | Miller Lite   | 50,1            | 32,1                         | -->
-<!-- | Pepsi         | 74,1            | 99,6                         | -->
-<!-- | Stroh’s       | 19,3            | 11,7                         | -->
-<!-- | Federal Express | 22,9          | 21,9                         | -->
-<!-- | Burger King   | 82,4            | 60,8                         | -->
-<!-- | Coca-Cola     | 40,1            | 78,6                         | -->
-<!-- | McDonald's    | 185,9           | 92,4                         | -->
-<!-- | MCI           | 26,9            | 50,7                         | -->
-<!-- | Diet Cola     | 20,4            | 21,4                         | -->
-<!-- | Ford          | 166,2           | 40,1                         | -->
-<!-- | Levi’s        | 27,0            | 40,8                         | -->
-<!-- | Bud Lite      | 45,6            | 10,4                         | -->
-<!-- | ATT Bell      | 154,9           | 88,9                         | -->
-<!-- | Calvin Klein  | 5,0             | 12,0                         | -->
-<!-- | Wendy’s       | 49,7            | 29,2                         | -->
-<!-- | Polaroid      | 26,9            | 38,0                         | -->
-<!-- | Shasta        | 5,7             | 10,0                         | -->
-<!-- | Meow Mix      | 7,6             | 12,3                         | -->
-<!-- | Oscar Meyer   | 9,2             | 23,4                         | -->
-<!-- | Crest         | 32,4            | 71,1                         | -->
-<!-- | Kibbles N Bits | 6,1            | 4,4                          | -->
-<!--   a. Ajuste um modelo de regressão linear simples para esses dados. -->
-<!--   b. Existe uma relação significativa entre o valor gasto por uma empresa em publicidade e as impressões retidas? Justifique sua resposta estatisticamente. -->
-<!--   c. Construa as bandas de confiança e predição de $95\%$ para esses dados. -->
-<!--   d. Forneça os intervalos de confiança e predição de $95\%$ para o número de impressões retidas da empresa MCI. -->
-<!-- 4. Considere o modelo de regressão linear simples $y = \beta_0 + \beta_1 x + \varepsilon$, com $E(\varepsilon) = 0$, $Var(\varepsilon) = \sigma^2$, e os erros $\varepsilon$ são não correlacionados. -->
-<!--   a. Mostre que: -->
-<!--   $$\text{Cov} \left( \hat{\beta}_0, \hat{\beta}_1 \right) = -\bar{x} \sigma^2/S_{xx}.$$ -->
-<!--   b. Mostre que: -->
-<!--   $$\text{Cov} \left( \bar{y}, \hat{\beta}_1 \right) = 0.$$ -->
-<!--   c.  Mostre que: -->
-<!--   $$E(MS_R) = \sigma^2 + \beta_1^2 S_{xx}.$$ -->
-<!--   d. Mostre que: -->
-<!--   $$E(MS_{Res}) = \sigma^2.$$ -->
-<!-- 5. Por muitos anos, o pó de borracha tem sido utilizado no cimento asfáltico para melhorar o desempenho. O artigo *"Experimental Study of Recycled Rubber-Filled High-Strength Concrete"* (*Mag. Concrete Res.* 2009: 549–556) incluiu uma regressão de $y$ = resistência axial (MPa) sobre $x$ = resistência cúbica (MPa) com base nos seguintes dados amostrais: -->
-<!-- Tabela. Resistência Cúbica ($x$) e Resistência Axial ($y$) (MPa) -->
-<!-- | $x$   | 112,3 | 97,0  | 92,7  | 86,0  | 102,0 | -->
-<!-- |-------|-------|-------|-------|-------|-------| -->
-<!-- | $y$   | 75,0  | 71,0  | 57,7  | 48,7  | 74,3  | -->
-<!-- | $x$   | 99,2  | 95,8  | 103,5 | 89,0  | 86,7  | -->
-<!-- |-------|-------|-------|-------|-------|-------| -->
-<!-- | $y$   | 73,3  | 68,0  | 59,3  | 57,8  | 48,5  | -->
-<!--   a. Verifique se um diagrama de dispersão apoia a suposição de que as duas variáveis estão relacionadas por um modelo de regressão linear simples. -->
-<!--   b. Obtenha a equação da reta dos mínimos quadrados e interprete seu coeficiente angular. -->
-<!--   c. Calcule e interprete o coeficiente de determinação. -->
-<!-- 6. Uma análise de regressão é realizada com $y$ representando a temperatura, expressa em °C. Como os valores resultantes de $\hat{\beta}_0$ e $\hat{\beta}_1$ se relacionam com aqueles obtidos se $y$ for reexpressado em °F? Justifique sua afirmação. *Dica:* A nova variável $y_i$ é dada por: $y_i^{novo} = 1,8 y_i + 32.$ -->
-<!-- 7. (**Cinestose no Transporte Público Rodoviário**) Como a aceleração lateral — forças laterais experimentadas em curvas que estão amplamente sob o controle do motorista — afeta a náusea percebida pelos passageiros de ônibus? O artigo *"Motion Sickness in Public Road Transport: The Effect of Driver, Route, and Vehicle"* (*Ergonomics* 1999: 1646–1664) apresentou dados sobre $x$ = dose de movimento cinetósico (calculada de acordo com um padrão britânico para avaliar movimento semelhante no mar) e $y$ = náusea relatada (%). Os valores estatísticos relevantes são: -->
-<!-- $$ -->
-<!-- n = 17, \quad \sum x_i = 222,1, \quad \sum y_i = 193,0, -->
-<!-- $$ -->
-<!-- $$ -->
-<!-- S_{xx} = 155,02, \quad S_{yy} = 783,88, \quad S_{xy} = 238,11 -->
-<!-- $$ -->
-<!-- Os valores de dose na amostra variaram de 6,0 a 17,6. -->
-<!--   a. Supondo que o modelo de regressão linear simples seja válido para relacionar essas duas variáveis (isso é apoiado pelos dados brutos), calcule e interprete uma estimativa do coeficiente angular que forneça informações sobre a precisão e confiabilidade da estimativa. -->
-<!--   b. Parece haver uma relação linear útil entre essas duas variáveis?  -->
-<!--   c. Seria sensato usar o modelo de regressão linear simples como base para prever a porcentagem de náusea quando a dose for igual a 5,0? Explique seu raciocínio. -->
-<!-- 8. O aquecimento global é uma questão importante, e as emissões de CO₂ desempenham um papel fundamental nessa discussão O artigo *"Effects of Atmospheric CO₂ Enrichment on Biomass Accumulation and Distribution in Eldarica Pine Trees"* (*J. Exp. Bot.* 1994: 345–349) descreve os resultados do crescimento de pinheiros sob diferentes níveis de CO₂ no ar.  -->
-<!-- Os dados abaixo correspondem às observações onde: -->
-<!-- - $x$ = concentração atmosférica de CO₂ (partes por milhão) -->
-<!-- - $y$ = massa em quilogramas após 11 meses de experimento. -->
-<!-- Tabela. Concentração de CO₂ ($x$) e Massa ($y$) -->
-<!-- | $x$   | 408   | 408   | 554   | 554   | 680   | 680   | 812   | 812   | -->
-<!-- |-------|-------|-------|-------|-------|-------|-------|-------|-------| -->
-<!-- | $y$   | 1,1   | 1,3   | 1,6   | 2,5   | 3,0   | 4,3   | 4,2   | 4,7   | -->
-<!--   a. Explique por que $s_{\hat{y}}$ é maior quando $x = 750$ do que quando $x = 600$. -->
-<!--   b. Calcule um intervalo de confiança com nível de confiança de $95\%$ para a verdadeira massa média de todas as árvores cultivadas com uma concentração de CO₂ de 600 partes por milhão. -->
-<!--   c. Calcule um intervalo de predição com nível de predição de $95\%$ para a massa de uma árvore cultivada com uma concentração de CO₂ de 600 partes por milhão. -->
-<!--   d. Se um intervalo de confiança de $95\%$ for calculado para a verdadeira massa média quando a concentração de CO₂ for 750, qual será o nível de confiança simultâneo para esse intervalo e o intervalo calculado na parte (b)? -->
-<!-- 9. Nenhum apreciador de tortilhas gosta de chips encharcados, portanto, é importante identificar características do processo de produção que resultem em chips com uma textura agradável.  -->
-<!-- Os seguintes dados sobre: -->
-<!-- - $x$ = tempo de fritura (s) -->
-<!-- - $y$ = teor de umidade (%) -->
-<!-- foram apresentados no artigo *"Thermal and Physical Properties of Tortilla Chips as a Function of Frying Time"* (*J. Food Process. Preserv.* 1995: 175–189). -->
-<!-- Tabela. Tempo de Fritura ($x$) e Teor de Umidade ($y$) -->
-<!-- | $x$   | 5    | 10   | 15   | 20   | 25   | 30   | 45   | 60   | -->
-<!-- |-------|------|------|------|------|------|------|------|------| -->
-<!-- | $y$   | 16,3 | 9,7  | 8,1  | 4,2  | 3,4  | 2,9  | 1,9  | 1,3  | -->
-<!--   a. Construa um diagrama de dispersão dos dados e comente. -->
-<!--   b. Construa um diagrama de dispersão dos pares $(\ln(x), \ln(y))$, ou seja, transforme $x$ e $y$ aplicando logaritmo natural e comente. -->
-<!--   c. Considere o modelo de potência multiplicativa: -->
-<!-- $$Y = \alpha x^{\beta} \varepsilon.$$ -->
-<!-- O que esse modelo implica sobre a relação entre $y' = \ln(y)$ e $x' = \ln(x)$, assumindo que $\varepsilon$ tem uma distribuição lognormal? -->
-<!--   d. Obtenha um intervalo de confiança para o teor de umidade quando o tempo de fritura for 25s. *Dica:* Primeiro, realize uma regressão linear simples de $y'$ em $x'$ e calcule um intervalo de confiança apropriado. Depois, retorne para a escala original da variável. -->
-<!--   e. Obtenha um intervalo de predição para o teor de umidade quando o tempo de fritura for 40s.  -->
-<!-- 10. Marque verdadeiro (V) ou falso (F): -->
-<!--   a. Um modelo de regressão linear com um termo de intercepto sempre passará pelo centróide dos dados. -->
-<!--   b. A variância da resposta prevista em um modelo de regressão linear é mínima no valor médio da variável preditora. -->
-<!--   c. O intervalo de confiança para a resposta média em um determinado valor da variável preditora é sempre mais largo que o intervalo de predição para uma nova observação no mesmo ponto. -->
-<!--   d. O método dos mínimos quadrados garante que os estimadores da inclinação e do intercepto em um modelo de regressão linear sejam os melhores estimadores lineares não viesados (BLUE - Best Linear Unbiased Estimator). -->
-<!--   e. Para qualquer modelo de regressão linear simples que tenha um intercepto, a soma dos resíduos é sempre zero. -->
+<ol start="4" type="1">
+<li>Considerando os dados do exercício 1, ajuste um modelo usando apenas <span class="math inline">\(x_7\)</span> e <span class="math inline">\(x_8\)</span> como regressores.</li>
+</ol>
+<ol type="a">
+<li><p>Teste a significância da regressão.</p></li>
+<li><p>Calcule o <span class="math inline">\(R^2\)</span> e o <span class="math inline">\(R^2_{\text{aj}}\)</span>. Como esses valores se comparam aos valores obtidos para o modelo do exercício 1, que incluía um regressor adicional (<span class="math inline">\(x_2\)</span>)?</p></li>
+<li><p>Calcule um intervalo de confiança de 95% para <span class="math inline">\(\beta_7\)</span>. Calcule também um intervalo de confiança de 95% para o número médio de jogos ganhos por um time quando <span class="math inline">\(x_7 = 56,0\)</span> e <span class="math inline">\(x_8 = 2100\)</span>. Compare o comprimento desses intervalos com os intervalos correspondentes obtidos no exercício 3.</p></li>
+<li><p>Que conclusões você pode tirar deste problema sobre as consequências de se omitir um regressor importante de um modelo?</p></li>
+</ol>
+<ol start="5" type="1">
+<li>McDonald e Ayers (1978) apresentam dados de um estudo inicial que examinou a possível relação entre poluição do ar e mortalidade. A Tabela B.15 resume os dados. A variável resposta MORT é a mortalidade total ajustada por idade, considerando todas as causas, em mortes por 100.000 habitantes. O regressor PRECIP é a precipitação anual média (em polegadas), EDUC é o número mediano de anos escolares completos para pessoas com idade igual ou superior a 25 anos, NONWHITE é a porcentagem da população não branca de 1960, NOX é o potencial relativo de poluição por óxidos de nitrogênio, e SO₂ é o potencial relativo de poluição por dióxido de enxofre. O “potencial relativo de poluição” é o produto das toneladas emitidas por dia por quilômetro quadrado e um fator de correção das dimensões e exposição das SMSA (áreas metropolitanas).</li>
+</ol>
+<ol type="a">
+<li><p>Ajuste um modelo de regressão linear múltipla relacionando a taxa de mortalidade a esses regressores.</p></li>
+<li><p>Teste a significância da regressão. Que conclusões você pode tirar?</p></li>
+<li><p>Utilize testes <span class="math inline">\(t\)</span> para avaliar a contribuição de cada regressor ao modelo. Discuta seus achados.</p></li>
+<li><p>Calcule o <span class="math inline">\(R^2\)</span> e o <span class="math inline">\(R^2_{\text{aj}}\)</span> para este modelo.</p></li>
+<li><p>Obtenha um intervalo de confiança de 95% para o coeficiente de regressão de SO₂</p></li>
+</ol>
+<ol start="2" type="1">
+<li>Suponha que desejamos utilizar o modelo desenvolvido no exercício 1 para prever o número de jogos que uma equipe vencerá se conseguir limitar o número de jardas conquistadas em corridas pelos adversários a 1800 jardas.</li>
+</ol>
+<ol type="a">
+<li><p>Encontre uma estimativa pontual para o número de jogos vencidos quando <span class="math inline">\(x_8 = 1800\)</span>.</p></li>
+<li><p>Encontre um intervalo de predição de <span class="math inline">\(90\%\)</span> para o número de jogos vencidos.</p></li>
+</ol>
 <hr>
 <div style="text-align: center;">
 <p><a href="https://instagram.com/profjulianobortolini">@profjulianobortolini</a>      <a href="http://www.julianobortolini.com.br">www.julianobortolini.com.br</a>      <a href="https://linkedin.com/in/julianobortolini">linkedin</a>      <a href="https://github.com/julianobortolini">github</a>       <a href="http://lattes.cnpq.br/6210909768845403">lattes</a></p>

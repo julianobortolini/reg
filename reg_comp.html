@@ -3259,7 +3259,6 @@ window.Quarto = {
 
 
 <p><em>Bacharelado em Estatística - UFMT</em></p>
-<p><em>Período letivo: 2024/2</em></p>
 <section id="modelo-de-regressão-linear-simples" class="level1">
 <h1>Modelo de Regressão Linear Simples</h1>
 <section id="experimento" class="level2">
@@ -6169,7 +6168,7 @@ Attaching package: &#39;boot&#39;</code></pre>
 <span id="cb228-7"><a href="#cb228-7" aria-hidden="true" tabindex="-1"></a>cv_m1 <span class="ot">&lt;-</span> <span class="fu">cv.glm</span>(<span class="at">data =</span> tabela1, <span class="at">glmfit =</span> m1, <span class="at">K =</span> K)</span>
 <span id="cb228-8"><a href="#cb228-8" aria-hidden="true" tabindex="-1"></a>cv_m1<span class="sc">$</span>delta  <span class="co"># delta[1] = erro de validação cruzada</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3.883808 3.635400</code></pre>
+<pre><code>[1] 3.086221 3.004128</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb230"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb230-1"><a href="#cb230-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> x2 <span class="sc">+</span> x8,</span>
 <span id="cb230-2"><a href="#cb230-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> tabela1,</span>
@@ -6177,8 +6176,12 @@ Attaching package: &#39;boot&#39;</code></pre>
 <span id="cb230-4"><a href="#cb230-4" aria-hidden="true" tabindex="-1"></a>cv_m2 <span class="ot">&lt;-</span> <span class="fu">cv.glm</span>(<span class="at">data =</span> tabela1, <span class="at">glmfit =</span> m2, <span class="at">K =</span> K)</span>
 <span id="cb230-5"><a href="#cb230-5" aria-hidden="true" tabindex="-1"></a>cv_m2<span class="sc">$</span>delta  <span class="co"># delta[1] = erro de validação cruzada</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3.780593 3.655748</code></pre>
+<pre><code>[1] 3.448716 3.389706</code></pre>
 </div>
+</div>
+<hr>
+<div style="text-align: center;">
+<p><a href="https://instagram.com/profjulianobortolini">@profjulianobortolini</a>      <a href="http://www.julianobortolini.com.br">www.julianobortolini.com.br</a>      <a href="https://linkedin.com/in/julianobortolini">linkedin</a>      <a href="https://github.com/julianobortolini">github</a>       <a href="http://lattes.cnpq.br/6210909768845403">lattes</a></p>
 </div>
 </section>
 </section>

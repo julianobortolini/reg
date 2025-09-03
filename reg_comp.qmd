@@ -15,7 +15,6 @@ engine: knitr
 
 *Bacharelado em Estatística - UFMT*
 
-*Período letivo: 2024/2*
 
 # Modelo de Regressão Linear Simples
 
@@ -1217,4 +1216,11 @@ cv_m2 <- cv.glm(data = tabela1, glmfit = m2, K = K)
 cv_m2$delta  # delta[1] = erro de validação cruzada
 ```
 
+
+
+------------------------------------------------------------------------
+
+::: {style="text-align: center;"}
+[\@profjulianobortolini](https://instagram.com/profjulianobortolini)      [www.julianobortolini.com.br](http://www.julianobortolini.com.br)      [linkedin](https://linkedin.com/in/julianobortolini)      [github](https://github.com/julianobortolini)       [lattes](http://lattes.cnpq.br/6210909768845403)
+:::
 
