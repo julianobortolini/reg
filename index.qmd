@@ -22,6 +22,7 @@ engine: knitr
 -   Monitor: Heliton (quarta-feira das 18 às 19h)
 -   Avaliação 1: escrita. Data: **30/7/2025**. Conteúdo: correlação e regressão linear simples.
 -   Relatório parcial: entrega do relatório parcial de análise de dados (etapa 1). Data: **4/8/2025**
+-   Avaliação 2: escrita, computacional e oral. Data: **13/9/2025**. Conteúdo: toda a disciplina.
 
 
 ### Ementa:
