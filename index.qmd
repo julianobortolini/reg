@@ -79,7 +79,7 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 - Aula 12: aula prática. Experimento de helicóptero de papel.
 
 
-- Aula 13: [avaliação 2](prova2_2025-1.html). Atenção: entregar até as 23:59 do dia 18/9/2025, no AVA.
+- Aula 13: [avaliação 2](prova2_2025-1.html). Atenção: entregar até às 23:59 do dia 18/9/2025, no AVA.
 
 
 - Aula 14: entrega do trabalho final (relatório de análise de dados). Data: 22/9/2025.
