@@ -19,8 +19,9 @@ engine: knitr
 ### Avisos:
 
 -   Última atualização do site às **`r format(Sys.time(), "%H:%M", tz='America/Cuiaba')`** do dia **`r format(Sys.time(), "%d/%m/%Y")`**.
--   Monitor: Heliton (quarta-feira das 18 às 19h)
-
+-   Monitores: 
+    - Heliton (quarta-feira das 18 às 19h) e 
+    - Eliel (quinta-feira das 18 às 19h).
 
 
 ### Ementa:
@@ -29,22 +30,23 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 ### Notas de aula:
 
+-   Aula 1:
+
+-   Aula 2:
+
+-   Aula 3:
+
 <!-- -   Aulas 1 e 2: Apresentação da disciplina com ementa e avaliações. Introdução ao estudo de regressão a partir do artigo seminal de Francis Galton (1886): [Regression towards mediocrity in hereditary stature](https://zenodo.org/records/1449548), no qual se analisa a relação entre as estaturas de filhos e filhas em função das estaturas de pais e mães, destacando-se a tendência de regressão à média (aproximadamente 2/3). Exploração da obtenção de modelos por meio de equações diferenciais. Estudo do modelo de crescimento e decaimento exponencial. Introdução ao modelo de regressão linear simples, exemplificado pela relação entre tempo e distância de deslocamento. Ampliação para o modelo de regressão linear múltipla, incluindo variáveis indicadoras e efeitos de interação (por exemplo, a interação entre distância de deslocamento e o horário em que ocorre). Aplicações adicionais incluem a modelagem de relações entre variáveis em instrumentos psicométricos (escores) e a utilização de modelos de dose-resposta, com destaque para o modelo logístico. -->
 
-
 <!-- -   Aula 3: definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, estimador para a covariância e correlação, exemplo de cálculo de covariância e correlação com dados reais (consumo de açúcar e taxa de depressão), teste de hipóteses para correlação (teste 1: $H_0: \rho = 0$ versus $H_1: \rho \neq 0$ e teste 2: $H_0: \rho = \rho_0$ versus $H_1: \rho \neq \rho_0$) e exercício de teste de hipóteses para correlação. **Tarefa para casa:** correlação como medida de proporção entre duas variáveis (padronizadas) $Z_1 = k Z_2$. -->
-
 
 <!-- -   [Lista 1](lista1_2025-1.html): covariância e correlação. -->
 
 <!-- -   Aula 4: apresentação da definição formal do modelo de regressão, com exemplo motivacional. Construção e interpretação do gráfico de dispersão para visualização da relação entre duas variáveis. Modelo de regressão linear simples, com detalhamento de suas componentes e respectivas interpretações. Cálculo da média e da variância condicional de $Y$ dado $x$, $E(Y|x)$ e $\text{Var}(Y|x)$, com representação gráfica da reta de regressão e das curvas de densidade associadas. Discussão sobre o conceito de variância constante (homocedasticidade) e suas implicações para o ajuste do modelo. Definição do modelo de regressão linear múltipla, com apresentação de casos particulares, como o modelo de regressão polinomial. Distinção entre relação linear (ou não linear) entre variáveis e relação linear (ou não linear) entre os parâmetros do modelo. Estudo da estimação dos parâmetros do modelo de regressão linear simples por meio do método dos mínimos quadrados, acompanhado de um exemplo ilustrativo. **Tarefa:** estudar o método de estimação de máxima verossimilhanca, testes de hipóteses e intervalos de confiança para parâmetros. -->
 
-
 <!-- -   [Lista 2](lista2_2025-1.html): um pouco mais sobre covariância e correlação. -->
 
-
 <!-- -   [Lista 3](lista3_2025-1.html): ajuste de modelos de regressão linear simples. -->
-
 
 <!-- -   Aula 5: estimação de $\sigma^2$ ($\hat{\sigma}^2 = QMErro$, quadrado médio do erro), propriedades dos estimadores de mínimos quadrados para os parâmetros $\beta_0$ e $\beta_1$, esperança e variância, distribuição de probabilidade dos estimadores (beta0 e beta1), intervalos de confiança e testes de hipóteses (Wald), exemplo de IC e TH para os parâmetros. -->
 
@@ -53,7 +55,6 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 <!-- -   [Lista 4](lista4_2025-1.html): ajuste de modelos de regressão linear simples e inferência estatística (intervalos de confiança e testes de hipóteses). -->
 
 <!-- -   [Relatório](trabalho_2025-1.html): orientações para a entrega do relatório parcial de análise de dados (etapa 1). Data da entrega: 4/8/2025. -->
-
 
 <!-- -   Aula 7: avaliação 1 (escrita). -->
 
@@ -65,20 +66,13 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 <!-- -   Aula 10: Análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. -->
 
-
 <!-- -   Aula 11: regressão com suporte computacional. [Rotina computacional](reg_comp.html). -->
-
-
-
 
 <!-- - [Lista 6](lista6.html): ajuste de modelos de regressão linear múltipla, inferência estatística, análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. -->
 
-
 <!-- - Aula 12: aula prática. Experimento de helicóptero de papel. -->
 
-
 <!-- - Aula 13: [avaliação 2](prova2_2025-1.html). Atenção: entregar até às 23:59 do dia 18/9/2025, no AVA. -->
-
 
 <!-- - Aula 14: entrega do trabalho final (relatório de análise de dados). Data: 22/9/2025. -->
 
@@ -116,22 +110,17 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 <!-- -   Aula 11: avaliação 1 (arguição oral). -->
 
-
 <!-- -   Aula 12: regressão com suporte computacional. [Rotina computacional](reg_comp.html). *Tarefa (1 ponto extra na avaliação 1): refazer a avaliação 1 ([escrita](prova1.pdf) e [computacional](prova1comp.pdf)) usando a rotina da aula.*  -->
-
 
 <!-- -   Aula 13: Análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. [Rotina computacional](reg_comp.html). -->
 
-
 <!-- -   Aula 14: Resolver a [lista 6](lista6.html) ([gabarito](lista6_gab.html), sem os comentários e justificativas nas resoluções). Conteúdos adicionais: teste F parcial para modelos de efeitos aleatórios (comparação de modelos de efeito fixo e efeito misto), multicolinearidade, métodos *forward*, *backward* e *stepwise* para seleção de variáveis e métodos *leave-one-out*, *leave-p-out* e *k-fold* para validação de modelos (validação cruzada). -->
-
 
 <!-- -   Aula 15 (30/4/2025): avaliação 2 (escrita, computacional e arquição oral) com todo o conteúdo da disciplina. -->
 
 <!-- -   [Avaliação 2](prova2.html) -->
 
 <!-- -   Aula 16 (9/5/2025): entrega da avaliação 3 (relatório de análise de dados). -->
-
 
 ### Avaliações:
 
@@ -145,14 +134,11 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 -   $A_3$: listas de exercícios (escrita, computacional e arguição oral), participação na semana da estatística e relatórios de análises. Nota: 0 a 10.
 
-
 A média final ($MF$) será calculada por:
 
 $$MP = 0,3 A_1 + 0,3 A_2 + 0,4 A_3.$$
 
 Se $MF \geq 5$, o aluno será aprovado. Não haverá prova final.
-
-
 
 ### Livro texto:
 
