@@ -1,0 +1,208 @@
+---
+title: "Análise de Regressão"
+author:
+  - name: Prof. Dr. Juliano Bortolini
+    email: profjulianobortolini@gmail.com
+    url: http://www.julianobortolini.com.br
+    affiliations:
+      - name: Universidade Federal de Mato Grosso
+format:
+  html:
+    embed-resources: true
+engine: knitr
+---
+
+*Bacharelado em Estatística - UFMT*
+
+### Lista de exercícios 2
+
+1.  Demonstre as proposições a seguir: Para quaisquer duas variáveis aleatórias $X$ e $Y$:\
+
+    a.  $\text{Cov}(X, Y) = \text{Cov}(Y, X)$\
+    b.  $\text{Cov}(X, X) = V(X)$\
+    c.  (Fórmula alternativa da covariância) $\text{Cov}(X, Y) = \mathbb{E}(XY) - \mu_X \cdot \mu_Y$\
+    d.  (Propriedade distributiva da covariância) Para qualquer variável aleatória $Z$ e quaisquer constantes $a, b, c$: $$\text{Cov}(aX + bY + c, Z) = a\text{Cov}(X, Z) + b\text{Cov}(Y, Z)$$
+
+2.  Demonstre as proposições a seguir: Para quaisquer duas variáveis aleatórias $X$ e $Y$: a. $\text{Corr}(X, Y) = \text{Corr}(Y, X)$ b. $\text{Corr}(X, X) = 1$ c. (Propriedade de invariança à escala) Se $a, b, c, d$ são constantes e $ac > 0$, então: $$\text{Corr}(aX + b, cY + d) = \text{Corr}(X, Y)$$ d. A correlação é limitada: $$-1 \leq \text{Corr}(X, Y) \leq 1$$
+
+3.  Mostre que, quando $X$ e $Y$ são independentes, $$\text{Cov}(X, Y) = \text{Corr}(X, Y) = 0.$$
+
+4.  
+
+<!-- -->
+
+a.  Use as propriedades da covariância para mostrar que\
+    $$\text{Cov}(aX + b, cY + d) = ac \, \text{Cov}(X, Y).$$
+b.  Use a parte (a) juntamente com as propriedades de reescalonamento do desvio padrão para mostrar que\
+    $$ \text{Corr}(aX + b, cY + d) = \text{Corr}(X, Y)$$\
+    quando $ac > 0$ (esta é a propriedade de invariança à escala da correlação).
+c.  O que acontece se $a$ e $c$ tiverem sinais opostos, de modo que $ac < 0$?
+
+<!-- -->
+
+5.  Verifique que, se $Y = aX + b$ com $a \neq 0$, então\
+    $$\text{Corr}(X, Y) = +1 \text{ ou } -1.$$\
+    Sob quais condições $\rho = +1$?
+
+6.  Considere as variáveis padronizadas $Z_X = \frac{(X - \mu_X)}{\sigma_X}$ e $Z_Y = \frac{(Y - \mu_Y)}{\sigma_Y}$, e seja $\rho = \text{Corr}(X, Y)$.\
+
+<!-- -->
+
+a.  Use as propriedades da covariância e da correlação para verificar que\
+    $$\text{Corr}(X, Y) = \text{Cov}(Z_X, Z_Y) = \mathbb{E}(Z_X Z_Y).$$
+b.  Use a linearidade da esperança juntamente com a parte (a) para mostrar que\
+    $$\mathbb{E}[(Z_Y - \rho Z_X)^2] = 1 - \rho^2.$$\
+    *Dica: Se* $Z$ é uma variável aleatória padronizada, quais são sua média e variância, e como isso pode ser usado para determinar $\mathbb{E}(Z^2)$?
+c.  Use a parte (b) para mostrar que\
+    $$-1 \leq \rho \leq 1.$$
+d.  Use a parte (b) para mostrar que $\rho = 1$ implica que\
+    $$Y = aX + b, \quad \text{onde } a > 0,$$\
+    e que $\rho = -1$ implica que\
+    $$Y = aX + b, \quad \text{onde } a < 0.$$
+
+<!-- -->
+
+7.  O **coeficiente de correlação amostral** (estimador da correlaçao) para os $n$ pares $(x_1, y_1), \dots, (x_n, y_n)$ é dado por:
+
+\begin{align*}
+r = & \frac{1}{n-1} \sum_{i=1}^{n} \left( \frac{x_i - \bar{x}}{s_x} \right) \left( \frac{y_i - \bar{y}}{s_y} \right) = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}} = \frac{S_{xy}}{\sqrt{S_{xx}} \sqrt{S_{yy}}},
+\end{align*} em que $S_{xy}= \sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})$, $S_{xx} = \sum_{i=1}^{n} (x_i - \bar{x})^2$ e $S_{yy} = \sum_{i=1}^{n} (y_i - \bar{y})^2$.
+
+Cálcule o coeficiente de correlação amostral para os seguintes dados:
+
+> 'O artigo *“A Cross-National Relationship Between Sugar Consumption and Major Depression?”* (*Depression and Anxiety* 2002: 118–120) relatou os seguintes dados sobre $x =$ consumo diário de açúcar (calorias per capita) e $y =$ taxa anual de depressão majoritária (casos por 100 pessoas) para uma amostra de seis países.
+
+```{r, echo=FALSE}
+library(knitr)
+
+dados <- data.frame(
+  Country = c("USA", "Canada", "France", "Germany", "New Zealand", "South Korea"),
+  `Sugar consumption` = c(300, 390, 350, 375, 480, 150),
+  `Depression rate` = c(3.0, 5.2, 4.4, 5.0, 5.7, 2.3)
+)
+
+kable(dados, caption = "Consumo diário de açúcar e taxa anual de depressão por país")
+```
+
+8.  Demonstre que $$\frac{1}{n-1} \sum_{i=1}^{n} \left( \frac{x_i - \bar{x}}{s_x} \right) \left( \frac{y_i - \bar{y}}{s_y} \right) = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}}.$$
+
+9.  Para o teste de hipóteses $H_0: \rho = 0$ versus $H_a: \rho \neq 0$, em que $\rho$ é o coeficiente de correlação populacional, o teste de correlação de Pearson é baseado na estatística de teste $$
+    T = \frac{R \sqrt{n - 2}}{\sqrt{1 - R^2}}
+    $$ que segue uma distribuição $t$ com $n - 2$ graus de liberdade. A estatística $R$ é o coeficiente de correlação amostral.
+
+Para um teste de hipóteses sobre a correlação, as hipóteses nula e alternativa, e a região de rejeição são dadas a seguir:
+
+| **Hipótese Alternativa** | **Região de Rejeição para um Teste de Nível** $\alpha$ |
+|--------------------------|----------------------------------------------|
+| $H_a: \rho > 0$ | $t \geq t_{\alpha, n-2}$ |
+| $H_a: \rho < 0$ | $t \leq -t_{\alpha, n-2}$ |
+| $H_a: \rho \neq 0$ | $t \geq t_{\alpha/2, n-2}$ ou $t \leq -t_{\alpha/2, n-2}$ |
+
+> O **Turbine Oil Oxidation Test (TOST)** e o **Rotating Bomb Oxidation Test (RBOT)** são dois procedimentos diferentes para avaliar a estabilidade à oxidação de óleos de turbinas a vapor. O artigo *"Dependence of Oxidation Stability of Steam Turbine Oil on Base Oil Composition"* (*J. Soc. Tribologists Lubricat. Engrs.*, Out. 1997: 19–24) apresentou as seguintes observações para $x =$ tempo do teste TOST (horas) e $y =$ tempo do teste RBOT (minutos) em 12 amostras de óleo.
+
+```{r, echo=FALSE}
+library(knitr)
+
+dados <- data.frame(
+  TOST = c(4200, 3600, 3750, 3675, 4050, 2770, 4870, 4500, 3450, 2700, 3750, 3300),
+  RBOT = c(370, 340, 375, 310, 350, 200, 400, 375, 285, 225, 345, 285)
+)
+
+kable(dados, caption = "Resultados dos testes TOST e RBOT para 12 amostras de óleo")
+```
+
+a.  Calcule e interprete o valor do coeficiente de correlação amostral (como fizeram os autores do artigo).
+b.  Como o valor de $r$ seria afetado se tivéssemos escolhido $x =$ tempo RBOT e $y =$ tempo TOST?
+c.  Como o valor de $r$ seria afetado se o tempo RBOT fosse expresso em horas?
+d.  Realize um teste de hipóteses para decidir se os tempos dos testes RBOT e TOST estão linearmente relacionados.
+
+<!-- -->
+
+10. Quando $(X_1, Y_1), \dots, (X_n, Y_n)$ é uma amostra de uma distribuição normal bivariada, a variável aleatória $$
+    V = \frac{1}{2} \ln \left( \frac{1 + R}{1 - R} \right)
+    $$ segue aproximadamente uma distribuição normal com média e variância: $$
+    \mu_V = \frac{1}{2} \ln \left( \frac{1 + \rho}{1 - \rho} \right), \quad \sigma_V^2 = \frac{1}{n - 3}.
+    $$ A estatística de teste para $H_0: \rho = \rho_0$ é dada por: $$
+    Z = \frac{V - \frac{1}{2} \ln [(1 + \rho_0) / (1 - \rho_0)]}{1 / \sqrt{n - 3}}
+    $$ As hipóteses nula e alternativa, e a região de rejeição são dadas a seguir:
+
+| **Hipótese Alternativa** | **Região de Rejeição para um Teste de Nível** $\alpha$ |
+|--------------------------|----------------------------------------------|
+| $H_a: \rho > \rho_0$ | $z \geq z_{\alpha}$ |
+| $H_a: \rho < \rho_0$ | $z \leq -z_{\alpha}$ |
+| $H_a: \rho \neq \rho_0$ | $z \geq z_{\alpha/2}$ ou $z \leq -z_{\alpha/2}$ |
+
+Um intervalo de confiança de $100(1 - \alpha)\%$ para $\rho$ é dado por: $$
+\left( \frac{e^{2c_1} - 1}{e^{2c_1} + 1}, \quad \frac{e^{2c_2} - 1}{e^{2c_2} + 1} \right),
+$$ em que $c_1$ e $c_2$ são os extremos inferior e superior do intervalo na seguinte expressão: $$
+v \pm z_{\alpha/2} \cdot \sigma_V = \frac{1}{2} \ln \left( \frac{1 + r}{1 - r} \right) \pm \frac{z_{\alpha/2}}{\sqrt{n - 3}}.
+$$
+
+Usando os dados do exercício anterior, verifique a hipótese $H_0: \rho = 0,70$ versus $H_a: \rho \neq 0,70$ ao nível de significância de 5%. Calcule o intervalo de confiança de 95% para $\rho$.
+
+11. 
+
+    > O hidrogênio é considerado um fator importante na porosidade de fundições de ligas de alumínio. O artigo *"The Reduced Pressure Test as a Measuring Tool in the Evaluation of Porosity/Hydrogen Content in A1–7 Wt Pct Si-10 Vol Pct SiC(p) Metal Matrix Composite"* (*Metallurg. Trans.* 1993: 1857–1868) apresenta os seguintes dados sobre $x =$ conteúdo de hidrogênio e $y =$ porosidade do gás para uma técnica específica de medição.
+
+```{r, echo = FALSE}
+library(knitr)
+
+dados <- data.frame(
+  x = c(.18, .20, .21, .21, .21, .22, .23, .23, .24, .24, .25, .28, .30, .37),
+  y = c(.46, .70, .41, .45, .55, .44, .24, .47, .22, .80, .88, .70, .72, .75)
+)
+
+kable(dados, caption = "Dados sobre conteúdo de hidrogênio e porosidade do gás")
+```
+
+a.  Calcule e interprete o valor do coeficiente de correlação amostral.
+b.  Realize um teste de hipóteses para decidir se o conteúdo de hidrogênio e a porosidade do gás estão linearmente relacionados.
+c.  Calcule um intervalo de confiança de 95% para o coeficiente de correlação populacional.
+
+<!-- -->
+
+12. Seja $x$ o número de horas de estudo por semana e $y$ a média de notas nas provas. Suponha que temos uma amostra de pares $(x, y)$ para mulheres e outra para homens. Queremos testar a hipótese: $$
+    H_0: \rho_1 - \rho_2 = 0
+    $$ contra a alternativa de que os coeficientes de correlação populacional são diferentes.
+
+<!-- -->
+
+a)  Utilize as propriedades da variável transformada $$
+      V = \frac{1}{2} \ln \left( \frac{1 + R}{1 - R} \right)
+      $$ para propor uma estatística de teste apropriada e a região de rejeição. Considere $R_1$ e $R_2$ os coeficientes de correlação amostral das duas amostras.
+
+b)  
+
+    > O artigo *"Relational Bonds and Customer’s Trust and Commitment: A Study on the Moderating Effects of Web Site Usage"* (*Serv. Ind. J.* 2003: 103–124) relatou que: $n_1 = 261$, $r_1 = 0.59$, $n_2 = 557$ e $r_2 = 0.50$. A primeira amostra consistia de usuários corporativos de websites, enquanto a segunda amostra consistia de não usuários. Aqui, $r$ representa a correlação entre a avaliação da força dos laços econômicos e o desempenho.
+
+Realize o teste de hipóteses $H_0: \rho_1 - \rho_2 = 0$ para esses dados, conforme feito pelos autores do artigo citado.
+
+13. Considere uma série temporal, ou seja, uma sequência de observações $X_1, X_2, \dots$ sobre alguma variável resposta (por exemplo, a concentração de um poluente, valor de uma ação, temperatura em uma região) ao longo do tempo. Suponha que os valores observados são $x_1, x_2, \dots, x_n$ ao longo de $n$ períodos de tempo. O **coeficiente de autocorrelação de defasagem 1** (lag 1), que avalia a força da relação entre os valores da série separados por uma unidade de tempo, é definido como: $$r_1 = \frac{\sum_{i=1}^{n-1} (x_i - \bar{x}) (x_{i+1} - \bar{x})}{\sum_{i=1}^{n} (x_i - \bar{x})^2}$$ Os coeficientes de autocorrelação $r_2, r_3, \dots$ para defasagens $2, 3, \cdots$ são definidos de maneira análoga.
+
+<!-- -->
+
+a)  Calcule o valor de $r_1$ para os seguintes dados de temperatura coletados ao longo do tempo:
+
+```{r, echo=FALSE}
+library(knitr)
+
+dados <- data.frame(
+  Tempo = 1:13,
+  Temperatura = c(47, 54, 53, 50, 46, 46, 47, 50, 51, 50, 46, 52, 50)
+)
+
+kable(dados, caption = "Dados da temperatura ao longo do tempo")
+```
+
+b)  Faça um gráfico de dispersão da temperatura $x_t$ contra o tempo $t$ (gráfico de série temporal). Você observa algum padrão?
+c)  Analogamente ao coeficiente de correlação populacional $\rho$, seja $\rho_i$ (para $i = 1, 2, 3, \dots$) o coeficiente de autocorrelação teórica para diferentes defasagens. Se todos esses $\rho$’s forem zero, não há relação linear entre as observações da série temporal em nenhuma defasagem. Nesse caso, se $n$ for grande, cada $R_i$ segue aproximadamente uma distribuição normal com média 0 e desvio padrão $1/\sqrt{n}$, e diferentes $R_i$ são quase independentes. Portanto, a hipótese nula $H_0: \rho_i = 0$ pode ser rejeitada em um nível de significância de aproximadamente $0.05$ se: $$r_i \geq \frac{2}{\sqrt{n}} \quad \text{ou} \quad r_i \leq -\frac{2}{\sqrt{n}}.$$ Se $n = 100$ e os coeficientes amostrais observados forem: $$r_1 = 0.16, \quad r_2 = -0.09, \quad r_3 = -0.15,$$ há evidências de autocorrelação teórica nas três primeiras defasagens? Está claro o motivo de rejeitar $H_0$ quando $|r_i| > 2/\sqrt{n}$? Dica: qual é o valor de $z_{0.025}$?
+
+<!-- -->
+
+14. Refaça todos os exercícios usando recursos computacionais (por exemplo, R, Python, Excel, etc.) para calcular os coeficientes de correlação, realizar os testes de hipóteses e construir os intervalos de confiança. **Atenção:** apenas agora (nesse exercício) é para usar recursos computacionais.
+
+------------------------------------------------------------------------
+
+::: {style="text-align: center;"}
+[\@profjulianobortolini](https://instagram.com/profjulianobortolini)      [www.julianobortolini.com.br](http://www.julianobortolini.com.br)      [linkedin](https://linkedin.com/in/julianobortolini)      [github](https://github.com/julianobortolini)       [lattes](http://lattes.cnpq.br/6210909768845403)
+:::
