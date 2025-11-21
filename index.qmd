@@ -38,7 +38,7 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 - Aula 4: Revisão da aula anterior, modelo que relaciona as variáveis $X$ e $Y$, sabendo que as variáveis são proporcionais. Correlação para duas variáveis normais e o modelo de regressão. Teste de hipóteses para correlação (teste 1: $H_0: \rho = 0$ versus $H_1: \rho \neq 0$ e teste 2: $H_0: \rho = \rho_0$ versus $H_1: \rho \neq \rho_0$) e exercício de obter o modelo que relaciona a taxa de depressão com o consumo de açucar. Obter a taxa de depressão de um país que tem uma média de consumo de açúcar de 400 cal *per capita*. 
 
-- Aula 5: Resolver a lista [Lista 1](lista1_2025-2.html).
+- Aula 5: Resolver a lista [Lista 1](lista1_2025-2_gab.html). Atenção, a lista já está resolvida usando o software R.
 
 - [Lista 2](lista2_2025-2.html): mais sobre covariância e correlação.
 
