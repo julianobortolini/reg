@@ -1,0 +1,196 @@
+/*-----------------------------------------------------------------------
+  tema-juca.scss  —  Tema Quarto revealjs
+  Adaptação da identidade "sydney-juca3" (xaringan) do Prof. Juliano Bortolini
+  para apresentações Quarto (revealjs). Cores, fontes e elementos visuais
+  reproduzem o estilo usado nas Notas de Aula (UFMT).
+  Uso no YAML:  format: revealjs: { theme: [default, tema-juca.scss] }
+-------------------------------------------------------------------------*/
+
+/*-- scss:defaults --*/
+
+// Fontes (as mesmas do sydney-fonts.css)
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700');
+
+// Paleta da marca (masterbrand + acentos)
+$verde:     #50c878;   // verde esmeralda — cor primária (JUCA)
+$azul:      #0148A4;   // azul de acento
+$amarelo:   #FFB800;   // amarelo de acento
+$carvao:    #424242;   // charcoal
+$cinza:     #F1F1F1;   // cinza de apoio
+$verde-box: #7bc043;   // borda das caixas de exemplo
+
+// Variáveis do revealjs (Quarto)
+$body-bg:   #ffffff;
+$body-color: #212121;
+$link-color: $azul;
+$selection-bg: rgba(80, 200, 120, 0.35);
+
+$font-family-sans-serif: 'Roboto', Arial, sans-serif;
+$font-family-monospace:  'Source Code Pro', 'Lucida Console', Monaco, monospace;
+$presentation-font-size-root: 30px;
+$presentation-line-height: 1.4;
+
+$presentation-heading-font: 'Roboto Condensed', 'Roboto', sans-serif;
+$presentation-heading-font-weight: 400;
+$presentation-heading-color: $verde;
+$presentation-h1-font-size: 1.9em;
+$presentation-h2-font-size: 1.35em;
+$presentation-h3-font-size: 1.1em;
+
+$code-block-font-size: 0.60em;
+$code-block-bg: #f7f7f7;
+
+/*-- scss:rules --*/
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  font-family: 'Roboto Condensed', 'Roboto', sans-serif;
+  font-weight: 400;
+  text-transform: none;
+}
+// título do slide (##) em verde
+.reveal h2 { color: $verde; }
+
+/* ---------- Alinhamento à esquerda (estilo das aulas) ---------- */
+.reveal .slides section { text-align: left; }
+.reveal .slides section > * { margin-left: 0; margin-right: 0; }
+// capa: título, subtítulo, autor, data — tudo à esquerda
+#title-slide,
+.reveal section.title-slide { text-align: left; }
+#title-slide .title,
+#title-slide .subtitle,
+#title-slide .date,
+#title-slide .institute { text-align: left; margin-left: 0; }
+#title-slide .quarto-title-authors {
+  display: block;
+  text-align: left;
+  justify-content: flex-start;
+}
+#title-slide .quarto-title-author { text-align: left; padding-left: 0; }
+// mantém figuras e legendas centralizadas mesmo com texto à esquerda
+.reveal .slides section .quarto-figure,
+.reveal .slides section figure,
+.reveal .slides section p:has(> img) { text-align: center; }
+.reveal .caption { text-align: center; }
+
+/* ---------- Slide de título ---------- */
+/* o fundo verde + logo são definidos via title-slide-attributes no YAML */
+#title-slide .title,
+.reveal .slides section.title-slide .title { color: #ffffff; font-weight: 400; }
+#title-slide .subtitle { color: #0a0a0a; font-weight: 400; }
+#title-slide .quarto-title-author-name,
+#title-slide .quarto-title-affiliation,
+#title-slide .date,
+#title-slide .institute { color: #0a0a0a; }
+
+/* ---------- Divisores de seção (# com classe .secao) ---------- */
+.reveal .secao h1,
+.reveal .secao h2,
+.reveal .secao h3,
+.reveal .secao p { color: #ffffff; text-shadow: 0 0 8px rgba(0,0,0,0.35); }
+
+/* ---------- Caixa de EXEMPLO (.blockgreen) — elemento-assinatura ---------- */
+.reveal .blockgreen {
+  display: block;
+  margin: 0.3em 4px 0.5em 4px;
+  border-left:   solid 15px $verde-box;
+  border-top:    solid 3px  $verde-box;
+  border-bottom: solid 3px  $verde-box;
+  border-right:  solid 3px  $verde-box;
+  box-shadow: 0 0 6px rgba(0,0,0,0.5);
+  border-radius: 5px;
+  background: #ffffff;
+  color: #000000;
+  padding: 0.4em 0.7em;
+}
+.reveal .blockgreen > :first-child { margin-top: 0; }
+.reveal .blockgreen > :last-child  { margin-bottom: 0; }
+.reveal .blockgreen h1:first-of-type,
+.reveal .blockgreen h2:first-of-type,
+.reveal .blockgreen h3:first-of-type,
+.reveal .blockgreen h4:first-of-type { color: $verde; margin-top: 0; }
+
+/* ---------- Citação (blockquote) azul, estilo "USYD" ---------- */
+.reveal blockquote {
+  display: block;
+  width: auto;
+  margin: 0.3em 6px;
+  border-left:   solid 10px $azul;
+  border-top:    solid 2px  $azul;
+  border-bottom: solid 2px  $azul;
+  border-right:  solid 2px  $azul;
+  box-shadow: 0 0 6px rgba(0,0,0,0.5);
+  border-radius: 5px;
+  background: #ffffff;
+  color: #000000;
+  padding: 0.5em 0.7em;
+  font-style: normal;
+}
+.reveal blockquote p { margin: 0.2em 0; }
+
+/* ---------- Caixas de conteúdo coloridas ---------- */
+.reveal .content-box-green,
+.reveal .content-box-blue,
+.reveal .content-box-yellow,
+.reveal .content-box-grey,
+.reveal .content-box-red {
+  box-sizing: border-box;
+  border-radius: 15px;
+  margin: 0 0 12px;
+  padding: 4px 20px;
+  width: 100%;
+}
+.reveal .content-box-green  { background-color: #d9edc2; }
+.reveal .content-box-blue   { background-color: #F0F8FF; }
+.reveal .content-box-yellow { background-color: #fef5c4; }
+.reveal .content-box-grey   { background-color: #F5F5F5; }
+.reveal .content-box-red    { background-color: #ffcccc; }
+
+/* fundo cinza para slides de exemplo (classe .eg) */
+.reveal .eg { background-color: $cinza; }
+
+/* ---------- Regiões roláveis (.scroll-box-N) ---------- */
+.reveal .scroll-box-12 { max-height: 12em; overflow-y: auto; display: block; }
+.reveal .scroll-box-14 { max-height: 14em; overflow-y: auto; display: block; }
+.reveal .scroll-box-16 { max-height: 16em; overflow-y: auto; display: block; }
+.reveal .scroll-box-18 { max-height: 18em; overflow-y: auto; display: block; }
+.reveal .scroll-box-20 { max-height: 20em; overflow-y: auto; display: block; }
+.reveal .scroll-output { max-height: 78vh; overflow-y: auto; display: block; }
+
+/* ---------- Colunas (float, como no xaringan) ---------- */
+.reveal .pull-left    { float: left;  width: 49%; }
+.reveal .pull-right   { float: right; width: 49%; }
+.reveal .pull-left-2  { float: left;  width: 60%; }
+.reveal .pull-right-1 { float: right; width: 36%; }
+.reveal .pull-left-1  { float: left;  width: 36%; }
+.reveal .pull-right-2 { float: right; width: 60%; }
+
+/* ---------- Auxiliares de cor e tamanho ---------- */
+.green    { color: $verde !important; }
+.blue     { color: $azul !important; }
+.yellow   { color: $amarelo !important; }
+.red      { color: #e64626 !important; }
+.charcoal { color: $carvao !important; }
+.Large    { font-size: 144%; }
+.large    { font-size: 120%; }
+.small    { font-size: 90%; }
+.footnotesize { font-size: 80%; }
+.scriptsize   { font-size: 70%; }
+.tiny     { font-size: 60%; }
+.bold     { font-weight: bold; }
+.center   { text-align: center; }
+.caption  { text-align: center; font-size: 80%; margin-top: 0.1em; }
+
+/* ---------- Código ---------- */
+.reveal pre code { max-height: none; }
+.reveal .remark-inline-code,
+.reveal code { border-radius: 3px; }
+
+/* ---------- Tabelas ---------- */
+.reveal table { font-size: 0.85em; }
+.reveal table thead th { border-bottom: 2px solid $verde; }
+
+/* ---------- Rodapé e numeração ---------- */
+.reveal .footer { color: $carvao; font-size: 0.5em; }
+.reveal .slide-number { color: $carvao; }
