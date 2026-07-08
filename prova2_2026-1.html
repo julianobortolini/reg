@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
 }
+
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+}
+pre.numberSource { margin-left: 3em; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -3224,138 +3258,79 @@ window.Quarto = {
 
 
 <p><em>Bacharelado em Estatística - UFMT</em></p>
-<p><em>Período letivo: 2026/1</em></p>
-<section id="avisos" class="level3">
-<h3 class="anchored" data-anchor-id="avisos">Avisos:</h3>
+<section id="prova-2" class="level2">
+<h2 class="anchored" data-anchor-id="prova-2">Prova 2</h2>
+<p><strong>Orientações:</strong> Será permitido a consulta a uma folha de papel com anotações manuscritas (tamanho A4, frente e verso) para as avaliações escrita e computacional. Não será permitido o uso de internet e de nenhum arquivo computacional (scripts de análise).</p>
+<p><br>
+</p>
+<p><strong>(7,00) Exercício:</strong></p>
+<p>A Leishmaniose Visceral Canina (LVC) é uma zoonose causada pelo protozoário <em>Leishmania infantum</em> e transmitida por flebotomíneos, principalmente do gênero <em>Lutzomyia</em>. Os cães são os principais reservatórios domésticos da infecção, desempenhando papel central na cadeia de transmissão para seres humanos. A doença apresenta evolução crônica e multissistêmica, com manifestações clínicas diversas, como perda de peso, lesões dermatológicas, linfadenopatia, alterações oculares e comprometimento renal.</p>
+<p>O tratamento utilizado neste estudo foi o Alopurinol. Esse medicamento atua inibindo a proliferação do parasito, promovendo melhora clínica e prolongando a sobrevida do animal, sendo uma das principais opções terapêuticas para o manejo da LVC.</p>
+<section id="coleta-de-dados" class="level3">
+<h3 class="anchored" data-anchor-id="coleta-de-dados">Coleta de Dados</h3>
+<p>Foram incluídos no estudo 17 cães diagnosticados com Leishmaniose Visceral Canina. Todos os animais foram submetidos exclusivamente ao tratamento com Alopurinol e acompanhados por um período inicial de 29 dias. As coletas de dados foram realizadas em dois momentos:</p>
 <ul>
-<li>Última atualização do site às <strong>19:06</strong> do dia <strong>08/07/2026</strong>.</li>
-<li>Monitores: Matheus e Hudson.</li>
-<li>Avaliação 1: 27/5/2026. Será permitido a consulta a uma folha de papel com anotações manuscritas (tamanho A4, frente e verso) para as avaliações escrita e computacional. Não será permitido o uso de internet e de nenhum arquivo computacional (scripts de análise). Será permitido o uso de calculadora científica. Será permitido o uso do software R para cálculos computacionais exclusivamente na avaliação computacional. A avaliação será escrita, computacional e arguição oral.</li>
-<li>Tabelas: <a href="tab_F_5.pdf">F (5%)</a>, <a href="tab_F_1.pdf">F (1%)</a> e <a href="tab_t.pdf">t</a>.</li>
+<li><strong>Tempo 0</strong>: na data do diagnóstico da LVC;</li>
+<li><strong>Tempo 29</strong>: 29 dias após o início do tratamento.</li>
 </ul>
 </section>
-<section id="ementa" class="level3">
-<h3 class="anchored" data-anchor-id="ementa">Ementa:</h3>
-<p>Análise de correlação. Regressão linear simples e múltipla. Regressão com variáveis qualitativas. Técnicas de diagnóstico em regressão. Seleção de variáveis e construção de modelos. Validação de modelos. Transformação de variáveis.</p>
-</section>
-<section id="notas-de-aula" class="level3">
-<h3 class="anchored" data-anchor-id="notas-de-aula">Notas de aula:</h3>
+<section id="variáveis-coletadas" class="level3">
+<h3 class="anchored" data-anchor-id="variáveis-coletadas">Variáveis Coletadas</h3>
+<!-- As seguintes variáveis clínicas, imunológicas, hematológicas e bioquímicas foram registradas para cada animal: -->
+<p>As seguintes variáveis foram registradas para cada animal:</p>
 <ul>
-<li><p>Aula 1: apresentação da disciplina: avaliações, ementa, livro texto e materiais complementares, sistema de frequência e faltas. O que é regressão. Tipos de regressão. Exemplos de regressão. Covariância: definição, propriedades, representação gráfica e estimador amostral. Correlação: definição, propriedades e estimador amostral. Correlação de Pearson. Estatísticas <span class="math inline">\(S_{XY}\)</span>, <span class="math inline">\(S_{XX}\)</span> e <span class="math inline">\(S_{YY}\)</span>. Exemplo “<a href="https://onlinelibrary.wiley.com/doi/10.1002/da.10054">A cross-national relationship between sugar consumption and major depression?</a>”: calcular a covariância e correlação. Dados disponibilizados em sala.</p></li>
-<li><p><a href="lista1_2026-1.html">Lista 1</a>: covariância e correlação.</p></li>
-<li><p>Aula 2: feriado.</p></li>
-<li><p>Aula 3: regressão, regressão linear e não linear, univariada e multivariada, simples e múltipla. Exemplos de modelos. Regressão linear simples: modelo, estimação, teste de hipóteses (teste Wald) para os parâmetros e intervalos de confiança. <a href="exemplo1_rls.R">Exemplo no R</a>.</p></li>
-<li><p><a href="lista2_2026-1.html">Lista 2</a>: regressão linear simples: estimação, teste de hipóteses e intervalos de confiança.</p></li>
-<li><p>Aula 4: modelo de regressão linear simples, estimação de parâmetros pelo método de mínimos quadrados, propriedades dos estimadores de mínimos quadrados, distribuição dos estimadores, teste de hipóteses e intervalos de confiança Wald.</p></li>
-<li><p>Aula 5 (reposição): distribuição dos estimadores de mínimos quadrados, testes de hipóteses e intervalos de confiança Wald para os parâmetros.</p></li>
-<li><p>Aula 6: monitoria com o Hudson. Resolução dos exercícios 3 e 10 da <a href="lista2_2026-1.html">lista 2</a> e exercício m da <a href="lista1_2026-1.html">lista 1</a>.</p></li>
-<li><p>Aula 7: resposta média. Modelo estimado, desenvolvimento dos intervalos de confiança para o valor médio e de predição para novas observações. Análise de variância. Coeficiente de determinação.</p></li>
-<li><p>Aula 8 (reposição): exemplo usando os dados do consumo de açúcar e taxa de depressão. Modelo estimado, intervalo de confiança para o valor médio e intervalo de predição para novas observações. Análise de variância. Coeficiente de determinação. Tarefa: estudar as funções <code>anova</code> e <code>predict</code> do R.</p></li>
-<li><p><a href="lista3_2026-1.html">Lista 3</a>: regressão linear simples: estimação de modelo, teste de hipóteses para os parâmetros, valor médio, novas observações, análise de variância e coeficiente de determinação. Tabelas: <a href="tab_F_5.pdf">F (5%)</a>, <a href="tab_F_1.pdf">F (1%)</a> e <a href="tab_t.pdf">t</a>.</p></li>
-<li><p>Aula 9: monitoria com o Hudson. Resolução dos exercícios 5 e 7 da <a href="lista3_2026-1.html">lista 3</a>.</p></li>
-<li><p>Aula 10: avaliação 1 (escrita, computacional e arguição oral).</p></li>
-<li><p>Aula 11: regressão linear múltipla (RLM): modelo, estimação de parâmetros pelo método de mínimos quadrados, propriedades dos estimadores de mínimos quadrados, distribuição dos estimadores, teste de hipóteses e intervalos de confiança Wald.</p></li>
-<li><p><a href="lista4_2026-1.html">Lista 4</a>: regressão linear múltipla.</p></li>
-<li><p>Aula 12 (reposição): regressão linear múltipla no R. <a href="exemplo1_rlm.R">Exemplo no R</a>.</p></li>
-<li><p>Aula 13: continuação de inferência para regressão linear múltipla. Teste anova, teste Wald, intervalos de confiança para parâmetros, valor médio e novas observações. Análise de resíduos.</p></li>
-<li><p>Aula 14: continuação da análise de resíduos, análise de pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. <a href="exemplo2_rlm.html">Exemplo no R</a>.</p></li>
-<li><p>Aula 15: <a href="reg_comp_2026-1.html">comentários gerais sobre rlm</a>.</p></li>
-<li><p><a href="lista5_2026-1.html">Lista 5</a>: mais sobre regressão linear múltipla.</p></li>
-<li><p>Aula 16: continuação da análise de resíduos, análise de pontos influentes e discrepantes, regressão polinomial, variáveis indicadoras, seleção de variáveis (forward, backward e stepwise) e validação de modelos (leave-one-out e k-fold). <a href="aula_residuos.html">Aula resíduos</a> e <a href="aula_selecao_validacao.html">Aula seleção de variáveis e validação</a>.</p></li>
-<li><p>Aula 17: <a href="prova2_2026-1.html">avaliação 2</a></p></li>
+<li><strong>Escore clínico</strong>: medida semiquantitativa da gravidade clínica do animal, sendo que valores mais altos indicam maior comprometimento sistêmico.</li>
+<li><strong>IL-2 (pg/mL)</strong>: concentração de interleucina 2, associada à resposta imune do tipo Th1 (imunidade celular).<br>
+</li>
+<li><strong>IL-4 (pg/mL)</strong>: concentração de interleucina 4, relacionada à resposta imune do tipo Th2 (imunidade humoral). <!-- - **Hemoglobina (g/dL)**: indicador da capacidade de transporte de oxigênio, avalia presença de anemia. --> <!-- - **Hematócrito (%)**: percentual de células vermelhas no sangue total, também utilizado na avaliação de anemia. --> <!-- - **Plaquetas (mil/mm³)**: contagem plaquetária, utilizada para avaliação de hemostasia e possíveis citopenias. --></li>
+<li><strong>Plaquetas_ref</strong>: se a contagem plaquetária, utilizada para avaliação de hemostasia e possíveis citopenias., é considerada normal (Sim) ou anormal (Não) com base nos valores de referência para cães (200-500 mil/mm³).</li>
+<li><strong>Leucócitos (mil/mm³)</strong>: número total de leucócitos circulantes, indicando resposta inflamatória ou imunossupressão. <!-- - **Ureia (mg/dL)**: marcador da função renal, com elevação em casos de comprometimento glomerular ou tubular. --> <!-- - **Creatinina (mg/dL)**: outro indicador da função renal, mais específico para avaliação da taxa de filtração glomerular. --></li>
+<li><strong>Albumina (g/dL)</strong>: proteína sintetizada no fígado, indicadora do estado nutricional e de processos inflamatórios crônicos. <!-- - **Proteína Total (g/dL)**: soma das proteínas plasmáticas, incluindo albumina e globulinas. --> <!-- - **Globulina (g/dL)**: fração proteica relacionada à resposta imunológica e inflamação crônica. --></li>
 </ul>
-<!-- -   Aula 1: Apresentação da disciplina com ementa e avaliações.  -->
-<!-- -   Aula 2: Semana da estatística. -->
-<!-- -   Aula 3: Definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, estimador para a covariância e correlação, exemplo de cálculo de covariância e correlação com dados reais (consumo de açúcar e taxa de depressão). -->
-<!-- - Aula 4: Revisão da aula anterior, modelo que relaciona as variáveis $X$ e $Y$, sabendo que as variáveis são proporcionais. Correlação para duas variáveis normais e o modelo de regressão. Teste de hipóteses para correlação (teste 1: $H_0: \rho = 0$ versus $H_1: \rho \neq 0$ e teste 2: $H_0: \rho = \rho_0$ versus $H_1: \rho \neq \rho_0$) e exercício de obter o modelo que relaciona a taxa de depressão com o consumo de açucar. Obter a taxa de depressão de um país que tem uma média de consumo de açúcar de 400 cal *per capita*.  -->
-<!-- - Aula 5: Resolver a lista [Lista 1](lista1_2025-2_gab.html). Atenção, a lista já está resolvida usando o software R. -->
-<!-- - [Lista 2](lista2_2025-2.html): mais sobre covariância e correlação. -->
-<!-- - Aula 10: revisão dos conteúdos e correção da prova 1. Análise de regressão no `R`. [Atividade prática no `R`](AP_1_2025-2.html). -->
-<!-- - [Lista 3](lista3_2025-2.html): ajuste de modelo linear simples no `R`. -->
-<!-- - Aula 11: regressão linear múltipla, método de mínimos quadrados, modelo linear em forma matricial, propriedades dos estimadores de mínimos quadrados, estimação de $\sigma^2$, teste de hipóteses para regressão e coeficientes, intervalos de confiança para parâmetros, valor médio e novas observações. Exemplo: the delivery time data (livro do Montgomery). -->
-<!-- - [Lista 4](lista4_2025-2.html): ajuste de modelo linear múltipla no `R`. -->
-<!-- - Aula 12: análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. [Análise no R](reg_comp_2025-2.html). Tarefa (valendo nota): 1. elaborar um texto (com funções em `R`) sobre os métodos de seleção de variáveis e de validação de modelos 2. resolver a [lista 5](lista5_2025-2.html).  -->
-<!-- - [Lista 5](lista5_2025-2.html): análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. -->
-<!-- -   Aulas 1 e 2: Apresentação da disciplina com ementa e avaliações. Introdução ao estudo de regressão a partir do artigo seminal de Francis Galton (1886): [Regression towards mediocrity in hereditary stature](https://zenodo.org/records/1449548), no qual se analisa a relação entre as estaturas de filhos e filhas em função das estaturas de pais e mães, destacando-se a tendência de regressão à média (aproximadamente 2/3). Exploração da obtenção de modelos por meio de equações diferenciais. Estudo do modelo de crescimento e decaimento exponencial. Introdução ao modelo de regressão linear simples, exemplificado pela relação entre tempo e distância de deslocamento. Ampliação para o modelo de regressão linear múltipla, incluindo variáveis indicadoras e efeitos de interação (por exemplo, a interação entre distância de deslocamento e o horário em que ocorre). Aplicações adicionais incluem a modelagem de relações entre variáveis em instrumentos psicométricos (escores) e a utilização de modelos de dose-resposta, com destaque para o modelo logístico. -->
-<!-- -   Aula 3: definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, estimador para a covariância e correlação, exemplo de cálculo de covariância e correlação com dados reais (consumo de açúcar e taxa de depressão), teste de hipóteses para correlação (teste 1: $H_0: \rho = 0$ versus $H_1: \rho \neq 0$ e teste 2: $H_0: \rho = \rho_0$ versus $H_1: \rho \neq \rho_0$) e exercício de teste de hipóteses para correlação. **Tarefa para casa:** correlação como medida de proporção entre duas variáveis (padronizadas) $Z_1 = k Z_2$. -->
-<!-- -   [Lista 1](lista1_2025-1.html): covariância e correlação. -->
-<!-- -   Aula 4: apresentação da definição formal do modelo de regressão, com exemplo motivacional. Construção e interpretação do gráfico de dispersão para visualização da relação entre duas variáveis. Modelo de regressão linear simples, com detalhamento de suas componentes e respectivas interpretações. Cálculo da média e da variância condicional de $Y$ dado $x$, $E(Y|x)$ e $\text{Var}(Y|x)$, com representação gráfica da reta de regressão e das curvas de densidade associadas. Discussão sobre o conceito de variância constante (homocedasticidade) e suas implicações para o ajuste do modelo. Definição do modelo de regressão linear múltipla, com apresentação de casos particulares, como o modelo de regressão polinomial. Distinção entre relação linear (ou não linear) entre variáveis e relação linear (ou não linear) entre os parâmetros do modelo. Estudo da estimação dos parâmetros do modelo de regressão linear simples por meio do método dos mínimos quadrados, acompanhado de um exemplo ilustrativo. **Tarefa:** estudar o método de estimação de máxima verossimilhanca, testes de hipóteses e intervalos de confiança para parâmetros. -->
-<!-- -   [Lista 2](lista2_2025-1.html): um pouco mais sobre covariância e correlação. -->
-<!-- -   [Lista 3](lista3_2025-1.html): ajuste de modelos de regressão linear simples. -->
-<!-- -   Aula 5: estimação de $\sigma^2$ ($\hat{\sigma}^2 = QMErro$, quadrado médio do erro), propriedades dos estimadores de mínimos quadrados para os parâmetros $\beta_0$ e $\beta_1$, esperança e variância, distribuição de probabilidade dos estimadores (beta0 e beta1), intervalos de confiança e testes de hipóteses (Wald), exemplo de IC e TH para os parâmetros. -->
-<!-- -   Aula 6: desenvolvimento da expressão $SQErro = SQTotal - SQReg = S_{yy} - \hat{\beta}_1Sxy$, intervalo de confiança para o valor estimado (média), intervalo de predição (novas observações ou observações futuras) e exemplo. Lembrete: próxima aula será a avaliação teórica. É permitida a consulta a qualquer material, exceto celular e computador. -->
-<!-- -   [Lista 4](lista4_2025-1.html): ajuste de modelos de regressão linear simples e inferência estatística (intervalos de confiança e testes de hipóteses). -->
-<!-- -   [Relatório](trabalho_2025-1.html): orientações para a entrega do relatório parcial de análise de dados (etapa 1). Data da entrega: 4/8/2025. -->
-<!-- -   Aula 7: avaliação 1 (escrita). -->
-<!-- -  Aula 8: definição de modelo de regressão linear múltipla, efeitos simples e de interação, modelo na forma matricial, estimação de parâmetros pelo método de mínimos quadrados pelo método escalar e matricial, exemplo de estimação, propriedades dos estimadores de mínimos quadrados, esperança e variância dos estimadores (erro padrão), estimação de sigma2, método de estimação da máxima verossimilhança, teste de hipóteses para regressão e coeficientes, exemplos de teste de hipóteses, intervalos de confiança para parâmetros, valor médio e novas observações e exemplos de intervalos de confiança. -->
-<!-- -   Aula 9: revisão da aula anterior, intervalos de confiança para parâmetros, valor médio e novas observações, exemplos de intervalos de confiança. -->
-<!-- -   [Lista 5](lista5_2025-1.html): ajuste de modelos de regressão linear múltipla e inferência estatística (intervalos de confiança e testes de hipóteses). -->
-<!-- -   Aula 10: Análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. -->
-<!-- -   Aula 11: regressão com suporte computacional. [Rotina computacional](reg_comp.html). -->
-<!-- - [Lista 6](lista6.html): ajuste de modelos de regressão linear múltipla, inferência estatística, análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. -->
-<!-- - Aula 12: aula prática. Experimento de helicóptero de papel. -->
-<!-- - Aula 13: [avaliação 2](prova2_2025-1.html). Atenção: entregar até às 23:59 do dia 18/9/2025, no AVA. -->
-<!-- - Aula 14: entrega do trabalho final (relatório de análise de dados). Data: 22/9/2025. -->
-<!-- -   Aula 1: apresentação do plano de ensino e introdução à regressão baseado no artigo de [Galton](https://zenodo.org/records/1449548) (1886). -->
-<!--     *Referência:* Galton, F. (1886). "Regression towards mediocrity in hereditary stature". *The Journal of the Anthropological Institute of Great Britain and Ireland*. **15**: 246-263. -->
-<!-- -   Aula 2: definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, função de distribuição acumulada empírica, teorema de Glivenko-Cantelli, teorema (estimador para a transformação $T(F) = \int f(x) dF$), estimador para a covariância e correlação, propriedades dos estimadores da covariância e correlação e exemplo com dados reais. -->
-<!-- -   [Lista 1](lista1.html): covariância e correlação. -->
-<!-- -   Aula 3: revisão da aula 2, correlação como medida de proporção entre duas variáveis (padronizadas), estimação da relação funcional (modelo) entre duas variáveis, estimação de beta_0 e beta_1, exemplo com os dados de consumo de açúcar e taxa de depressão, correlação entre duas variáveis normais, estimação do modelo linear (reta) entre duas variáveis normais, comentários sobre correlação de Pearson (dados normais) e Spearman (postos dos dados), teste de hipóteses para correlação: 1) H_0: rho = 0 e 2) H_0: rho = rho_0 e exercício de teste de hipóteses para correlação. -->
-<!-- -   [Lista 2](lista2.html): fórmula da correlação amostral e de Spearman. -->
-<!-- -   Aula 4: definição de modelo de regressão linear simples, diferentes métodos de calcular distâncias entre pontos (sugestão: leitura do livro do Rao (2008)), estimação de parâmetros beta_0 e beta_1 pelo método de mínimos quadrados, exemplo de estimação (exemplo foguete), propriedades dos estimadores de mínimos quadrados, esperança e variância dos estimadores (erro padrão), teorema de Gauss-Markov (estimadores não viciados e de variância mínima, BLUE). -->
-<!-- -   Aula 5: revisão da aula 4, modelo de regressão linear simples com variância constante e variância dependente de covariáveis, estimação de sigma (quadrado médio do erro), teste de hipóteses para regressão (análise de variância), desenvolvimento da análise de variância (Fisher), teste de hipóteses Wald (teste t) para beta_1 e beta_0, relação entre os testes t e F (t\^2 = F), intervalos de confiança para beta_0 e beta_1 (fazer exercício), ic para sigma\^2, sigma e cv (exercício). -->
-<!-- -   [Lista 3](lista3.html): regressão linear simples. -->
-<!-- -   Aula 6: intervalo de confiança para valor estimado, intervalo de predição, coeficiente de determinação, regressão pela origem e estimação por máxima verossimilhança. -->
-<!-- -   [lista 4](lista4.html): regressão linear simples. -->
-<!-- -   Aula 7: aula prática de resolução da [lista 4](lista4.html). -->
-<!-- -   Aula 8: definição de modelo de regressão linear múltipla, efeitos simples e de interação, modelo na forma matricial, estimação de parâmetros pelo método de mínimos quadrados pelo método escalar e matricial, exemplo de estimação, propriedades dos estimadores de mínimos quadrados, esperança e variância dos estimadores (erro padrão), estimação de sigma2, método de estimação da máxima verossimilhança, teste de hipóteses para regressão e coeficientes, exemplos de teste de hipóteses, intervalos de confiança para parâmetros, valor médio e novas observações e exemplos de intervalos de confiança. *Tarefa para casa: estudar sobre R2 ajustado, comparação entre modelo completo e reduzido, intervalos de confiança simultâneos (região de confiança) para os parâmetros, coeficientes padronizados (coeficientes beta) e multicolinearidade (sugestão: livro do Montgomery).* -->
-<!-- -   [Lista 5](lista5.html): regressão linear múltipla. -->
-<!-- -   Aula 9: **aviso que na próxima aula será a avaliação 1**. Revisão da aula anterior, intervalos de confiança para parâmetros, valor médio e novas observações, exemplos de intervalos de confiança. Cálculos usando o software R: [exemplo_rlm.R](exemplo_rlm.R). *Tarefa para casa: estudar sobre R2 ajustado, comparação entre modelo completo e reduzido, intervalos de confiança simultâneos (região de confiança) para os parâmetros, coeficientes padronizados (coeficientes beta) e multicolinearidade (sugestão: livro do Montgomery).* -->
-<!-- -   Aula 10: avaliação 1 (escrita e computacional). A arguição oral será na próxima aula (Aula 11). -->
-<!-- -   Aula 11: avaliação 1 (arguição oral). -->
-<!-- -   Aula 12: regressão com suporte computacional. [Rotina computacional](reg_comp.html). *Tarefa (1 ponto extra na avaliação 1): refazer a avaliação 1 ([escrita](prova1.pdf) e [computacional](prova1comp.pdf)) usando a rotina da aula.*  -->
-<!-- -   Aula 13: Análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. [Rotina computacional](reg_comp.html). -->
-<!-- -   Aula 14: Resolver a [lista 6](lista6.html) ([gabarito](lista6_gab.html), sem os comentários e justificativas nas resoluções). Conteúdos adicionais: teste F parcial para modelos de efeitos aleatórios (comparação de modelos de efeito fixo e efeito misto), multicolinearidade, métodos *forward*, *backward* e *stepwise* para seleção de variáveis e métodos *leave-one-out*, *leave-p-out* e *k-fold* para validação de modelos (validação cruzada). -->
-<!-- -   Aula 15 (30/4/2025): avaliação 2 (escrita, computacional e arquição oral) com todo o conteúdo da disciplina. -->
-<!-- -   [Avaliação 2](prova2.html) -->
-<!-- -   Aula 16 (9/5/2025): entrega da avaliação 3 (relatório de análise de dados). -->
-</section>
-<section id="avaliações" class="level3">
-<h3 class="anchored" data-anchor-id="avaliações">Avaliações:</h3>
-<ul>
-<li><span class="math inline">\(A_1\)</span>: escrita, computacional e arguição oral. Nota: 0 a 10.</li>
-</ul>
-<p><em>Conteúdo:</em> análise de correlação e regressão linear simples.</p>
-<ul>
-<li><span class="math inline">\(A_2\)</span>: escrita, computacional e arguição oral. Nota: 0 a 10.</li>
-</ul>
-<p><em>Conteúdo:</em> todo o conteúdo da disciplina.</p>
-<p>A média final (<span class="math inline">\(MF\)</span>) será calculada por:</p>
-<p><span class="math display">\[MP = 0,5 A_1 + 0,5 A_2.\]</span></p>
-<p>Se <span class="math inline">\(MF \geq 5\)</span>, o aluno será aprovado. Não haverá prova final.</p>
-</section>
-<section id="livro-texto" class="level3">
-<h3 class="anchored" data-anchor-id="livro-texto">Livro texto:</h3>
-<p>Montgomery, D. C., Peck, E. A., &amp; Vining, G. G. (2021). <em>Introduction to linear regression analysis</em> (6th ed.). Wiley.</p>
-</section>
-<section id="referências" class="level3">
-<h3 class="anchored" data-anchor-id="referências">Referências:</h3>
-<p>Weisberg, S. (2013). <em>Applied Linear Regression</em>. Wiley.</p>
-<p>Hadi, A. S., &amp; Chatterjee, S. (2024). <em>Regression Analysis by Example Using R</em>.</p>
-<p>Yan, X., &amp; Su, X. G. (2009). <em>Linear Regression Analysis: Theory and Computing</em>. World Scientific Publishing Company.</p>
-<p>Fox, J. (1984). <em>Linear Statistical Models and Related Methods: With Applications to Social Research</em>. Wiley-Blackwell.</p>
-<p>Devore, J. L., Berk, K. N., &amp; Carlton, M. A. (2021). <em>Modern mathematical statistics with applications</em> (3rd ed.). Springer.</p>
-<p>Seber, G. A. F., &amp; Lee, A. J. (2012). <em>Linear Regression Analysis</em> (2nd ed.). Wiley.</p>
-<p>Draper, N. R., &amp; Smith, H. (1998). <em>Applied regression analysis</em> (3rd ed.). Wiley.</p>
-<p>Rao, C. R., Toutenburg, H., Shalabh, &amp; Heumann, C. (2008). <em>Linear Models and Generalizations: Least Squares and Alternatives</em> (3rd ed.). Springer.</p>
-<p>Allen, M. P. (1997). <em>Understanding Regression Analysis</em>. Sage Publications.</p>
-<p>Kutner, M. H., Nachtsheim, C. J., Neter, J., &amp; Li, W. (2005). <em>Applied linear statistical models</em> (5th ed.). McGraw-Hill.</p>
-<p>Rencher, A. C., &amp; Schaalje, G. B. (2008). <em>Linear models in statistics</em> (2nd ed.). Wiley.</p>
-<p>Faraway, J. J. (2015). <em>Linear Models with R</em>. CRC Press.</p>
+<p><strong>Todos os dados são fictícios (simulados)!</strong></p>
+<p>Dados para o exercícios: <a href="dados_prova2.xlsx">dados</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">&quot;dados_prova2.xlsx&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dados)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 15
+  ID_Animal Tempo Escore  IL_2  IL_4 Hemoglobina Hematocrito Plaquetas
+      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+1         1     0     16 12.6   20.6         9.1          30        66
+2         1    29      7 17.4   16.4        10.4          32       132
+3         2     0     17 18.1   29.4         9.6          28       240
+4         2    29     12 17.0   23.4        11.4          34       432
+5         3     0      7  6.24  16.2        12.5          39       226
+6         3    29      2 14.7   22.8        12.8          39       426
+# ℹ 7 more variables: Leucocitos &lt;dbl&gt;, Ureia &lt;dbl&gt;, Creatinina &lt;dbl&gt;,
+#   Albumina &lt;dbl&gt;, Proteina_Total &lt;dbl&gt;, Globulina &lt;dbl&gt;, Plaquetas_ref &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p><strong>Exercícios:</strong></p>
+<ol type="a">
+<li><p><strong>(0,50)</strong> Ajuste um modelo de regressão linear múltipla relacionando o Escore com as variáveis Tempo, IL_2, Albumina, Leucocitos e Ureia.</p></li>
+<li><p><strong>(0,25)</strong> Construa a tabela de análise de variância (ANOVA) e teste a significância da regressão.</p></li>
+<li><p><strong>(1,00)</strong> Calcule as estatísticas <span class="math inline">\(t\)</span> para testar as hipóteses para cada coeficiente do modelo. Quais conclusões você pode tirar sobre a influência dessas variáveis no modelo?</p></li>
+<li><p><strong>(0,50)</strong> Calcule o <span class="math inline">\(R^2\)</span> e o <span class="math inline">\(R^2_{\text{aj}}\)</span> (ajustado) para este modelo e interprete os resultados.</p></li>
+<li><p><strong>(0,50)</strong> Usando o teste <span class="math inline">\(F\)</span> parcial, determine a contribuição da variável Tempo no modelo. Qual conclusão você pode tirar sobre a influência dessa variável no modelo?</p></li>
+<li><p><strong>(0,50)</strong> Usando o teste <span class="math inline">\(F\)</span> parcial, determine a contribuição das variáveis Ureia e IL_2 no modelo. Qual conclusão você pode tirar sobre a influência dessas variáveis no modelo?</p></li>
+<li><p><strong>(0,50)</strong> Construa um gráfico de probabilidade normal dos resíduos. Há indícios de violação da suposição de normalidade? Realize os testes de normalidade de Shapiro-Wilk e Kolmogorov-Smirnov. O que você conclui?</p></li>
+<li><p><strong>(0,50)</strong> Construa e interprete o gráfico dos resíduos studentizados em função da resposta predita. Realize o teste de homocedasticidade de Breusch-Pagan. O que você conclui?</p></li>
+<li><p><strong>(0,50)</strong> Calcule o VIF (Variance Inflation Factor) para as variáveis presentes no modelo. O que você conclui? Os valores do VIF são úteis para indicar multicolinearidade. Valores de VIF superior a 5 ou 10 sugerem multicolinearidade. <em>Use a função <code>vif()</code> do pacote <code>car</code> para calcular o VIF.</em></p></li>
+<li><p><strong>(0,50)</strong> Calcule a estatística PRESS (Press Residual Sum of Squares) para os modelos completo (com as variáveis Tempo, Albumina, Leucocitos, Ureia e IL_2) e reduzido (apenas com Tempo, Albumina e Leucocitos). O que você conclui? Defina um modelo como o que melhor representa os dados.</p></li>
+<li><p><strong>(0,25)</strong> Considerando o modelo definido no item <code>k</code>: calcule os valores dos pontos de alavancagem (leverage). Quais observações são consideradas influentes? <strong>Lembre-se que valores superiores a</strong> <span class="math inline">\(2p/n\)</span> (onde <span class="math inline">\(p\)</span> é o número de parâmetros do modelo e <span class="math inline">\(n\)</span> é o número de observações) são considerados influentes.</p></li>
+<li><p><strong>(0,25)</strong> Considerando o modelo definido no item <code>k</code>: calcule os valores da distância de Cook. Quais observações são consideradas influentes? <strong>Lembre-se que valores superiores a 1 são considerados influentes.</strong></p></li>
+<li><p><strong>(0,25)</strong> Considerando o modelo definido no item <code>k</code>: calcule os valores de DFBETAS. Quais observações são consideradas influentes? <strong>Lembre-se que valores superiores a</strong> <span class="math inline">\(2/\sqrt{n}\)</span> merecem atenção.</p></li>
+<li><p><strong>(0,25)</strong> Considerando o modelo definido no item <code>k</code>: calcule os valores de DFFITS. Quais observações são consideradas influentes? <strong>Lembre-se que valores superiores a</strong> <span class="math inline">\(2\sqrt{p/n}\)</span> merecem atenção.</p></li>
+<li><p><strong>(0,25)</strong> Considerando todas as variáveis disponíveis, utilize o método de seleção de variáveis forward (seleção progressiva) para selecionar um modelo de regressão com subconjunto de variáveis. Comente sobre o modelo final. <strong>O método de seleção de variáveis forward (seleção progressiva) é um método de seleção de variáveis que começa com um modelo nulo (sem variáveis preditoras) e adiciona variáveis preditoras uma a uma, com base em critérios estatísticos, até que não haja mais variáveis significativas a serem adicionadas.</strong></p></li>
+<li><p><strong>(0,25)</strong> Utilize o método de seleção de variáveis backward (eliminacão progressiva) para selecionar um modelo de regressão com subconjunto de variáveis. Comente sobre o modelo final. <strong>O método de seleção de variáveis backward (eliminacão progressiva) é um método de seleção de variáveis que começa com um modelo completo (com todas as variáveis preditoras) e remove variáveis preditoras uma a uma, com base em critérios estatísticos, até que não haja mais variáveis insignificativas a serem removidas.</strong></p></li>
+<li><p><strong>(0,25)</strong> Utilize o método de seleção de variáveis stepwise (passo a passo) para selecionar um modelo de regressão com subconjunto de variáveis. Comente sobre o modelo final. <strong>O método de seleção de variáveis stepwise (passo a passo) é um método de seleção de variáveis que combina os métodos forward e backward. Ele começa com um modelo nulo (sem variáveis preditoras) e adiciona variáveis preditoras uma a uma, com base em critérios estatísticos, mas também pode remover variáveis preditoras que se tornam não significativas à medida que novas variáveis são adicionadas.</strong></p></li>
+</ol>
 <hr>
 <div style="text-align: center;">
 <p><a href="https://instagram.com/profjulianobortolini">@profjulianobortolini</a>      <a href="http://www.julianobortolini.com.br">www.julianobortolini.com.br</a>      <a href="https://linkedin.com/in/julianobortolini">linkedin</a>      <a href="https://github.com/julianobortolini">github</a>       <a href="http://lattes.cnpq.br/6210909768845403">lattes</a></p>
 </div>
+</section>
 </section>
 
 </main>
