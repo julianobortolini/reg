@@ -1,0 +1,3905 @@
+---
+title: "Análise de Regressão"
+# subtitle: "Material computacional aprofundado — turma 2026/2"
+author:
+  - name: Prof. Dr. Juliano Bortolini
+    email: profjulianobortolini@gmail.com
+    url: http://www.julianobortolini.com.br
+    affiliations:
+      - name: Universidade Federal de Mato Grosso
+date: "2026-06-21"
+date-format: "DD [de] MMMM [de] YYYY"
+lang: pt-BR
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    number-sections: true
+    code-fold: false
+    code-tools: true
+    code-copy: true
+    df-print: paged
+    smooth-scroll: true
+    theme: cosmo
+engine: knitr
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: false
+---
+
+*Bacharelado em Estatística — UFMT*
+
+
+```{r}
+#| label: configuracao-geral
+#| include: false
+
+# Pacotes estritamente necessários ao material.
+pacotes <- c("ggplot2", "lmtest", "car", "MASS", "knitr")
+ausentes <- pacotes[!vapply(pacotes, requireNamespace, logical(1), quietly = TRUE)]
+
+if (length(ausentes) > 0) {
+  stop(
+    "Instale os seguintes pacotes antes de executar o arquivo: ",
+    paste(ausentes, collapse = ", ")
+  )
+}
+
+suppressPackageStartupMessages(library(ggplot2))
+
+options(digits = 5, scipen = 4)
+set.seed(20262)
+
+theme_set(
+  theme_minimal(base_size = 13) +
+    theme(
+      panel.grid.minor = element_blank(),
+      panel.grid.major = element_line(color = "grey90", linewidth = 0.3),
+      axis.line = element_line(color = "grey30", linewidth = 0.4),
+      plot.title.position = "plot",
+      legend.position = "bottom"
+    )
+)
+
+# Funções auxiliares para que as interpretações numéricas sejam atualizadas
+# automaticamente quando os dados ou o modelo forem modificados.
+fmt_num <- function(x, casas = 3) {
+  formatC(x, digits = casas, format = "f", decimal.mark = ",")
+}
+
+fmt_p <- function(p) {
+  ifelse(
+    p < 0.001,
+    "< 0,001",
+    paste0("= ", formatC(p, digits = 3, format = "f", decimal.mark = ","))
+  )
+}
+
+decisao <- function(p, alpha = 0.05) {
+  ifelse(p < alpha, "rejeitamos", "não rejeitamos")
+}
+
+rmse <- function(observado, predito) {
+  sqrt(mean((observado - predito)^2))
+}
+
+mae <- function(observado, predito) {
+  mean(abs(observado - predito))
+}
+
+# Pequena função para calcular o leverage de pontos novos em regressão múltipla.
+leverage_novo <- function(modelo, novos_dados) {
+  X <- model.matrix(modelo)
+  X0 <- model.matrix(delete.response(terms(modelo)), novos_dados)
+  diag(X0 %*% solve(crossprod(X)) %*% t(X0))
+}
+```
+
+
+# Da pergunta científica ao modelo
+
+Uma análise de regressão começa antes do comando `lm()`. Devemos especificar:
+
+- a **unidade observacional**: o que corresponde a uma linha do banco de dados;
+- a **resposta** $Y$: variável cujo comportamento queremos explicar ou prever;
+- os **regressores** $X_1,\ldots,X_k$: variáveis que caracterizam as unidades;
+- a **população-alvo** e a forma de amostragem;
+- a **região experimental** em que os dados foram obtidos;
+- o caráter observacional ou experimental do estudo;
+- a escala em que média e variância serão modeladas.
+
+O modelo linear geral é
+
+$$
+\mathbf Y = \mathbf X\boldsymbol\beta + \boldsymbol\varepsilon,
+$$
+
+em que
+
+$$
+E(\boldsymbol\varepsilon\mid \mathbf X)=\mathbf 0,
+\qquad
+\operatorname{Var}(\boldsymbol\varepsilon\mid \mathbf X)=\sigma^2\mathbf I_n.
+$$
+
+Para inferência exata em amostras pequenas, acrescentamos frequentemente
+
+$$
+\boldsymbol\varepsilon\mid\mathbf X
+\sim N_n(\mathbf 0,\sigma^2\mathbf I_n).
+$$
+
+::: {.callout-important title="O que significa linear?"}
+Um modelo linear é linear **nos parâmetros**. Assim, $Y=\beta_0+\beta_1X+\beta_2X^2+\varepsilon$ é um modelo linear, embora a média seja uma curva em $X$. Já $Y=\beta_0+\exp(\beta_1X)+\varepsilon$, é um exemplo de modelo não linear nos parâmetros.
+:::
+
+## Associação não é causalidade
+
+O coeficiente de regressão descreve uma associação condicional no modelo. Uma interpretação causal exige, além do cálculo estatístico, um delineamento ou um conjunto de pressupostos que controle confundimento, seleção, mensuração e interferência. Em um experimento aleatorizado, a linguagem causal pode ser defensável. Em dados observacionais, a expressão prudente é “associação média ajustada”, salvo justificativa causal explícita.
+
+## Suposições e consequências
+
+Em uma primeira apresentação, costuma-se dizer que os três principais pressupostos da regressão linear são **normalidade**, **independência** e **homocedasticidade** dos erros. 
+
+As três suposições têm papéis diferentes:
+
+- **homocedasticidade** significa que a variância condicional do erro é a mesma em toda a região dos regressores; ela sustenta a fórmula clássica dos erros-padrões e a eficiência de mínimos quadrados ordinários;
+- **independência**, ou ao menos ausência da estrutura de covariância ignorada pelo modelo, impede que observações próximas no tempo, no espaço, no lote ou no indivíduo carreguem informação repetida não contabilizada;
+- **normalidade** é uma suposição sobre a distribuição condicional dos erros e permite obter exatamente as distribuições $t$ e $F$ em amostras finitas. Ela não é necessária para calcular mínimos quadrados nem, sob condições regulares, para a consistência assintótica dos estimadores.
+
+A normalidade dos **dados brutos** não é uma exigência. A resposta $Y$ pode ser assimétrica marginalmente porque sua média muda com $X$. O objeto relevante é a distribuição de $Y$ **condicionalmente aos regressores**, ou, de modo equivalente no modelo normal, a distribuição dos erros em torno da superfície média.
+
+::: {.callout-important title="Esses pressupostos são realmente verificados?"}
+Não no sentido lógico de demonstrar que são verdadeiros. Os erros $\varepsilon_i$ são inobserváveis; observamos apenas os resíduos $e_i=y_i-\hat y_i$, que dependem do modelo ajustado, têm variâncias diferentes e são correlacionados entre si. Gráficos e testes de diagnóstico procuram **evidências de incompatibilidade** entre dados e modelo. Se um teste não rejeita uma hipótese, isso pode decorrer de adequação aproximada, mas também de baixo poder. Por isso, a formulação correta é “não foi encontrada evidência relevante contra o pressuposto”, e não “o pressuposto foi comprovado”.
+:::
+
+Há ainda uma distinção essencial. Normalidade, independência e homocedasticidade descrevem a parte aleatória do modelo; nenhuma delas corrige uma média mal especificada. Se uma relação curva for ajustada por uma reta, os resíduos poderão parecer heterocedásticos ou não normais simplesmente porque a forma média está errada. O diagnóstico deve começar pela qualidade dos dados, pelo delineamento e pela forma funcional, e só depois separar as possíveis violações da distribuição dos erros.
+
+# Regressão linear simples
+
+## Formulação
+
+Para $n$ pares $(x_i,y_i)$, o modelo é
+
+$$
+Y_i=\beta_0+\beta_1x_i+\varepsilon_i,
+\qquad i=1,\ldots,n,
+$$
+
+com
+
+$$
+E(Y_i\mid x_i)=\beta_0+\beta_1x_i
+\quad\text{e}\quad
+\operatorname{Var}(Y_i\mid x_i)=\sigma^2.
+$$
+
+Os parâmetros têm interpretações distintas:
+
+- $\beta_0$ é a resposta média quando $X=0$;
+- $\beta_1$ é a variação na resposta média associada a uma unidade adicional de $X$;
+- $\sigma$ mede a dispersão típica das observações ao redor da reta.
+
+A interpretação do intercepto pode não ser substantivamente útil quando $X=0$ não pertence à região observada. Ainda assim, o intercepto pode ser matematicamente necessário para posicionar corretamente a reta.
+
+## Exemplo: adsorção de corante em seda
+
+O artigo *Ecofriendly Dyeing of Silk with Extract of Yerba Mate* descreve um experimento sobre adsorção de corante. Nesta primeira etapa, relacionamos a adsorção, em mg de corante por grama de tecido, à concentração do corante, em mg/L.
+
+```{r}
+#| label: dados-seda-simples
+
+# Cada linha corresponde a uma execução experimental.
+dados_seda <- data.frame(
+  execucao = 1:10,
+  concentracao = c(10, 20, 20, 20, 10, 20, 10, 20, 15, 15),
+  adsorcao = c(250, 520, 387, 593, 157, 377, 225, 451, 382, 373)
+)
+
+dados_seda
+```
+
+Há três níveis observados de concentração: 10, 15 e 20 mg/L. Essa informação será decisiva ao discutir replicação, falta de ajuste e extrapolação.
+
+## Análise exploratória
+
+Antes de ajustar a reta, examinamos distribuição, replicações e relação bivariada.
+
+```{r}
+#| label: exploracao-seda-simples
+
+resumo_seda <- data.frame(
+  n = nrow(dados_seda),
+  media_x = mean(dados_seda$concentracao),
+  dp_x = sd(dados_seda$concentracao),
+  media_y = mean(dados_seda$adsorcao),
+  dp_y = sd(dados_seda$adsorcao),
+  minimo_y = min(dados_seda$adsorcao),
+  maximo_y = max(dados_seda$adsorcao)
+)
+
+resumo_por_concentracao <- aggregate(
+  adsorcao ~ concentracao,
+  data = dados_seda,
+  FUN = function(z) c(n = length(z), media = mean(z), dp = sd(z))
+)
+
+resumo_seda
+resumo_por_concentracao
+
+ggplot(dados_seda, aes(concentracao, adsorcao)) +
+  geom_point(size = 3, alpha = 0.85) +
+  stat_summary(fun = mean, geom = "point", shape = 18, size = 4,
+               color = "#D55E00") +
+  labs(
+    title = "Adsorção em função da concentração",
+    subtitle = "Losangos representam as médias em cada nível de concentração",
+    x = "Concentração (mg/L)",
+    y = "Adsorção (mg/g)"
+  )
+```
+
+O gráfico mostra uma associação positiva: níveis maiores de concentração tendem a produzir maior adsorção. Também mostra dispersão considerável dentro de 10 e 20 mg/L. Essa variabilidade entre replicações é informação, não ruído a ser ocultado.
+
+## Estimação por mínimos quadrados
+
+Definimos a soma de quadrados
+
+$$
+S(\beta_0,\beta_1)
+=\sum_{i=1}^n\left[y_i-(\beta_0+\beta_1x_i)\right]^2.
+$$
+
+As equações normais são obtidas por
+
+$$
+\frac{\partial S}{\partial\beta_0}=0
+\quad\text{e}\quad
+\frac{\partial S}{\partial\beta_1}=0.
+$$
+
+Após resolver o sistema,
+
+$$
+\hat\beta_1=
+\frac{\sum_{i=1}^n(x_i-\bar x)(y_i-\bar y)}
+{\sum_{i=1}^n(x_i-\bar x)^2}
+=\frac{S_{xy}}{S_{xx}},
+$$
+
+e
+
+$$
+\hat\beta_0=\bar y-\hat\beta_1\bar x.
+$$
+
+Os resíduos e valores ajustados são
+
+$$
+e_i=y_i-\hat y_i,
+\qquad
+\hat y_i=\hat\beta_0+\hat\beta_1x_i.
+$$
+
+```{r}
+#| label: ajuste-seda-simples
+
+# Cálculo manual das estimativas.
+x <- dados_seda$concentracao
+y <- dados_seda$adsorcao
+Sxx <- sum((x - mean(x))^2)
+Sxy <- sum((x - mean(x)) * (y - mean(y)))
+
+beta1_manual <- Sxy / Sxx
+beta0_manual <- mean(y) - beta1_manual * mean(x)
+
+# Ajuste pela função padrão do R.
+modelo_seda_simples <- lm(adsorcao ~ concentracao, data = dados_seda)
+
+rbind(
+  calculo_manual = c(intercepto = beta0_manual, inclinacao = beta1_manual),
+  funcao_lm = coef(modelo_seda_simples)
+)
+
+summary(modelo_seda_simples)
+```
+
+O modelo ajustado é
+
+$$
+\widehat{\text{adsorção}}
+=`r fmt_num(coef(modelo_seda_simples)[1], 2)`
++`r fmt_num(coef(modelo_seda_simples)[2], 2)`\times\text{concentração}.
+$$
+
+Dentro da região de 10 a 20 mg/L, cada aumento de 1 mg/L na concentração está associado a um aumento médio estimado de `r fmt_num(coef(modelo_seda_simples)[2], 2)` mg/g na adsorção. O intercepto estimado é negativo, mas concentração zero não foi observada; portanto, não devemos apresentá-lo como uma estimativa empiricamente sustentada da adsorção sem corante.
+
+## Geometria do ajuste
+
+Na forma matricial,
+
+$$
+\mathbf y=\mathbf X\boldsymbol\beta+\boldsymbol\varepsilon,
+\qquad
+\hat{\boldsymbol\beta}
+=(\mathbf X^T\mathbf X)^{-1}\mathbf X^T\mathbf y.
+$$
+
+A matriz chapéu é
+
+$$
+\mathbf H=\mathbf X(\mathbf X^T\mathbf X)^{-1}\mathbf X^T,
+$$
+
+de modo que
+
+$$
+\hat{\mathbf y}=\mathbf H\mathbf y
+\quad\text{e}\quad
+\mathbf e=(\mathbf I-\mathbf H)\mathbf y.
+$$
+
+As matrizes $\mathbf H$ e $\mathbf I-\mathbf H$ projetam $\mathbf y$ em subespaços ortogonais. Por isso,
+
+$$
+\mathbf X^T\mathbf e=\mathbf 0,
+\qquad
+\sum_i e_i=0
+$$
+
+quando há intercepto.
+
+```{r}
+#| label: geometria-seda-simples
+
+X_seda <- model.matrix(modelo_seda_simples)
+H_seda <- X_seda %*% solve(crossprod(X_seda)) %*% t(X_seda)
+e_seda <- residuals(modelo_seda_simples)
+
+verificacoes_algebricas <- c(
+  soma_residuos = sum(e_seda),
+  ortogonalidade_intercepto = crossprod(X_seda[, 1], e_seda),
+  ortogonalidade_x = crossprod(X_seda[, 2], e_seda),
+  erro_idempotencia_H = max(abs(H_seda %*% H_seda - H_seda)),
+  erro_simetria_H = max(abs(H_seda - t(H_seda)))
+)
+
+verificacoes_algebricas
+```
+
+Os pequenos valores numéricos, na ordem do erro de arredondamento computacional, confirmam as propriedades teóricas.
+
+## Decomposição da variabilidade e ANOVA
+
+Com intercepto, adotaremos em todo este material a seguinte notação:
+
+$$
+\text{SQTotal}=\sum_{i=1}^n(y_i-\bar y)^2,
+$$
+
+$$
+\text{SQReg}=\sum_{i=1}^n(\hat y_i-\bar y)^2,
+$$
+
+e
+
+$$
+\text{SQResíduo}=\sum_{i=1}^n(y_i-\hat y_i)^2.
+$$
+
+A **SQTotal** mede a dispersão total observada de $Y$ em torno de $\bar y$. A **SQReg** mede quanto dessa dispersão é representado pelos valores ajustados. A **SQResíduo** mede a parcela que permanece entre cada observação e o valor previsto pelo modelo. Pela ortogonalidade entre valores ajustados centrados e resíduos,
+
+$$
+\text{SQTotal}=\text{SQReg}+\text{SQResíduo}.
+$$
+
+Na regressão simples, os graus de liberdade de SQTotal, SQReg e SQResíduo são, respectivamente, $n-1$, $1$ e $n-2$. Dividindo cada soma de quadrados por seus graus de liberdade, obtemos os quadrados médios:
+
+$$
+\text{QMReg}=\frac{\text{SQReg}}{1},
+\qquad
+\text{QMResíduo}=\frac{\text{SQResíduo}}{n-2}.
+$$
+
+A estimativa da variância dos erros é $\hat\sigma^2=\text{QMResíduo}$ e, portanto,
+
+$$
+\hat\sigma=\sqrt{\text{QMResíduo}}.
+$$
+
+```{r}
+#| label: anova-seda-simples
+
+anova_seda_simples <- anova(modelo_seda_simples)
+anova_seda_simples
+
+SQTotal <- sum((y - mean(y))^2)
+SQReg <- sum((fitted(modelo_seda_simples) - mean(y))^2)
+SQResiduo <- sum(residuals(modelo_seda_simples)^2)
+QMReg <- SQReg / 1
+QMResiduo <- SQResiduo / df.residual(modelo_seda_simples)
+
+data.frame(
+  SQTotal = SQTotal,
+  SQReg = SQReg,
+  `SQResíduo` = SQResiduo,
+  diferenca_decomposicao = SQTotal - SQReg - SQResiduo,
+  QMReg = QMReg,
+  `QMResíduo` = QMResiduo,
+  sigma_estimado = sqrt(QMResiduo),
+  check.names = FALSE
+)
+```
+
+O desvio-padrão residual estimado é `r fmt_num(summary(modelo_seda_simples)$sigma, 2)` mg/g. Ele representa a escala típica dos desvios em torno da reta, sob o modelo; não é o erro-padrão da inclinação.
+
+## Coeficiente de determinação
+
+O coeficiente de determinação é
+
+$$
+R^2=\frac{\text{SQReg}}{\text{SQTotal}}
+=1-\frac{\text{SQResíduo}}{\text{SQTotal}}.
+$$
+
+Neste exemplo, $R^2=`r fmt_num(summary(modelo_seda_simples)$r.squared, 3)`$: aproximadamente `r fmt_num(100 * summary(modelo_seda_simples)$r.squared, 1)`% da variabilidade **amostral** da adsorção em torno de sua média foi descrita pela reta com concentração. Isso não significa que o modelo esteja `r fmt_num(100 * summary(modelo_seda_simples)$r.squared, 1)`% correto, não mede causalidade e não garante boa predição externa.
+
+Há quatro cuidados de leitura:
+
+1. $R^2$ é uma medida de ajuste **na amostra utilizada**. Ele não é uma probabilidade de o modelo estar correto.
+2. $R^2$ não mede a intensidade de uma inclinação. Um pequeno coeficiente em uma variável medida em unidades muito grandes pode produzir $R^2$ elevado.
+3. $R^2$ depende da amplitude dos regressores. Uma amostra que cobre uma faixa muito ampla de $X$ pode ter $R^2$ maior que outra restrita a uma pequena faixa, mesmo sob o mesmo mecanismo.
+4. $R^2$ elevado não garante linearidade, homocedasticidade, independência, normalidade nem boa predição. Um padrão sistemático pequeno diante de grande amplitude total pode ficar oculto.
+
+### Por que precisamos do $R^2$ ajustado?
+
+Em mínimos quadrados, acrescentar uma nova coluna à matriz $\mathbf X$ nunca aumenta a SQResíduo: o modelo maior pode, no pior caso, estimar o novo coeficiente como zero e reproduzir o ajuste anterior. Consequentemente, o $R^2$ usual nunca diminui quando novos termos são acrescentados, ainda que esses termos sejam irrelevantes. Essa propriedade torna perigoso escolher modelos apenas pelo maior $R^2$.
+
+O $R^2$ ajustado compara duas estimativas de variância. Seja $p$ o número total de parâmetros estimados, **incluindo o intercepto**. Definimos
+
+$$
+R^2_{\mathrm{aj}}
+=1-
+\frac{\text{SQResíduo}/(n-p)}
+{\text{SQTotal}/(n-1)}
+=1-\frac{\text{QMResíduo}}
+{\text{QMTotal}},
+$$
+
+em que $\text{QMTotal}=\text{SQTotal}/(n-1)$. O numerador mede a variação residual por grau de liberdade disponível; o denominador mede a variação total por grau de liberdade. A correção aparece porque estimar mais parâmetros consome graus de liberdade.
+
+Uma forma equivalente, útil para compreender a penalização, é
+
+$$
+R^2_{\mathrm{aj}}
+=1-(1-R^2)\frac{n-1}{n-p}.
+$$
+
+Quando $p$ aumenta, o fator $(n-1)/(n-p)$ aumenta. Para que $R^2_{\mathrm{aj}}$ cresça, a redução da SQResíduo precisa compensar essa perda de graus de liberdade. Se um bloco de $q$ parâmetros transforma um modelo reduzido $R$ em um modelo completo $F$, então
+
+$$
+R^2_{\mathrm{aj}}(F)>R^2_{\mathrm{aj}}(R)
+\quad\Longleftrightarrow\quad
+\text{QMResíduo}(F)<\text{QMResíduo}(R).
+$$
+
+Para a adição de um único termo, isso equivale a exigir que o teste parcial desse termo tenha $F>1$. Observe que $F>1$ é muito menos exigente que significância a 5%; por isso, o $R^2_{\mathrm{aj}}$ ainda pode favorecer termos cuja evidência inferencial seja fraca.
+
+### O que o $R^2$ ajustado pode e não pode fazer
+
+O $R^2_{\mathrm{aj}}$ é útil como descrição comparativa de modelos com a **mesma resposta, a mesma transformação, o mesmo intercepto convencional e exatamente as mesmas observações**. Ele pode diminuir com a inclusão de termos e pode ser negativo. Um valor negativo significa que, depois da correção por graus de liberdade, o modelo é pior que usar somente a média amostral; não significa “variabilidade negativa”.
+
+Ele não é um teste de hipótese, não identifica causalidade, não comprova os pressupostos e não estima diretamente o erro de predição fora da amostra. Sua penalização também é relativamente branda. Em seleção de modelos, deve ser combinado com teoria, comparação de modelos aninhados, diagnóstico residual, AIC/BIC quando apropriados e validação preditiva.
+
+```{r}
+#| label: r2-ajustado-seda
+
+# Um termo quadrático permite visualizar a diferença entre R2 e R2 ajustado.
+modelo_seda_quadratico_r2 <- lm(
+  adsorcao ~ concentracao + I(concentracao^2),
+  data = dados_seda
+)
+
+modelos_r2_seda <- list(
+  `Somente intercepto` = lm(adsorcao ~ 1, data = dados_seda),
+  Linear = modelo_seda_simples,
+  Quadratico = modelo_seda_quadratico_r2
+)
+
+tabela_r2_seda <- do.call(
+  rbind,
+  lapply(names(modelos_r2_seda), function(nome) {
+    ajuste <- summary(modelos_r2_seda[[nome]])
+    data.frame(
+      modelo = nome,
+      parametros = length(coef(modelos_r2_seda[[nome]])),
+      `SQResíduo` = deviance(modelos_r2_seda[[nome]]),
+      `QMResíduo` = deviance(modelos_r2_seda[[nome]]) /
+        df.residual(modelos_r2_seda[[nome]]),
+      R2 = ajuste$r.squared,
+      R2_ajustado = ajuste$adj.r.squared
+    )
+  })
+)
+
+tabela_r2_seda
+anova(modelo_seda_simples, modelo_seda_quadratico_r2)
+```
+
+No exemplo, o $R^2$ aumenta de `r fmt_num(summary(modelo_seda_simples)$r.squared, 3)` para `r fmt_num(summary(modelo_seda_quadratico_r2)$r.squared, 3)` ao passar da reta para a parábola, como necessariamente deve ocorrer. Entretanto, o $R^2_{\mathrm{aj}}$ diminui de `r fmt_num(summary(modelo_seda_simples)$adj.r.squared, 3)` para `r fmt_num(summary(modelo_seda_quadratico_r2)$adj.r.squared, 3)`, pois o termo quadrático não reduz suficientemente a SQResíduo por grau de liberdade. O teste aninhado do termo quadrático produz $p$ `r fmt_p(anova(modelo_seda_simples, modelo_seda_quadratico_r2)[["Pr(>F)"]][2])`, confirmando que a pequena melhora aparente não constitui evidência detectável de curvatura. Nenhuma dessas medidas substitui o gráfico, a interpretação científica nem a análise de falta de ajuste.
+
+## Inferência sobre os coeficientes
+
+Sob normalidade,
+
+$$
+\frac{\hat\beta_j-\beta_j}{se(\hat\beta_j)}
+\sim t_{n-2}.
+$$
+
+Para $H_0:\beta_j=\beta_{j,0}$ contra $H_1:\beta_j\neq\beta_{j,0}$,
+
+$$
+t_0=\frac{\hat\beta_j-\beta_{j,0}}{se(\hat\beta_j)}.
+$$
+
+O intervalo bilateral de confiança é
+
+$$
+\hat\beta_j\pm t_{1-\alpha/2,n-2}\,se(\hat\beta_j).
+$$
+
+```{r}
+#| label: inferencia-coeficientes-seda
+
+tabela_coef_seda <- coef(summary(modelo_seda_simples))
+IC_coef_seda <- confint(modelo_seda_simples, level = 0.95)
+
+tabela_coef_seda
+IC_coef_seda
+
+# Exemplo geral: teste de H0: beta_1 = 25.
+beta_hipotetizado <- 25
+t_beta_25 <- (
+  coef(modelo_seda_simples)["concentracao"] - beta_hipotetizado
+) / tabela_coef_seda["concentracao", "Std. Error"]
+
+p_beta_25 <- 2 * pt(
+  abs(t_beta_25),
+  df = df.residual(modelo_seda_simples),
+  lower.tail = FALSE
+)
+
+data.frame(t = t_beta_25, gl = df.residual(modelo_seda_simples), p = p_beta_25)
+```
+
+Para a inclinação, $t=`r fmt_num(tabela_coef_seda["concentracao", "t value"], 3)`$ e $p$ `r fmt_p(tabela_coef_seda["concentracao", "Pr(>|t|)"])`. Ao nível de 5%, `r decisao(tabela_coef_seda["concentracao", "Pr(>|t|)"])` $H_0:\beta_1=0$. O intervalo de 95% para $\beta_1$ vai de `r fmt_num(IC_coef_seda["concentracao", 1], 2)` a `r fmt_num(IC_coef_seda["concentracao", 2], 2)` mg/g por mg/L; ele quantifica magnitudes plausíveis, enquanto o valor de $p$ avalia compatibilidade com um valor pontual.
+
+Para $H_0:\beta_1=25$, obtemos $t=`r fmt_num(t_beta_25, 3)`$ e $p$ `r fmt_p(p_beta_25)`. Portanto, os dados são compatíveis com inclinação 25; isso não prova que o parâmetro seja exatamente 25.
+
+## Teste global da regressão
+
+Na regressão simples, o teste $F$ da ANOVA avalia
+
+$$
+H_0:\beta_1=0
+\quad\text{versus}\quad
+H_1:\beta_1\neq0,
+$$
+
+com
+
+$$
+F_0=\frac{\text{QMReg}}{\text{QMResíduo}}\sim F_{1,n-2}.
+$$
+
+Como há um único regressor, $F_0=t_0^2$. A igualdade é confirmada abaixo.
+
+```{r}
+#| label: equivalencia-t-f
+
+F_seda <- anova_seda_simples["concentracao", "F value"]
+t_seda <- tabela_coef_seda["concentracao", "t value"]
+
+data.frame(F = F_seda, t_ao_quadrado = t_seda^2, diferenca = F_seda - t_seda^2)
+```
+
+## Correlação e regressão
+
+O coeficiente de correlação de Pearson é
+
+$$
+r=\frac{S_{xy}}{\sqrt{S_{xx}S_{yy}}}.
+$$
+
+Em regressão simples com intercepto,
+
+$$
+R^2=r^2
+$$
+
+e o sinal de $r$ coincide com o sinal de $\hat\beta_1$. O teste de $H_0:\rho=0$ é numericamente equivalente ao teste de $H_0:\beta_1=0$ sob as mesmas condições.
+
+```{r}
+#| label: correlacao-seda
+
+teste_cor_seda <- cor.test(
+  dados_seda$concentracao,
+  dados_seda$adsorcao,
+  method = "pearson"
+)
+
+teste_cor_seda
+
+data.frame(
+  r = unname(teste_cor_seda$estimate),
+  r_ao_quadrado = unname(teste_cor_seda$estimate)^2,
+  R2_regressao = summary(modelo_seda_simples)$r.squared
+)
+```
+
+A correlação estimada é $r=`r fmt_num(unname(teste_cor_seda$estimate), 3)`$, com IC de 95% de `r fmt_num(teste_cor_seda$conf.int[1], 3)` a `r fmt_num(teste_cor_seda$conf.int[2], 3)`. Correlação mede associação linear e é simétrica; regressão distingue resposta e regressor e fornece uma equação preditiva.
+
+## Visualização da reta e da incerteza
+
+Para a resposta média em $x_0$,
+
+$$
+\widehat{E(Y\mid x_0)}=\hat y_0=\hat\beta_0+\hat\beta_1x_0,
+$$
+
+e
+
+$$
+se(\hat y_0)=
+\hat\sigma\sqrt{
+\frac{1}{n}+\frac{(x_0-\bar x)^2}{S_{xx}}
+}.
+$$
+
+Para uma nova observação,
+
+$$
+se_{pred}(Y_{novo}\mid x_0)=
+\hat\sigma\sqrt{
+1+\frac{1}{n}+\frac{(x_0-\bar x)^2}{S_{xx}}
+}.
+$$
+
+O termo 1 aparece apenas no intervalo de predição e representa a variabilidade individual futura.
+
+```{r}
+#| label: bandas-seda
+
+grade_seda <- data.frame(
+  concentracao = seq(
+    min(dados_seda$concentracao),
+    max(dados_seda$concentracao),
+    length.out = 200
+  )
+)
+
+IC_media_seda <- cbind(
+  grade_seda,
+  as.data.frame(predict(
+    modelo_seda_simples,
+    newdata = grade_seda,
+    interval = "confidence"
+  ))
+)
+
+IP_novo_seda <- as.data.frame(predict(
+  modelo_seda_simples,
+  newdata = grade_seda,
+  interval = "prediction"
+))
+
+bandas_seda <- cbind(
+  IC_media_seda,
+  lwr_pred = IP_novo_seda$lwr,
+  upr_pred = IP_novo_seda$upr
+)
+
+ggplot(bandas_seda, aes(concentracao, fit)) +
+  geom_ribbon(aes(ymin = lwr_pred, ymax = upr_pred),
+              fill = "#E69F00", alpha = 0.16) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr),
+              fill = "#0072B2", alpha = 0.25) +
+  geom_line(color = "#0072B2", linewidth = 1) +
+  geom_point(data = dados_seda, aes(y = adsorcao), size = 2.8) +
+  labs(
+    title = "Reta ajustada, IC da média e IP de nova observação",
+    subtitle = "Azul: IC de 95% da média; laranja: IP de 95%",
+    x = "Concentração (mg/L)",
+    y = "Adsorção (mg/g)"
+  )
+```
+
+## Predição pontual, intervalo de confiança e intervalo de predição
+
+```{r}
+#| label: predicoes-seda
+
+pontos_seda <- data.frame(concentracao = c(10, 15, 20))
+
+pred_media_seda <- cbind(
+  pontos_seda,
+  as.data.frame(predict(
+    modelo_seda_simples,
+    newdata = pontos_seda,
+    interval = "confidence",
+    level = 0.95
+  ))
+)
+
+pred_nova_seda <- cbind(
+  pontos_seda,
+  as.data.frame(predict(
+    modelo_seda_simples,
+    newdata = pontos_seda,
+    interval = "prediction",
+    level = 0.95
+  ))
+)
+
+pred_media_seda
+pred_nova_seda
+```
+
+Em 15 mg/L, a adsorção média estimada é `r fmt_num(pred_media_seda$fit[2], 2)` mg/g. O IC de 95% para a média vai de `r fmt_num(pred_media_seda$lwr[2], 2)` a `r fmt_num(pred_media_seda$upr[2], 2)`, enquanto o IP de uma nova execução vai de `r fmt_num(pred_nova_seda$lwr[2], 2)` a `r fmt_num(pred_nova_seda$upr[2], 2)`. O IP é mais largo porque responde a uma pergunta mais difícil.
+
+::: {.callout-warning title="Extrapolação"}
+Predizer para 0 ou 30 mg/L é computacionalmente possível, mas cientificamente frágil: os dados cobrem apenas 10 a 20 mg/L. O R não sabe se a relação continua linear fora dessa região. Toda predição deve informar se é interpolação ou extrapolação.
+:::
+
+## Teste de falta de ajuste com replicações
+
+### Qual problema o teste resolve?
+
+Quando ajustamos uma reta, a SQResíduo reúne duas fontes conceitualmente diferentes:
+
+1. **variabilidade aleatória entre unidades submetidas à mesma condição experimental**;
+2. **erro sistemático causado por uma forma média inadequada**, por exemplo ajustar uma reta quando as médias seguem uma curva.
+
+Sem replicações em valores idênticos dos regressores, essas duas fontes ficam misturadas. Com replicações verdadeiras, podemos estimar a variabilidade que existe mesmo quando $X$ não muda e, depois, perguntar se o restante da SQResíduo é grande demais para ser explicado por essa variabilidade.
+
+::: {.callout-important title="Replicação verdadeira não é leitura repetida"}
+Replicações devem ser execuções experimentalmente independentes na mesma combinação de regressores. Medir várias vezes a mesma amostra, sem refazer o processo, estima principalmente erro de medição e não toda a variabilidade entre execuções. Tratar pseudorreplicações como réplicas independentes tende a subestimar o erro puro e pode produzir falsa evidência de falta de ajuste.
+:::
+
+### O modelo de médias por nível
+
+Considere $m$ valores distintos de concentração. No nível $x_j$, observamos $n_j$ réplicas $Y_{ij}$, com $i=1,\ldots,n_j$ e $\sum_{j=1}^m n_j=n$. A média do nível é
+
+$$
+\bar Y_j=\frac{1}{n_j}\sum_{i=1}^{n_j}Y_{ij}.
+$$
+
+O modelo linear candidato impõe
+
+$$
+E(Y_{ij}\mid x_j)=\beta_0+\beta_1x_j.
+$$
+
+O modelo de médias por nível, também chamado de modelo saturado nos pontos experimentais, impõe apenas
+
+$$
+E(Y_{ij}\mid x_j)=\mu_j,
+$$
+
+estimando uma média independente para cada nível. O modelo linear é reduzido em relação ao modelo de médias: ele obriga os $m$ valores $\mu_j$ a pertencerem a uma mesma reta. Assim, o teste de falta de ajuste é também uma comparação de modelos aninhados, mas com uma interpretação especial fornecida pelas réplicas.
+
+### Decomposição da SQResíduo
+
+Somando e subtraindo $\bar y_j$ em $y_{ij}-\hat y_j$, obtemos
+
+$$
+y_{ij}-\hat y_j
+=(y_{ij}-\bar y_j)+(\bar y_j-\hat y_j).
+$$
+
+Ao elevar ao quadrado e somar, o termo cruzado desaparece dentro de cada nível porque $\sum_i(y_{ij}-\bar y_j)=0$. Logo,
+
+$$
+\text{SQResíduo}
+=\text{SQErroPuro}+\text{SQFaltaAjuste}.
+$$
+
+A soma de quadrados de erro puro é
+
+$$
+\text{SQErroPuro}
+=\sum_{j=1}^m\sum_{i=1}^{n_j}(y_{ij}-\bar y_j)^2.
+$$
+
+Ela mede somente a variação **dentro** dos níveis e possui $n-m$ graus de liberdade. Sob independência e homocedasticidade,
+
+$$
+E(\text{QMErroPuro})=\sigma^2,
+\qquad
+\text{QMErroPuro}=\frac{\text{SQErroPuro}}{n-m}.
+$$
+
+A soma de quadrados de falta de ajuste é
+
+$$
+\text{SQFaltaAjuste}
+=\sum_{j=1}^m n_j(\bar y_j-\hat y_j)^2
+=\text{SQResíduo}-\text{SQErroPuro}.
+$$
+
+O peso $n_j$ aparece porque uma discrepância entre a média observada e a reta é mais informativa quando esse nível possui mais réplicas. Para um modelo linear com $p$ parâmetros, os graus de liberdade são $m-p$; na regressão simples com intercepto, $p=2$ e, portanto, são $m-2$. Definimos
+
+$$
+\text{QMFaltaAjuste}
+=\frac{\text{SQFaltaAjuste}}{m-p}.
+$$
+
+Se a forma média estiver correta, QMFaltaAjuste e QMErroPuro estimam a mesma variância $\sigma^2$. Se houver uma discrepância sistemática $\mu_j-\mathbf x_j^T\boldsymbol\beta$, então a esperança da QMFaltaAjuste contém, além de $\sigma^2$, uma parcela positiva associada a essas discrepâncias. Essa é a razão do teste
+
+$$
+F_{\mathrm{FA}}
+=\frac{\text{QMFaltaAjuste}}
+{\text{QMErroPuro}}
+\sim F_{m-p,\,n-m}
+$$
+
+sob $H_0$ e sob normalidade, independência e variância constante.
+
+As hipóteses são
+
+$$
+H_0:\ \mu_j=\beta_0+\beta_1x_j
+\quad\text{para todos os níveis observados},
+$$
+
+contra
+
+$$
+H_1:\ \text{pelo menos uma média de nível não pertence à reta}.
+$$
+
+Repare na expressão **níveis observados**. O teste não examina valores de $X$ que não foram estudados e não comprova que a relação seja linear fora da região experimental.
+
+### Exemplo completo: adsorção da seda
+
+Há três níveis de concentração, $m=3$, e dez execuções, $n=10$. A reta possui $p=2$ parâmetros. Portanto:
+
+- SQResíduo tem $n-p=8$ graus de liberdade;
+- SQErroPuro tem $n-m=7$ graus de liberdade;
+- SQFaltaAjuste tem $m-p=1$ grau de liberdade.
+
+A identidade $8=7+1$ mostra que a decomposição preserva os graus de liberdade.
+$$
+
+```{r}
+#| label: falta-ajuste-seda
+
+# O fator estima uma média independente para cada nível de concentração.
+modelo_seda_medias <- lm(
+  adsorcao ~ factor(concentracao),
+  data = dados_seda
+)
+
+teste_falta_ajuste_seda <- anova(
+  modelo_seda_simples,
+  modelo_seda_medias
+)
+
+teste_falta_ajuste_seda
+
+# Cálculo manual para tornar visível cada parcela da decomposição.
+media_nivel_seda <- ave(
+  dados_seda$adsorcao,
+  dados_seda$concentracao,
+  FUN = mean
+)
+
+SQResiduo_fa <- deviance(modelo_seda_simples)
+SQErroPuro <- sum((dados_seda$adsorcao - media_nivel_seda)^2)
+SQFaltaAjuste <- SQResiduo_fa - SQErroPuro
+
+m_niveis <- length(unique(dados_seda$concentracao))
+p_linear <- length(coef(modelo_seda_simples))
+gl_erro_puro <- nrow(dados_seda) - m_niveis
+gl_falta_ajuste <- m_niveis - p_linear
+
+QMErroPuro <- SQErroPuro / gl_erro_puro
+QMFaltaAjuste <- SQFaltaAjuste / gl_falta_ajuste
+F_falta_ajuste_manual <- QMFaltaAjuste / QMErroPuro
+
+data.frame(
+  fonte = c("Falta de ajuste", "Erro puro", "Resíduo"),
+  soma_de_quadrados = c(SQFaltaAjuste, SQErroPuro, SQResiduo_fa),
+  graus_de_liberdade = c(
+    gl_falta_ajuste,
+    gl_erro_puro,
+    df.residual(modelo_seda_simples)
+  ),
+  quadrado_medio = c(
+    QMFaltaAjuste,
+    QMErroPuro,
+    SQResiduo_fa / df.residual(modelo_seda_simples)
+  )
+)
+
+data.frame(
+  F_manual = F_falta_ajuste_manual,
+  F_anova = teste_falta_ajuste_seda$F[2],
+  p_valor = pf(
+    F_falta_ajuste_manual,
+    gl_falta_ajuste,
+    gl_erro_puro,
+    lower.tail = FALSE
+  ),
+  erro_decomposicao = SQResiduo_fa - SQErroPuro - SQFaltaAjuste
+)
+```
+
+Neste estudo, SQErroPuro mede a variação entre execuções repetidas na mesma concentração; SQFaltaAjuste mede a distância ponderada entre as três médias observadas e a reta. O teste produz $F=`r fmt_num(teste_falta_ajuste_seda$F[2], 3)`$ e $p$ `r fmt_p(teste_falta_ajuste_seda[["Pr(>F)"]][2])`. Não foi encontrada evidência amostral contra a forma linear **nos três níveis estudados**.
+
+Essa conclusão exige prudência por quatro razões:
+
+1. há somente um grau de liberdade para falta de ajuste, de modo que o teste tem baixo poder para detectar curvaturas moderadas;
+2. não rejeitar $H_0$ não prova que a reta seja correta;
+3. o teste não avalia extrapolação abaixo de 10 ou acima de 20 mg/L;
+4. se variâncias diferirem entre níveis ou as execuções não forem independentes, a referência $F$ clássica pode ser inadequada.
+
+Se houver falta de ajuste, a resposta não é “forçar” a reta. Deve-se examinar gráfico das médias e resíduos, considerar transformação, termos polinomiais, interações ou um mecanismo não linear, e coletar dados em níveis capazes de distinguir as formas concorrentes. Se não houver réplicas, não existe uma estimativa direta de erro puro; nesse caso, o analista depende de diagnóstico gráfico, conhecimento do processo, pontos vizinhos e nova coleta planejada.
+
+## Regressão pela origem
+
+### O que significa retirar o intercepto?
+
+O modelo sem intercepto, ou regressão pela origem, é
+
+$$
+Y_i=\beta_1X_i+\varepsilon_i.
+$$
+
+Ele não é apenas uma reta “mais simples”. Ele impõe exatamente a restrição
+
+$$
+E(Y\mid X=0)=0
+$$
+
+e, além disso, supõe que a mesma proporcionalidade linear válida na região observada continua válida até a origem. São duas afirmações científicas fortes:
+
+1. o valor médio da resposta é exatamente zero quando $X=0$;
+2. não existe limiar, fundo, atraso, curvatura ou mudança de mecanismo entre zero e os valores observados.
+
+O estimador de mínimos quadrados é
+
+$$
+\hat\beta_1^{(0)}
+=\frac{\sum_{i=1}^n x_iy_i}{\sum_{i=1}^n x_i^2},
+$$
+
+com
+
+
+$$
+\operatorname{Var}(\hat\beta_1^{(0)}\mid\mathbf X)
+=\frac{\sigma^2}{\sum_{i=1}^n x_i^2},
+\qquad
+\text{QMResíduo}^{(0)}
+=\frac{\text{SQResíduo}^{(0)}}{n-1}.
+$$
+
+O modelo utiliza um único parâmetro, por isso a SQResíduo possui $n-1$ graus de liberdade.
+
+### Quando a regressão pela origem pode ser defensável?
+
+Ela pode ser considerada quando o zero possui significado físico e a proporcionalidade é sustentada pelo mecanismo. Exemplos incluem uma calibração devidamente corrigida por branco, massa transportada versus volume quando densidade constante é conhecida, ou distância percorrida versus tempo em movimento uniforme iniciado na mesma origem. Mesmo nesses casos, é desejável que o experimento contenha observações próximas de zero e que o instrumento e o processo não tenham resposta basal.
+
+O zero precisa pertencer à escala científica. Temperatura em graus Celsius, ano do calendário, escores arbitrários e escalas com ponto zero convencional raramente justificam um intercepto nulo. Também não basta dizer “sem concentração não há adsorção”: pode haver sinal de fundo, adsorção basal, correção incompleta, limite de detecção ou relação não linear em baixas concentrações.
+
+::: {.callout-warning title="Justificável em princípio não significa válido nos dados"}
+Uma lei física pode sugerir passagem pela origem e, ainda assim, o modelo linear pela origem ser inadequado na região observada. A relação pode mudar perto de zero, o equipamento pode ter *offset*, ou os dados podem estar tão distantes da origem que não oferecem informação para examinar essa restrição. A justificativa teórica é necessária, mas não é suficiente: precisamos também avaliar a escala, a região experimental, os resíduos e a estabilidade das conclusões.
+:::
+
+### Consequências algébricas e inferenciais
+
+No modelo usual com intercepto, os resíduos somam zero e a decomposição centrada
+
+$$
+\text{SQTotal}=\text{SQReg}+\text{SQResíduo}
+$$
+
+é válida. Pela origem, em geral $\sum_i e_i\neq0$ e essa decomposição centrada deixa de valer. Alguns programas exibem o chamado $R^2$ não centrado,
+
+$$
+R^2_{\mathrm{nc}}
+=1-\frac{\text{SQResíduo}^{(0)}}{\sum_i y_i^2},
+$$
+
+cujo denominador é a variação em torno de zero, e não em torno de $\bar y$. Portanto, $R^2_{\mathrm{nc}}$ não deve ser comparado ao $R^2$ centrado do modelo com intercepto.
+
+Há outra consequência reveladora: no modelo pela origem, a média estimada em $x=0$ é exatamente zero e seu erro-padrão é zero, porque o modelo não permite nenhuma incerteza sobre essa média. Essa certeza matemática decorre da restrição, não de observações informativas na origem.
+
+### Como decidir?
+
+O modelo pela origem é aninhado no modelo com intercepto, pois resulta da restrição $H_0:\beta_0=0$. Podemos comparar os dois modelos por um teste $t$ do intercepto ou por um teste $F$ com um grau de liberdade. Contudo, **não rejeitar** $H_0$ não prova que o intercepto seja zero: uma amostra pequena ou dados distantes da origem podem ter pouca potência. A decisão deve combinar:
+
+- mecanismo científico que imponha, e não apenas sugira, média zero na origem;
+- significado real do zero e correção de resposta basal;
+- dados próximos da origem;
+- comparação de QMResíduo e diagnóstico residual;
+- impacto da restrição sobre inclinação, predições e conclusões.
+
+```{r}
+#| label: regressao-origem-seda
+
+modelo_seda_origem <- lm(
+  adsorcao ~ 0 + concentracao,
+  data = dados_seda
+)
+
+summary(modelo_seda_origem)
+anova(modelo_seda_origem, modelo_seda_simples)
+
+comparacao_origem_seda <- data.frame(
+  modelo = c("Com intercepto", "Pela origem"),
+  inclinacao = c(
+    coef(modelo_seda_simples)["concentracao"],
+    coef(modelo_seda_origem)["concentracao"]
+  ),
+  `SQResíduo` = c(
+    deviance(modelo_seda_simples),
+    deviance(modelo_seda_origem)
+  ),
+  gl_residual = c(
+    df.residual(modelo_seda_simples),
+    df.residual(modelo_seda_origem)
+  ),
+  `QMResíduo` = c(
+    deviance(modelo_seda_simples) / df.residual(modelo_seda_simples),
+    deviance(modelo_seda_origem) / df.residual(modelo_seda_origem)
+  )
+)
+
+comparacao_origem_seda
+
+# A restrição também altera predições na própria região observada.
+pontos_origem_seda <- data.frame(concentracao = c(0, 10, 15, 20))
+
+cbind(
+  pontos_origem_seda,
+  com_intercepto = predict(modelo_seda_simples, pontos_origem_seda),
+  pela_origem = predict(modelo_seda_origem, pontos_origem_seda)
+)
+
+# No modelo restrito, o IC da média em x = 0 colapsa em zero.
+predict(
+  modelo_seda_origem,
+  newdata = data.frame(concentracao = 0),
+  interval = "confidence"
+)
+
+data.frame(
+  soma_residuos_com_intercepto = sum(residuals(modelo_seda_simples)),
+  soma_residuos_pela_origem = sum(residuals(modelo_seda_origem)),
+  R2_centrado = summary(modelo_seda_simples)$r.squared,
+  R2_nao_centrado = summary(modelo_seda_origem)$r.squared
+)
+```
+
+O teste da restrição $\beta_0=0$ tem $p$ `r fmt_p(anova(modelo_seda_origem, modelo_seda_simples)[["Pr(>F)"]][2])`. A amostra não fornece evidência forte contra o intercepto nulo, mas as concentrações observadas começam em 10 mg/L. Assim, os dados quase não informam o comportamento próximo de zero. A inclinação muda de `r fmt_num(coef(modelo_seda_simples)["concentracao"], 3)` para `r fmt_num(coef(modelo_seda_origem)["concentracao"], 3)` quando a reta é forçada pela origem; essa mudança mostra que a restrição redistribui o ajuste por toda a região experimental.
+
+Neste caso, a alegação física “adsorção deve ser zero sem adsorbato” é plausível, mas ainda não basta para recomendar a regressão pela origem: seria necessário confirmar a correção do branco e observar baixas concentrações para verificar se a proporcionalidade permanece linear. O modelo com intercepto deve ser mantido como análise principal, e o modelo pela origem pode ser apresentado como análise restrita de sensibilidade científica.
+
+## Diagnóstico inicial da regressão simples
+
+```{r}
+#| label: diagnostico-seda-simples
+
+diag_seda_simples <- data.frame(
+  execucao = dados_seda$execucao,
+  observado = dados_seda$adsorcao,
+  ajustado = fitted(modelo_seda_simples),
+  residuo = residuals(modelo_seda_simples),
+  rstudent = rstudent(modelo_seda_simples),
+  leverage = hatvalues(modelo_seda_simples),
+  cook = cooks.distance(modelo_seda_simples)
+)
+
+diag_seda_simples
+
+par(mfrow = c(2, 2))
+plot(modelo_seda_simples)
+par(mfrow = c(1, 1))
+
+shapiro_seda <- shapiro.test(rstudent(modelo_seda_simples))
+bp_seda <- lmtest::bptest(modelo_seda_simples)
+
+shapiro_seda
+bp_seda
+```
+
+O teste de Shapiro–Wilk tem $p$ `r fmt_p(shapiro_seda$p.value)` e o teste de Breusch–Pagan tem $p$ `r fmt_p(bp_seda$p.value)`. Com apenas dez observações, os testes têm poder limitado; a leitura deve combinar gráficos, desenho experimental e plausibilidade. A execução 4 tem o maior resíduo externamente studentizado (`r fmt_num(max(abs(diag_seda_simples$rstudent)), 2)` em valor absoluto) e merece inspeção, mas não há fundamento para exclusão automática.
+
+::: {.callout-tip title="Síntese do primeiro exemplo"}
+Na região de 10 a 20 mg/L, há evidência de associação linear positiva entre concentração e adsorção. A inclinação é estimada com incerteza relevante, as previsões individuais são substancialmente mais incertas que as médias e a replicação permite separar erro puro de falta de ajuste. O tamanho amostral pequeno exige prudência nos diagnósticos.
+:::
+
+# Regressão linear múltipla
+
+## Formulação matricial
+
+Com $k$ regressores e $p=k+1$ parâmetros incluindo o intercepto,
+
+$$
+Y_i=\beta_0+\beta_1x_{i1}+\cdots+\beta_kx_{ik}+\varepsilon_i.
+$$
+
+Em forma matricial,
+
+$$
+\mathbf y=\mathbf X\boldsymbol\beta+\boldsymbol\varepsilon,
+$$
+
+com
+
+$$
+\mathbf X=
+\begin{bmatrix}
+1&x_{11}&\cdots&x_{1k}\\
+1&x_{21}&\cdots&x_{2k}\\
+\vdots&\vdots&\ddots&\vdots\\
+1&x_{n1}&\cdots&x_{nk}
+\end{bmatrix},
+\qquad
+\boldsymbol\beta=
+\begin{bmatrix}
+\beta_0\\\beta_1\\\vdots\\\beta_k
+\end{bmatrix}.
+$$
+
+O critério de mínimos quadrados é
+
+$$
+S(\boldsymbol\beta)
+=(\mathbf y-\mathbf X\boldsymbol\beta)^T
+(\mathbf y-\mathbf X\boldsymbol\beta).
+$$
+
+Derivando,
+
+$$
+\frac{\partial S}{\partial\boldsymbol\beta}
+=-2\mathbf X^T\mathbf y+2\mathbf X^T\mathbf X\boldsymbol\beta.
+$$
+
+As equações normais são
+
+$$
+\mathbf X^T\mathbf X\hat{\boldsymbol\beta}=\mathbf X^T\mathbf y,
+$$
+
+e, se $\mathbf X$ tem posto completo,
+
+$$
+\hat{\boldsymbol\beta}
+=(\mathbf X^T\mathbf X)^{-1}\mathbf X^T\mathbf y.
+$$
+
+Sob $E(\boldsymbol\varepsilon\mid\mathbf X)=0$,
+
+$$
+E(\hat{\boldsymbol\beta}\mid\mathbf X)=\boldsymbol\beta.
+$$
+
+Sob homocedasticidade e independência,
+
+$$
+\operatorname{Var}(\hat{\boldsymbol\beta}\mid\mathbf X)
+=\sigma^2(\mathbf X^T\mathbf X)^{-1}.
+$$
+
+O teorema de Gauss–Markov afirma que, nessas condições, mínimos quadrados ordinários fornece o melhor estimador linear não viesado, no sentido de menor matriz de covariância. A normalidade não é necessária para esse resultado; ela entra na inferência exata por $t$ e $F$.
+
+## Interpretação condicional
+
+O coeficiente $\beta_j$ mede a mudança na média de $Y$ associada a uma unidade adicional de $X_j$, **mantendo os demais regressores constantes**. Essa última expressão é a diferença essencial entre uma correlação bivariada e um coeficiente de regressão múltipla.
+
+Se dois regressores estiverem fortemente relacionados, a condição “manter os demais constantes” pode representar poucas observações reais. Por isso, interpretação, sobreposição dos dados e multicolinearidade devem ser avaliadas conjuntamente.
+
+## Exemplo da seda com concentração, temperatura e pH
+
+```{r}
+#| label: dados-seda-multipla
+
+dados_seda_multipla <- data.frame(
+  execucao = 1:10,
+  concentracao = c(10, 20, 20, 20, 10, 20, 10, 20, 15, 15),
+  temperatura = c(70, 70, 80, 90, 70, 70, 90, 90, 80, 80),
+  ph = c(3.0, 3.0, 3.0, 3.0, 4.0, 4.0, 4.0, 4.0, 3.5, 3.5),
+  adsorcao = c(250, 520, 387, 593, 157, 377, 225, 451, 382, 373)
+)
+
+dados_seda_multipla
+```
+
+Este é um conjunto muito pequeno: há $n=10$ observações e $p=4$ parâmetros no modelo aditivo, deixando somente seis graus de liberdade residuais. A quantidade de casas decimais impressas pelo software não deve ser confundida com quantidade de informação.
+
+## Exploração multivariada
+
+```{r}
+#| label: exploracao-seda-multipla
+
+variaveis_seda <- dados_seda_multipla[
+  c("concentracao", "temperatura", "ph", "adsorcao")
+]
+
+summary(variaveis_seda)
+round(cor(variaveis_seda), 3)
+
+p_conc <- ggplot(dados_seda_multipla, aes(concentracao, adsorcao)) +
+  geom_point(size = 2.8) +
+  geom_smooth(method = "lm", se = FALSE, color = "#0072B2") +
+  labs(x = "Concentração", y = "Adsorção", title = "Concentração")
+
+p_temp <- ggplot(dados_seda_multipla, aes(temperatura, adsorcao)) +
+  geom_point(size = 2.8) +
+  geom_smooth(method = "lm", se = FALSE, color = "#009E73") +
+  labs(x = "Temperatura", y = "Adsorção", title = "Temperatura")
+
+p_ph <- ggplot(dados_seda_multipla, aes(ph, adsorcao)) +
+  geom_point(size = 2.8) +
+  geom_smooth(method = "lm", se = FALSE, color = "#D55E00") +
+  labs(x = "pH", y = "Adsorção", title = "pH")
+
+p_conc
+p_temp
+p_ph
+```
+
+As relações marginais ajudam a conhecer os dados, mas não fornecem os efeitos ajustados. A correlação marginal entre concentração e adsorção, por exemplo, mistura a associação da concentração com as combinações de temperatura e pH executadas.
+
+## Ajuste e verificação matricial
+
+```{r}
+#| label: ajuste-seda-multipla
+
+modelo_seda_multipla <- lm(
+  adsorcao ~ concentracao + temperatura + ph,
+  data = dados_seda_multipla
+)
+
+summary(modelo_seda_multipla)
+
+X_seda_multipla <- model.matrix(modelo_seda_multipla)
+y_seda_multipla <- dados_seda_multipla$adsorcao
+
+beta_matricial <- solve(
+  crossprod(X_seda_multipla),
+  crossprod(X_seda_multipla, y_seda_multipla)
+)
+
+cbind(
+  lm = coef(modelo_seda_multipla),
+  matricial = beta_matricial,
+  diferenca = coef(modelo_seda_multipla) - beta_matricial
+)
+```
+
+O modelo ajustado é
+
+$$
+\widehat{\text{adsorção}}=
+`r fmt_num(coef(modelo_seda_multipla)[1], 2)`
++`r fmt_num(coef(modelo_seda_multipla)[2], 2)`\,\text{concentração}
++`r fmt_num(coef(modelo_seda_multipla)[3], 2)`\,\text{temperatura}
+`r ifelse(coef(modelo_seda_multipla)[4] < 0, "-", "+")`
+`r fmt_num(abs(coef(modelo_seda_multipla)[4]), 2)`\,\text{pH}.
+$$
+
+As interpretações são condicionais:
+
+- mantendo temperatura e pH fixos, 1 mg/L adicional de concentração está associado a `r fmt_num(coef(modelo_seda_multipla)["concentracao"], 2)` mg/g adicionais de adsorção média;
+- mantendo concentração e pH fixos, 1 °C adicional está associado a `r fmt_num(coef(modelo_seda_multipla)["temperatura"], 2)` mg/g adicionais;
+- mantendo concentração e temperatura fixas, uma unidade adicional de pH está associada a uma mudança média de `r fmt_num(coef(modelo_seda_multipla)["ph"], 2)` mg/g.
+
+Essas estimativas não devem ser lidas isoladamente dos intervalos de confiança e do diagnóstico da observação 3, que será apresentado adiante.
+
+## Inferência conjunta e individual
+
+O teste global é
+
+$$
+H_0:\beta_1=\cdots=\beta_k=0
+$$
+
+contra a alternativa de que pelo menos um coeficiente seja diferente de zero. A estatística é
+
+$$
+F_0=
+\frac{\text{SQReg}/k}{\text{SQResíduo}/(n-p)}
+=\frac{\text{QMReg}}{\text{QMResíduo}}.
+$$
+
+Os testes individuais avaliam
+
+$$
+H_0:\beta_j=0
+$$
+
+condicionalmente à presença de todos os outros termos do modelo.
+
+```{r}
+#| label: inferencia-seda-multipla
+
+anova_seda_multipla <- anova(modelo_seda_multipla)
+coef_seda_multipla <- coef(summary(modelo_seda_multipla))
+IC_seda_multipla <- confint(modelo_seda_multipla)
+
+anova_seda_multipla
+coef_seda_multipla
+IC_seda_multipla
+```
+
+O teste global tem $F=`r fmt_num(unname(summary(modelo_seda_multipla)$fstatistic[1]), 3)`$ com $p$ `r fmt_p(pf(summary(modelo_seda_multipla)$fstatistic[1], summary(modelo_seda_multipla)$fstatistic[2], summary(modelo_seda_multipla)$fstatistic[3], lower.tail = FALSE))`. Há evidência de que o conjunto dos três regressores explica parte da variabilidade da adsorção.
+
+No modelo completo, concentração tem $p$ `r fmt_p(coef_seda_multipla["concentracao", "Pr(>|t|)"])`, temperatura tem $p$ `r fmt_p(coef_seda_multipla["temperatura", "Pr(>|t|)"])` e pH tem $p$ `r fmt_p(coef_seda_multipla["ph", "Pr(>|t|)"])`. A ausência de significância a 5% para um termo não demonstra efeito nulo; com seis graus de liberdade e uma observação discrepante, a incerteza é elevada.
+
+## Somas de quadrados sequenciais e parciais
+
+### A ideia de soma de quadrados extra
+
+Toda soma de quadrados associada a um termo em regressão múltipla deve ser lida como uma **redução da SQResíduo entre dois modelos**. Se $M_A$ contém um conjunto de termos $A$ e $M_{A+B}$ acrescenta o bloco $B$, definimos
+
+$$
+\text{SQReg}(B\mid A)
+=\text{SQResíduo}(M_A)
+-\text{SQResíduo}(M_{A+B}).
+$$
+
+A expressão é lida assim: “soma de quadrados de regressão de $B$, depois de ajustar $A$”. Ela mede quanto a SQResíduo diminui quando $B$ é acrescentado a um modelo que já contém $A$. Portanto, o conteúdo à direita da barra vertical informa **o que já está controlado**.
+
+Por exemplo,
+
+$$
+\text{SQReg}(\text{temperatura}\mid \text{concentração})
+$$
+
+é a redução da SQResíduo ao acrescentar temperatura a um modelo que já contém concentração. Ela não é a variabilidade total associada à temperatura e não responde ao que ocorreria se temperatura fosse avaliada sozinha.
+
+### Somas de quadrados sequenciais: tipo I
+
+Por padrão, `anova(lm)` em R apresenta somas de quadrados **sequenciais**, também chamadas de tipo I. Se a fórmula for
+
+$$
+Y\sim X_1+X_2+X_3,
+$$
+
+o programa constrói a sequência
+
+$$
+M_0:1,
+\qquad
+M_1:1+X_1,
+\qquad
+M_2:1+X_1+X_2,
+\qquad
+M_3:1+X_1+X_2+X_3,
+$$
+
+e informa
+
+$$
+\begin{aligned}
+\text{SQReg}(X_1\mid 1)
+&=\text{SQResíduo}(M_0)-\text{SQResíduo}(M_1),\\
+\text{SQReg}(X_2\mid 1,X_1)
+&=\text{SQResíduo}(M_1)-\text{SQResíduo}(M_2),\\
+\text{SQReg}(X_3\mid 1,X_1,X_2)
+&=\text{SQResíduo}(M_2)-\text{SQResíduo}(M_3).
+\end{aligned}
+$$
+
+A primeira expressão pergunta quanto $X_1$ melhora o modelo da média. A segunda pergunta quanto $X_2$ acrescenta **depois de $X_1$ ter recebido a primeira oportunidade de explicar a resposta**. A terceira pergunta quanto $X_3$ acrescenta depois dos dois anteriores. A soma telescópica satisfaz
+
+$$
+\text{SQReg}(X_1,X_2,X_3\mid 1)
+=\sum_{j=1}^3\text{SQReg}(X_j\mid \text{termos anteriores}).
+$$
+
+Em dados não ortogonais, os regressores explicam parte da mesma variação. O termo colocado primeiro recebe essa parcela compartilhada; por isso, mudar a ordem pode mudar cada SQReg sequencial, embora o modelo completo, sua SQResíduo e a SQReg total permaneçam iguais.
+
+As somas sequenciais são cientificamente úteis quando a ordem foi definida **antes de observar os resultados** e representa uma hierarquia substantiva. Exemplos:
+
+- ajustar idade e condição basal antes de avaliar um tratamento;
+- ajustar blocos de controle antes de variáveis de interesse;
+- incluir $X$ antes de $X^2$ para perguntar se a curvatura acrescenta informação além da tendência linear;
+- incluir efeitos principais antes de interações, respeitando o princípio da hierarquia.
+
+Elas não devem ser usadas como mecanismo automático de seleção cuja conclusão muda com a ordem digitada na fórmula.
+
+### Somas de quadrados parciais
+
+Uma soma de quadrados parcial coloca o termo de interesse por último. Para $X_j$ em um modelo com outros regressores $X_{-j}$,
+
+$$
+\text{SQReg}(X_j\mid X_{-j})
+=\text{SQResíduo}(M_R)-\text{SQResíduo}(M_F),
+$$
+
+em que $M_R$ contém todos os termos exceto $X_j$, e $M_F$ é o modelo completo. A pergunta é: “depois de ajustar todos os demais termos, quanto da SQResíduo ainda é reduzido por $X_j$?”.
+
+Por exemplo,
+
+$$
+\text{SQReg}(\text{concentração}
+\mid\text{temperatura},\text{pH})
+$$
+
+mede a contribuição adicional da concentração quando temperatura e pH já estão no modelo. De maneira análoga,
+
+$$
+\text{SQReg}(\text{temperatura}
+\mid\text{concentração},\text{pH})
+$$
+
+mede a contribuição adicional da temperatura quando os outros dois regressores já estão presentes. Essas duas parcelas podem envolver a mesma variação compartilhada; por isso, em geral,
+
+$$
+\sum_j\text{SQReg}(X_j\mid X_{-j})
+\neq \text{SQReg}(X_1,\ldots,X_k\mid1).
+$$
+
+As somas parciais não são “pedaços exclusivos que recompõem o todo”. Elas são respostas a comparações diferentes entre modelos reduzidos e o mesmo modelo completo.
+
+Para um termo com $q$ parâmetros, o teste parcial é
+
+$$
+F_0=
+\frac{\text{SQReg}(B\mid A)/q}
+{\text{QMResíduo}(M_F)}.
+$$
+
+Quando o termo possui um único coeficiente, o teste parcial $F$ é exatamente o quadrado do teste $t$: $F_0=t_0^2$.
+
+### Quando sequencial e parcial coincidem?
+
+Se as colunas dos blocos forem ortogonais, a parte explicada por um bloco não se sobrepõe à parte explicada pelos outros. Nesse caso, a ordem não altera as somas de quadrados e as contribuições sequenciais e parciais coincidem. Isso ocorre em alguns experimentos balanceados e ortogonais. Em dados observacionais ou experimentos desbalanceados, essa coincidência é excepcional e precisa ser demonstrada, não presumida.
+
+```{r}
+#| label: sq-sequencial-parcial-seda
+
+# Tipo I: a ordem dos termos define a sequência de comparações.
+anova_ordem_1_seda <- anova(modelo_seda_multipla)
+anova_ordem_1_seda
+
+modelo_seda_ordem_invertida <- lm(
+  adsorcao ~ ph + temperatura + concentracao,
+  data = dados_seda_multipla
+)
+anova_ordem_2_seda <- anova(modelo_seda_ordem_invertida)
+anova_ordem_2_seda
+
+# Testes parciais: cada termo é removido, um por vez, do modelo completo.
+testes_parciais_seda <- drop1(modelo_seda_multipla, test = "F")
+testes_parciais_seda
+
+# Tabela explícita das somas sequenciais nas duas ordens.
+tabela_sq_sequencial_seda <- rbind(
+  data.frame(
+    ordem = "concentracao -> temperatura -> ph",
+    termo = rownames(anova_ordem_1_seda)[1:3],
+    SQReg_sequencial = anova_ordem_1_seda$`Sum Sq`[1:3]
+  ),
+  data.frame(
+    ordem = "ph -> temperatura -> concentracao",
+    termo = rownames(anova_ordem_2_seda)[1:3],
+    SQReg_sequencial = anova_ordem_2_seda$`Sum Sq`[1:3]
+  )
+)
+
+tabela_sq_sequencial_seda
+
+# Cálculo manual de cada soma parcial como diferença de SQResíduo.
+modelos_reduzidos_seda <- list(
+  concentracao = update(modelo_seda_multipla, . ~ . - concentracao),
+  temperatura = update(modelo_seda_multipla, . ~ . - temperatura),
+  ph = update(modelo_seda_multipla, . ~ . - ph)
+)
+
+tabela_sq_parcial_seda <- do.call(
+  rbind,
+  lapply(names(modelos_reduzidos_seda), function(termo) {
+    reduzido <- modelos_reduzidos_seda[[termo]]
+    sq_extra <- deviance(reduzido) - deviance(modelo_seda_multipla)
+    gl_extra <- df.residual(reduzido) -
+      df.residual(modelo_seda_multipla)
+    qm_res_completo <- deviance(modelo_seda_multipla) /
+      df.residual(modelo_seda_multipla)
+    data.frame(
+      termo = termo,
+      SQReg_parcial = sq_extra,
+      gl = gl_extra,
+      F = (sq_extra / gl_extra) / qm_res_completo,
+      p_valor = pf(
+        (sq_extra / gl_extra) / qm_res_completo,
+        gl_extra,
+        df.residual(modelo_seda_multipla),
+        lower.tail = FALSE
+      )
+    )
+  })
+)
+
+tabela_sq_parcial_seda
+
+# A SQReg total é a mesma nas duas ordens.
+SQReg_total_multipla <- deviance(lm(
+  adsorcao ~ 1,
+  data = dados_seda_multipla
+)) - deviance(modelo_seda_multipla)
+
+c(
+  SQReg_total = SQReg_total_multipla,
+  soma_sequencial_ordem_1 = sum(anova_ordem_1_seda$`Sum Sq`[1:3]),
+  soma_sequencial_ordem_2 = sum(anova_ordem_2_seda$`Sum Sq`[1:3]),
+  soma_parciais = sum(tabela_sq_parcial_seda$SQReg_parcial)
+)
+```
+
+No exemplo, concentração recebe `r fmt_num(anova_ordem_1_seda["concentracao", "Sum Sq"], 2)` unidades de SQReg quando entra primeiro, mas `r fmt_num(anova_ordem_2_seda["concentracao", "Sum Sq"], 2)` quando entra depois de pH e temperatura. A diferença é variação compartilhada com os outros regressores, não uma mudança dos dados nem do modelo completo.
+
+O teste parcial de concentração produz $F=`r fmt_num(testes_parciais_seda["concentracao", "F value"], 3)`$ e $p$ `r fmt_p(testes_parciais_seda["concentracao", "Pr(>F)"])`. Ele responde à contribuição adicional da concentração depois de temperatura e pH. Como há um grau de liberdade, esse $F$ é o quadrado do teste $t$ do coeficiente de concentração. A soma das três SQReg parciais não precisa ser igual à SQReg total; o código mostra numericamente essa distinção.
+
+::: {.callout-warning title="Não selecionar variáveis apenas pela ANOVA sequencial"}
+Uma variável colocada primeiro pode absorver variação compartilhada com outras. A ordem da fórmula não deve decidir a conclusão científica. Para inferência sobre um termo em modelo não ortogonal, use comparação de modelos aninhados ou um teste parcial coerente com a hipótese.
+:::
+
+## Comparação de modelos aninhados
+
+### Definição de aninhamento
+
+Um modelo reduzido $M_R$ está aninhado em um modelo completo $M_F$ quando pode ser obtido impondo restrições aos parâmetros de $M_F$. Em linguagem geométrica, o espaço gerado pelas colunas da matriz $\mathbf X_R$ deve estar contido no espaço gerado por $\mathbf X_F$:
+
+$$
+\mathcal C(\mathbf X_R)\subseteq\mathcal C(\mathbf X_F).
+$$
+
+Considere
+
+$$
+M_F:\quad
+\mathbf y=\mathbf X_1\boldsymbol\beta_1+
+\mathbf X_2\boldsymbol\beta_2+\boldsymbol\varepsilon
+$$
+
+e
+
+$$
+M_R:\quad
+\mathbf y=\mathbf X_1\boldsymbol\beta_1+\boldsymbol\varepsilon,
+$$
+
+obtido sob $H_0:\boldsymbol\beta_2=\mathbf0$. Como $M_F$ possui todas as possibilidades de ajuste de $M_R$ e outras adicionais,
+
+$$
+\text{SQResíduo}(F)\leq\text{SQResíduo}(R).
+$$
+
+A redução
+
+$$
+\text{SQReg}(\boldsymbol\beta_2\mid\boldsymbol\beta_1)
+=\text{SQResíduo}(R)-\text{SQResíduo}(F)
+$$
+
+é a soma de quadrados extra atribuída ao bloco $\boldsymbol\beta_2$ depois de ajustar $\boldsymbol\beta_1$. Se $q=p_F-p_R$ restrições independentes separam os modelos, então
+
+$$
+F_0=
+\frac{
+[\text{SQResíduo}(R)-\text{SQResíduo}(F)]/q
+}
+{\text{SQResíduo}(F)/(n-p_F)}
+=\frac{\text{QMExtra}}{\text{QMResíduo}(F)}
+\sim F_{q,n-p_F}
+$$
+
+sob $H_0$ e os pressupostos do modelo normal clássico. O denominador vem do modelo completo porque ele estima $\sigma^2$ sem impor as restrições que estão sendo testadas.
+
+### Por que comparar modelos aninhados?
+
+A comparação formaliza uma pergunta de parcimônia: a redução da SQResíduo obtida pelo modelo maior é grande em relação ao ruído residual, ou poderia decorrer apenas de termos adicionais ajustando flutuações aleatórias? Ela é especialmente útil para:
+
+- testar a contribuição conjunta de um bloco de variáveis;
+- preservar hierarquia ao testar simultaneamente termos relacionados;
+- avaliar curvatura, interação ou diferenças entre grupos;
+- testar restrições científicas sobre coeficientes;
+- justificar um modelo mais simples quando a complexidade adicional não é sustentada.
+
+### Exemplos de pares aninhados
+
+1. **Teste global.** $M_R:Y=\beta_0+\varepsilon$ e $M_F:Y=\beta_0+\beta_1X_1+\beta_2X_2+\beta_3X_3+\varepsilon$. Compara o modelo da média ao conjunto de todos os regressores.
+2. **Uma variável adicional.** $M_R:Y=\beta_0+\beta_1X_1+\beta_2X_2+\varepsilon$ e $M_F=M_R+\beta_3X_3$. Pergunta se $X_3$ contribui depois de $X_1$ e $X_2$; nesse caso, $F=t^2$.
+3. **Um bloco científico.** $M_R:Y=\beta_0+\beta_1\text{concentração}+\varepsilon$ e $M_F=M_R+\beta_2\text{temperatura}+\beta_3\text{pH}$. Pergunta se temperatura e pH, conjuntamente, acrescentam informação à concentração.
+4. **Curvatura.** $M_R:Y=\beta_0+\beta_1X+\varepsilon$ e $M_F=M_R+\beta_2X^2$. Pergunta se a parábola melhora a reta. Mantém-se $X$ no completo por hierarquia.
+5. **Interação.** $M_R:Y=\beta_0+\beta_1X_1+\beta_2X_2+\varepsilon$ e $M_F=M_R+\beta_3X_1X_2$. Pergunta se o efeito de $X_1$ depende de $X_2$.
+6. **Retas de grupos.** Um modelo comum está aninhado em um modelo com interceptos distintos; este está aninhado em um modelo com interceptos e inclinações distintas. As comparações respondem, em sequência, se os grupos precisam de níveis médios diferentes e se precisam de inclinações diferentes.
+7. **Igualdade entre coeficientes.** Em $M_F:Y=\beta_0+\beta_1X_1+\beta_2X_2+\varepsilon$, a hipótese $H_0:\beta_1=\beta_2$ produz $M_R:Y=\beta_0+\gamma(X_1+X_2)+\varepsilon$. O reduzido é obtido por uma restrição linear, embora não resulte simplesmente da remoção de uma variável.
+8. **Regressão pela origem.** $M_R:Y=\beta_1X+\varepsilon$ está aninhado em $M_F:Y=\beta_0+\beta_1X+\varepsilon$ pela restrição $\beta_0=0$. O teste estatístico existe, mas a decisão continua exigindo justificativa científica.
+
+Esses exemplos são comparados por razões diferentes. O teste global pergunta se algum regressor ajuda; o teste de bloco isola uma hipótese substantiva; curvatura e interação avaliam forma funcional; retas de grupos avaliam heterogeneidade; e a origem testa uma restrição física. A mesma fórmula $F$ não torna as perguntas equivalentes.
+
+```{r}
+#| label: modelos-aninhados-seda
+
+modelo_seda_sem_temp_ph <- lm(
+  adsorcao ~ concentracao,
+  data = dados_seda_multipla
+)
+
+modelo_seda_sem_ph <- lm(
+  adsorcao ~ concentracao + temperatura,
+  data = dados_seda_multipla
+)
+
+# Modelo nulo para o teste global.
+modelo_seda_nulo <- lm(adsorcao ~ 1, data = dados_seda_multipla)
+
+# Modelo intermediário para uma sequência cientificamente interpretável.
+modelo_seda_so_conc_temp <- modelo_seda_sem_ph
+
+# Teste global: todos os três regressores como bloco.
+anova(modelo_seda_nulo, modelo_seda_multipla)
+
+# Teste conjunto de H0: beta_temperatura = beta_ph = 0.
+anova(modelo_seda_sem_temp_ph, modelo_seda_multipla)
+
+# Teste parcial do pH.
+anova(modelo_seda_so_conc_temp, modelo_seda_multipla)
+
+# Curvatura na concentração: reta versus parábola.
+anova(modelo_seda_simples, modelo_seda_quadratico_r2)
+
+# Restrição de origem: beta_0 = 0.
+anova(modelo_seda_origem, modelo_seda_simples)
+```
+
+No teste global, comparamos a média constante ao modelo contendo concentração, temperatura e pH; o resultado tem $p$ `r fmt_p(anova(modelo_seda_nulo, modelo_seda_multipla)[["Pr(>F)"]][2])` e indica contribuição conjunta do bloco. Ao comparar o modelo somente com concentração ao modelo completo, temperatura e pH são testados em conjunto, produzindo $p$ `r fmt_p(anova(modelo_seda_sem_temp_ph, modelo_seda_multipla)[["Pr(>F)"]][2])`. Já a comparação sem e com pH produz $p$ `r fmt_p(anova(modelo_seda_so_conc_temp, modelo_seda_multipla)[["Pr(>F)"]][2])`: essa é uma pergunta parcial específica, não o teste do bloco inteiro.
+
+Os dois exemplos de forma funcional ilustram outra finalidade. O termo quadrático tem $p$ `r fmt_p(anova(modelo_seda_simples, modelo_seda_quadratico_r2)[["Pr(>F)"]][2])`, enquanto a restrição de passagem pela origem tem $p$ `r fmt_p(anova(modelo_seda_origem, modelo_seda_simples)[["Pr(>F)"]][2])`. Em ambos os casos, a não rejeição indica compatibilidade da restrição com a precisão amostral, e não prova de que a forma reduzida seja verdadeira.
+
+### Condições para uma comparação válida
+
+Os modelos precisam usar a mesma resposta, a mesma escala da resposta, as mesmas observações e a mesma estrutura de erro. Se valores ausentes fazem dois modelos usar linhas diferentes, a diferença de SQResíduo mistura mudança de modelo com mudança de amostra. A comparação também é incorreta para modelos não aninhados, como $Y\sim X$ versus $Y\sim\log X$, ou para $Y$ versus $\log Y$; nesses casos, diagnóstico, critérios de informação com likelihood comparável e validação podem ser mais adequados.
+
+Rejeitar $H_0$ indica que a restrição reduz o ajuste além do esperado pelo ruído sob o modelo. Não rejeitar indica que o modelo reduzido é compatível com os dados no nível de precisão disponível; não prova que os coeficientes excluídos sejam exatamente zero. A decisão final deve considerar poder, importância prática, hierarquia, objetivo preditivo ou explicativo e conhecimento científico.
+
+## Centralização e coeficientes padronizados
+
+### Centralizar não é o mesmo que padronizar
+
+Centralizar um regressor substitui $X_j$ por $X_j-\bar X_j$. Em um modelo aditivo sem potências ou interações, isso altera a interpretação do intercepto, mas não altera inclinações, valores ajustados, resíduos, $R^2$ ou testes das inclinações. O intercepto passa a representar a média esperada quando os regressores estão em suas médias amostrais.
+
+Padronizar centraliza e divide pelo desvio-padrão:
+
+$$
+Z_j=\frac{X_j-\bar X_j}{s_{X_j}}.
+$$
+
+Para obter coeficientes completamente padronizados, padronizamos também a resposta:
+
+$$
+Z_Y=\frac{Y-\bar Y}{s_Y}.
+$$
+
+Se o modelo original é
+
+$$
+Y=\beta_0+\sum_{j=1}^k\beta_jX_j+\varepsilon,
+$$
+
+o modelo padronizado é
+
+$$
+Z_Y=\sum_{j=1}^k b_jZ_j+\varepsilon^*,
+$$
+
+com intercepto zero e
+
+$$
+b_j=\beta_j\frac{s_{X_j}}{s_Y}.
+$$
+
+Assim, $b_j$ é a mudança estimada, em desvios-padrão de $Y$, associada ao aumento de um desvio-padrão em $X_j$, mantendo os demais regressores constantes. A padronização remove unidades e permite colocar efeitos associados a escalas muito diferentes em uma linguagem comum.
+
+### Por que os coeficientes padronizados podem ser úteis?
+
+- facilitam uma comparação **descritiva, dentro da mesma amostra e do mesmo modelo**, entre regressores contínuos medidos em escalas diferentes;
+- ajudam a identificar problemas numéricos quando colunas têm ordens de grandeza muito distintas;
+- são necessários para interpretar métodos penalizados, como *ridge* e *lasso*, de modo que a penalização não dependa arbitrariamente das unidades;
+- tornam explícita a mudança associada a uma variação amostral típica do regressor.
+
+Em um modelo linear aditivo sem penalização, mudar unidades não altera valores ajustados, resíduos, $R^2$, testes $t$ e valores de $p$ das inclinações. Muda somente a escala numérica dos coeficientes e erros-padrões.
+
+### Quando a padronização é pouco útil ou enganosa?
+
+1. **Importância prática possui unidade natural.** Em logística, minutos por caixa e minutos por quilômetro podem ser mais úteis para decisão que desvios-padrão abstratos.
+2. **A dispersão é consequência do plano amostral.** Se um pesquisador escolhe uma faixa estreita para $X_1$ e ampla para $X_2$, os coeficientes padronizados refletem essa escolha e não uma importância universal.
+3. **Há variáveis indicadoras ou fatores.** Um desvio-padrão de uma variável binária depende da proporção amostral dos grupos e raramente representa uma intervenção natural.
+4. **Há polinômios ou interações.** Padronizar termos já construídos e padronizar variáveis antes de construir os termos são operações diferentes. O princípio da hierarquia e a interpretação condicional devem ser preservados.
+5. **Há multicolinearidade.** O coeficiente continua sendo parcial e pode ser instável; retirar unidades não cria informação para separar efeitos sobrepostos.
+6. **Deseja-se importância causal.** Um coeficiente padronizado grande não prova causalidade nem importância intrínseca; confundimento, erro de mensuração e desenho permanecem.
+7. **Deseja-se transportar o resultado.** Como $s_{X_j}$ e $s_Y$ mudam entre populações, os coeficientes padronizados podem mudar mesmo quando os coeficientes nas unidades originais permanecem estáveis.
+
+```{r}
+#| label: centralizacao-padronizacao-seda
+
+dados_seda_centrada <- transform(
+  dados_seda_multipla,
+  conc_c = concentracao - mean(concentracao),
+  temp_c = temperatura - mean(temperatura),
+  ph_c = ph - mean(ph)
+)
+
+modelo_seda_centrado <- lm(
+  adsorcao ~ conc_c + temp_c + ph_c,
+  data = dados_seda_centrada
+)
+
+dados_seda_padronizada <- as.data.frame(scale(
+  dados_seda_multipla[c("adsorcao", "concentracao", "temperatura", "ph")]
+))
+
+modelo_seda_padronizado <- lm(
+  adsorcao ~ concentracao + temperatura + ph,
+  data = dados_seda_padronizada
+)
+
+data.frame(
+  parametro = names(coef(modelo_seda_multipla)),
+  original = coef(modelo_seda_multipla),
+  centrado = coef(modelo_seda_centrado)
+)
+
+coef(modelo_seda_padronizado)
+
+# A fórmula b_j = beta_j * s_Xj / s_Y deve reproduzir as inclinações.
+coef_padronizado_formula <- coef(modelo_seda_multipla)[-1] *
+  vapply(
+    dados_seda_multipla[c("concentracao", "temperatura", "ph")],
+    sd,
+    numeric(1)
+  ) / sd(dados_seda_multipla$adsorcao)
+
+data.frame(
+  termo = names(coef_padronizado_formula),
+  pela_formula = unname(coef_padronizado_formula),
+  pelo_modelo_padronizado = unname(coef(modelo_seda_padronizado)[-1])
+)
+
+max(abs(
+  fitted(modelo_seda_multipla) - fitted(modelo_seda_centrado)
+))
+
+# Retornando os valores ajustados padronizados à escala original.
+ajustado_padronizado_na_escala_original <-
+  fitted(modelo_seda_padronizado) * sd(dados_seda_multipla$adsorcao) +
+  mean(dados_seda_multipla$adsorcao)
+
+data.frame(
+  diferenca_maxima_ajustes = max(abs(
+    fitted(modelo_seda_multipla) -
+      ajustado_padronizado_na_escala_original
+  )),
+  R2_original = summary(modelo_seda_multipla)$r.squared,
+  R2_padronizado = summary(modelo_seda_padronizado)$r.squared,
+  maior_diferenca_t = max(abs(
+    coef(summary(modelo_seda_multipla))[-1, "t value"] -
+      coef(summary(modelo_seda_padronizado))[-1, "t value"]
+  ))
+)
+```
+
+No modelo centrado, o intercepto estima a adsorção média no centro do experimento: concentração, temperatura e pH em suas médias amostrais. Essa interpretação é mais defensável que a combinação $X_1=X_2=X_3=0$. O código também confirma que padronizar não altera o ajuste nem a evidência estatística das inclinações; apenas reexpressa os coeficientes.
+
+## Multicolinearidade
+
+### Definição e origem do problema
+
+Existe multicolinearidade quando uma coluna de regressores é aproximadamente uma combinação linear de outras colunas. Se a dependência for exata, $\mathbf X^T\mathbf X$ é singular e os coeficientes não são todos identificáveis. Se for aproximada, o modelo pode ser calculado, mas pequenas mudanças nos dados podem produzir grandes mudanças nos coeficientes.
+
+As fontes mais comuns são:
+
+- **processo de coleta**: os dados ocupam uma faixa estreita ou uma região quase unidimensional do espaço dos regressores;
+- **restrições da população**: certas variáveis crescem juntas por construção física, econômica ou biológica;
+- **especificação do modelo**: $X$, $X^2$, $X^3$ e interações podem produzir colunas fortemente relacionadas, sobretudo sem centralização;
+- **modelo superparametrizado**: há termos demais para a informação disponível, chegando ao caso $p\geq n$.
+
+### O que a multicolinearidade faz?
+
+Sob exogeneidade, ela não introduz, por si só, viés no estimador de mínimos quadrados. O problema principal é a **precisão e a estabilidade**. O fator de inflação da variância do regressor $j$ é
+
+$$
+VIF_j=\frac{1}{1-R_j^2},
+$$
+
+em que $R_j^2$ é obtido ao regressar $X_j$ nos demais regressores. A variância de $\hat\beta_j$ pode ser escrita como
+
+$$
+\operatorname{Var}(\hat\beta_j)
+=\frac{\sigma^2}{S_{jj}(1-R_j^2)}.
+$$
+
+O termo $S_{jj}=\sum_i(x_{ij}-\bar x_j)^2$ representa a informação marginal sobre $X_j$; o fator $1/(1-R_j^2)$ representa quanto dessa informação é perdida porque $X_j$ pode ser previsto pelos demais. Se $VIF_j=9$, a variância de $\hat\beta_j$ é nove vezes a que existiria sob a mesma dispersão de $X_j$ sem relação linear com os demais, e seu erro-padrão é multiplicado por $\sqrt9=3$.
+
+Os sintomas incluem intervalos amplos, testes individuais não significativos apesar de teste global significativo, sinais inesperados, coeficientes muito grandes, mudanças após retirar ou acrescentar poucas observações e dificuldade de interpretar “mantendo os demais constantes” em combinações raras ou impossíveis.
+
+Há uma distinção importante entre objetivos. A predição pode permanecer razoável **ao longo da região colinear observada**, porque diferentes combinações de coeficientes produzem valores ajustados semelhantes nessa região. Entretanto, separar efeitos individuais torna-se difícil e predizer fora dessa faixa conjunta pode ser extremamente instável.
+
+### Como diagnosticar?
+
+A matriz de correlações é apenas o primeiro passo. Correlações par a par baixas não excluem que uma variável seja quase combinação de várias outras. Devemos combinar:
+
+1. conhecimento sobre coleta e restrições do processo;
+2. gráficos e matriz de correlações;
+3. regressões auxiliares e VIFs;
+4. autovalores, índices de condição e, quando necessário, proporções de decomposição da variância;
+5. análise de estabilidade dos coeficientes sob perturbações defensáveis.
+
+O índice de condição associado ao autovalor $\lambda_j$ é
+
+$$
+\kappa_j=\sqrt{\frac{\lambda_{\max}}{\lambda_j}}.
+$$
+
+Autovalores muito pequenos e índices grandes sinalizam direções do espaço dos parâmetros com pouca informação. Referências como VIF 5 ou 10 e índice de condição 10 ou 30 são triagens, não leis. Um VIF moderado pode ser grave quando alta precisão é necessária; um VIF alto pode ser tolerável para predição restrita se a instabilidade for reconhecida.
+
+```{r}
+#| label: vif-seda
+
+cor_preditores_seda <- cor(
+  dados_seda_multipla[c("concentracao", "temperatura", "ph")]
+)
+
+vif_seda <- car::vif(modelo_seda_multipla)
+
+# Verificação do VIF por regressões auxiliares.
+preditores_seda <- c("concentracao", "temperatura", "ph")
+vif_manual_seda <- vapply(preditores_seda, function(resposta) {
+  demais <- setdiff(preditores_seda, resposta)
+  formula_auxiliar <- reformulate(demais, response = resposta)
+  R2_auxiliar <- summary(lm(
+    formula_auxiliar,
+    data = dados_seda_multipla
+  ))$r.squared
+  1 / (1 - R2_auxiliar)
+}, numeric(1))
+
+cor_preditores_seda
+vif_seda
+vif_manual_seda
+
+# Número de condição da matriz de regressores padronizados.
+X_pred_seda <- scale(
+  dados_seda_multipla[c("concentracao", "temperatura", "ph")],
+  center = TRUE,
+  scale = TRUE
+)
+
+autovalores_seda <- eigen(
+  cor(X_pred_seda),
+  symmetric = TRUE,
+  only.values = TRUE
+)$values
+
+indices_condicao_seda <- sqrt(max(autovalores_seda) / autovalores_seda)
+
+data.frame(
+  dimensao = seq_along(autovalores_seda),
+  autovalor = autovalores_seda,
+  indice_condicao = indices_condicao_seda
+)
+```
+
+Os VIFs variam de `r fmt_num(min(vif_seda), 2)` a `r fmt_num(max(vif_seda), 2)`, não sugerindo inflação importante neste exemplo. Isso não elimina a necessidade de avaliar sobreposição dos dados e estabilidade em uma amostra de apenas dez execuções.
+
+### O que fazer quando a multicolinearidade aparece?
+
+Não existe uma correção única; a ação depende do objetivo e da origem do problema.
+
+| Situação | Ação defensável | Cuidado |
+|:--|:--|:--|
+| erro de codificação ou variáveis duplicadas | corrigir a base e reconstruir a matriz do modelo | documentar a correção |
+| faixa experimental estreita | coletar dados em combinações que quebrem a dependência | “mais do mesmo” pode não ajudar |
+| restrição estrutural da população | redefinir a pergunta ou limitar a inferência à região observada | não prometer efeitos isolados inexistentes nos dados |
+| variáveis redundantes medindo o mesmo construto | construir índice ou escolher medida substantivamente adequada | não remover confundidor importante apenas por VIF alto |
+| polinômios e interações | centralizar regressores antes de construir termos e respeitar hierarquia | centralização reduz colinearidade não essencial, não a estrutural |
+| objetivo predominantemente preditivo | considerar *ridge*, componentes principais ou validação rigorosa | há viés e menor interpretação direta dos coeficientes |
+| objetivo inferencial | melhorar delineamento, formular contrastes estimáveis e reportar incerteza | seleção automática pode esconder a fragilidade |
+
+Padronizar variáveis não elimina multicolinearidade essencial: apenas muda unidades. Excluir automaticamente o regressor de maior VIF também pode criar viés por variável omitida e alterar a pergunta científica. A melhor solução costuma ser de delineamento: coletar informação em regiões nas quais os regressores variem de forma suficientemente independente e cientificamente possível.
+
+## Intervalos para a média e para nova observação
+
+Para um vetor $\mathbf x_0$ que inclui o intercepto,
+
+$$
+\hat y_0=\mathbf x_0^T\hat{\boldsymbol\beta}.
+$$
+
+O erro-padrão da média estimada é
+
+$$
+\hat\sigma\sqrt{
+\mathbf x_0^T(\mathbf X^T\mathbf X)^{-1}\mathbf x_0
+},
+$$
+
+e o erro-padrão de predição é
+
+$$
+\hat\sigma\sqrt{
+1+\mathbf x_0^T(\mathbf X^T\mathbf X)^{-1}\mathbf x_0
+}.
+$$
+
+```{r}
+#| label: predicao-seda-multipla
+
+condicao_central <- data.frame(
+  concentracao = 15,
+  temperatura = 80,
+  ph = 3.5
+)
+
+IC_central_seda <- predict(
+  modelo_seda_multipla,
+  newdata = condicao_central,
+  interval = "confidence"
+)
+
+IP_central_seda <- predict(
+  modelo_seda_multipla,
+  newdata = condicao_central,
+  interval = "prediction"
+)
+
+IC_central_seda
+IP_central_seda
+```
+
+Na condição central, a média estimada é `r fmt_num(IC_central_seda[1, "fit"], 2)` mg/g. O IC de 95% para a média é [`r fmt_num(IC_central_seda[1, "lwr"], 2)`; `r fmt_num(IC_central_seda[1, "upr"], 2)`], e o IP de 95% para uma nova execução é [`r fmt_num(IP_central_seda[1, "lwr"], 2)`; `r fmt_num(IP_central_seda[1, "upr"], 2)`].
+
+## Extrapolação oculta
+
+Em regressão múltipla, um ponto novo pode estar dentro dos intervalos marginais de cada variável e, mesmo assim, estar fora da região conjunta ocupada pelos dados. Uma medida útil é
+
+$$
+h_0=\mathbf x_0^T(\mathbf X^T\mathbf X)^{-1}\mathbf x_0.
+$$
+
+```{r}
+#| label: extrapolacao-oculta-seda
+
+pontos_novos_seda <- data.frame(
+  concentracao = c(15, 10, 20, 12, 25),
+  temperatura = c(80, 90, 70, 70, 95),
+  ph = c(3.5, 3.0, 4.0, 4.0, 5.0)
+)
+
+pontos_novos_seda$leverage_novo <- leverage_novo(
+  modelo_seda_multipla,
+  pontos_novos_seda
+)
+
+pontos_novos_seda$predicao <- predict(
+  modelo_seda_multipla,
+  newdata = pontos_novos_seda
+)
+
+pontos_novos_seda
+
+summary(hatvalues(modelo_seda_multipla))
+```
+
+Leverage alto não declara automaticamente uma predição inválida, mas informa que ela depende fortemente da forma do modelo e de pouca informação local. O último ponto também é extrapolação marginal, pois ultrapassa as faixas observadas.
+
+## Diagnóstico do modelo múltiplo da seda
+
+```{r}
+#| label: diagnostico-seda-multipla
+
+diag_seda_multipla <- data.frame(
+  execucao = dados_seda_multipla$execucao,
+  observado = dados_seda_multipla$adsorcao,
+  ajustado = fitted(modelo_seda_multipla),
+  residuo = residuals(modelo_seda_multipla),
+  rstudent = rstudent(modelo_seda_multipla),
+  leverage = hatvalues(modelo_seda_multipla),
+  cook = cooks.distance(modelo_seda_multipla)
+)
+
+diag_seda_multipla[
+  order(abs(diag_seda_multipla$rstudent), decreasing = TRUE),
+]
+
+shapiro_seda_multipla <- shapiro.test(rstudent(modelo_seda_multipla))
+bp_seda_multipla <- lmtest::bptest(modelo_seda_multipla)
+
+shapiro_seda_multipla
+bp_seda_multipla
+
+par(mfrow = c(2, 2))
+plot(modelo_seda_multipla)
+par(mfrow = c(1, 1))
+```
+
+A execução 3 tem resíduo externamente studentizado de `r fmt_num(diag_seda_multipla$rstudent[3], 2)` e merece investigação prioritária. O Shapiro–Wilk produz $p$ `r fmt_p(shapiro_seda_multipla$p.value)`, fortemente influenciado por essa discrepância. O Breusch–Pagan produz $p$ `r fmt_p(bp_seda_multipla$p.value)`, mas seu poder é pequeno com $n=10$.
+
+## Análise de sensibilidade, não exclusão automática
+
+### Sensibilidade e influência são sinônimos?
+
+Não. Os conceitos se sobrepõem, mas não são equivalentes.
+
+**Influência** é uma propriedade da relação entre uma observação — ou um grupo de observações — e um resultado ajustado. Uma observação é influente quando uma pequena perturbação em seu peso, em sua resposta ou em sua presença produz mudança importante em coeficientes, valores ajustados, precisão ou conclusões. Cook, DFFITS, DFBETAS e COVRATIO são medidas formais de influência.
+
+**Análise de sensibilidade** é o procedimento mais amplo de recalcular os resultados sob cenários analíticos alternativos e defensáveis. Esses cenários podem envolver:
+
+- excluir temporariamente uma observação sinalizada, sem apagá-la da análise principal;
+- excluir grupos de observações para detectar influência conjunta, mascaramento ou *swamping*;
+- variar uma decisão de codificação, transformação ou forma funcional;
+- usar erros-padrões clássicos e robustos;
+- comparar pesos, estruturas de correlação ou métodos de estimação plausíveis;
+- avaliar diferentes definições de desfecho ou faixas de extrapolação.
+
+Portanto, a análise de pontos influentes é **uma parte** da análise de sensibilidade. Nem toda análise de sensibilidade trata de pontos, e uma medida de influência isolada ainda não constitui uma análise de sensibilidade completa.
+
+### Formulação por deleção
+
+Se $T(\mathcal D)$ representa uma quantidade de interesse calculada no conjunto de dados $\mathcal D$ — um coeficiente, intervalo, predição ou decisão — e $\mathcal D_{(i)}$ é a base sem a observação $i$, a perturbação por deleção é
+
+$$
+\Delta_i(T)=T(\mathcal D_{(i)})-T(\mathcal D).
+$$
+
+Para os coeficientes,
+
+$$
+\Delta_i(\hat{\boldsymbol\beta})
+=\hat{\boldsymbol\beta}_{(i)}-\hat{\boldsymbol\beta}.
+$$
+
+A relevância de $\Delta_i$ não deve ser julgada apenas por porcentagem. Se o coeficiente original estiver próximo de zero, qualquer pequena diferença pode gerar porcentagem enorme. Devemos examinar mudança absoluta na unidade científica, mudança em erros-padrões e intervalos, alteração de sinal, mudança de decisões e impacto em predições relevantes.
+
+### Princípios para uma análise responsável
+
+1. Definir por que o cenário alternativo é plausível antes de interpretar o resultado.
+2. Manter a análise com todos os dados válidos como referência, salvo erro comprovado ou população-alvo claramente diferente.
+3. Investigar a fonte: digitação, unidade, equipamento, protocolo, população e mecanismo.
+4. Comparar quantidades substantivas, não apenas $R^2$ ou valores de $p$.
+5. Relatar resultados estáveis e instáveis, sem escolher silenciosamente o cenário mais conveniente.
+6. Reconhecer que deleções individuais podem falhar quando um grupo de pontos se protege mutuamente; nesse caso, analisar grupos cientificamente definidos.
+
+O primeiro exemplo pergunta: “quanto mudariam as conclusões sobre concentração, temperatura e pH se a execução 3, já sinalizada pelo diagnóstico, não participasse temporariamente do ajuste?”. Essa comparação não autoriza apagar a linha.
+
+```{r}
+#| label: sensibilidade-seda-multipla
+
+modelo_seda_sem_3 <- update(
+  modelo_seda_multipla,
+  subset = -3
+)
+
+comparacao_coef_seda <- cbind(
+  modelo_completo = coef(modelo_seda_multipla),
+  sem_execucao_3 = coef(modelo_seda_sem_3)
+)
+
+comparacao_coef_seda <- cbind(
+  comparacao_coef_seda,
+  mudanca_percentual = 100 * (
+    comparacao_coef_seda[, "sem_execucao_3"] -
+      comparacao_coef_seda[, "modelo_completo"]
+  ) / abs(comparacao_coef_seda[, "modelo_completo"])
+)
+
+comparacao_coef_seda
+summary(modelo_seda_sem_3)
+```
+
+Sem a execução 3, o desvio-padrão residual cai de `r fmt_num(summary(modelo_seda_multipla)$sigma, 2)` para `r fmt_num(summary(modelo_seda_sem_3)$sigma, 2)` mg/g e as estimativas mudam materialmente. Isso mostra **sensibilidade**, não prova de erro. Devemos verificar caderno de laboratório, unidade, digitação, equipamento, protocolo e condições da execução. Se a observação for válida, a análise final deve representá-la ou justificar um modelo mais adequado.
+
+::: {.callout-tip title="Síntese do segundo exemplo"}
+O modelo múltiplo separa associações condicionais de concentração, temperatura e pH, mas a amostra pequena e a execução 3 tornam a inferência instável. O exemplo mostra por que tabela de coeficientes, diagnóstico e contexto experimental devem ser lidos como uma única análise.
+:::
+
+# Verificação da adequação do modelo
+
+## Diagnóstico não é uma etapa opcional
+
+Um modelo pode apresentar $R^2$ elevado, teste global significativo e coeficientes significativos e ainda ser inadequado. A regressão sempre produzirá uma superfície ajustada; cabe ao analista verificar se essa superfície representa os dados de maneira cientificamente defensável.
+
+### Erros não são resíduos
+
+Os pressupostos são formulados para os erros não observáveis
+
+$$
+\varepsilon_i=Y_i-E(Y_i\mid\mathbf x_i),
+$$
+
+mas o diagnóstico utiliza resíduos
+
+$$
+e_i=y_i-\hat y_i.
+$$
+
+No modelo linear,
+
+$$
+\mathbf e=(\mathbf I-\mathbf H)\mathbf Y
+=(\mathbf I-\mathbf H)\boldsymbol\varepsilon,
+$$
+
+e, mesmo quando $\operatorname{Var}(\boldsymbol\varepsilon\mid\mathbf X)=\sigma^2\mathbf I$,
+
+$$
+\operatorname{Var}(\mathbf e\mid\mathbf X)
+=\sigma^2(\mathbf I-\mathbf H).
+$$
+
+Portanto, os resíduos não são independentes, não têm todos a mesma variância e dispõem de apenas $n-p$ graus de liberdade. Eles são instrumentos diagnósticos imperfeitos. A studentização corrige parte da diferença de escala causada pelo leverage, mas não transforma resíduos em erros observados.
+
+### Homocedasticidade
+
+A homocedasticidade afirma
+
+$$
+\operatorname{Var}(\varepsilon_i\mid\mathbf X)=\sigma^2
+\quad\text{para todo }i.
+$$
+
+Em termos substantivos, unidades com médias previstas baixas e altas devem apresentar a mesma dispersão em torno da superfície média, depois de consideradas as variáveis do modelo. A violação é chamada **heterocedasticidade**:
+
+$$
+\operatorname{Var}(\varepsilon_i\mid\mathbf X)=\sigma_i^2.
+$$
+
+Sob exogeneidade, a heterocedasticidade não torna automaticamente $\hat{\boldsymbol\beta}$ viesado, mas mínimos quadrados deixa de ser eficiente e a matriz clássica
+
+$$
+\widehat{\operatorname{Var}}(\hat{\boldsymbol\beta})
+=\text{QMResíduo}(\mathbf X^T\mathbf X)^{-1}
+$$
+
+pode estar errada. Erros-padrões, intervalos, testes $t$ e $F$ tornam-se não confiáveis. O sentido da distorção não é sempre o mesmo; não devemos afirmar que todo erro-padrão será necessariamente subestimado.
+
+As causas incluem escala multiplicativa, contagens, variabilidade crescente com a média, mistura de grupos, precisão instrumental distinta e forma média incorreta. Um gráfico de resíduos studentizados versus valores ajustados procura mudança de amplitude, como funil ou megafone. Gráficos contra cada regressor podem localizar a fonte. O teste de Breusch--Pagan usa uma regressão auxiliar dos resíduos quadráticos e, em sua forma assintótica, baseia-se em uma estatística relacionada a $nR^2_{\mathrm{aux}}$. Entretanto, um valor de $p$ isolado não informa a magnitude nem a causa da heterocedasticidade.
+
+Respostas possíveis incluem corrigir a forma média, modelar grupos, transformar a resposta quando a escala científica permitir, usar mínimos quadrados ponderados se a função de variância puder ser estimada, ou empregar uma matriz de covariância robusta quando a média linear for defensável. Erros-padrões robustos corrigem a inferência para variância não constante; não corrigem não linearidade, dependência, confundimento ou influência extrema.
+
+### Independência
+
+No modelo clássico, a ausência de associação entre erros distintos é expressa por
+
+$$
+\operatorname{Cov}(\varepsilon_i,\varepsilon_j\mid\mathbf X)=0,
+\qquad i\neq j.
+$$
+
+Sob normalidade conjunta, covariância zero implica independência; fora da família normal, ausência de correlação é uma condição mais fraca que independência. A suposição não é uma propriedade que emerge do `lm`: ela depende, em primeiro lugar, de como as unidades foram amostradas, randomizadas e medidas.
+
+Dependência pode ocorrer em séries temporais, dados espaciais, observações repetidas do mesmo indivíduo, estudantes na mesma turma, pacientes no mesmo hospital, produtos do mesmo lote ou réplicas processadas em conjunto. Se ela for ignorada, o tamanho amostral nominal exagera a quantidade de informação independente. Sob exogeneidade, os coeficientes de mínimos quadrados ainda podem permanecer não viesados, mas deixam de ser eficientes e sua covariância clássica fica incorreta. Com autocorrelação positiva, é comum subestimar a incerteza, estreitar intervalos e aumentar falsos positivos, embora a consequência exata dependa da estrutura.
+
+O diagnóstico exige metadados de ordem, grupo, tempo ou localização. Resíduos versus ordem podem revelar tendências, ciclos, longas sequências do mesmo sinal ou alternância. O teste de Durbin--Watson é específico para autocorrelação de primeira ordem em observações ordenadas e aproximadamente equiespaçadas. Uma estatística próxima de 2 é compatível com autocorrelação de primeira ordem próxima de zero; próxima de 0 sugere autocorrelação positiva; próxima de 4, negativa. Ele não é um teste geral de independência e não possui interpretação se a ordem das linhas for arbitrária.
+
+As respostas dependem da causa: acrescentar uma variável temporal omitida quando ela pertence à média; representar tendência ou sazonalidade; usar modelos mistos para agrupamentos; mínimos quadrados generalizados para uma estrutura de correlação; ou erros-padrões apropriados a conglomerados. Em dados experimentais, randomização e execução em ordem aleatória são medidas preventivas fundamentais.
+
+### Normalidade
+
+A normalidade clássica afirma
+
+$$
+\boldsymbol\varepsilon\mid\mathbf X
+\sim N_n(\mathbf0,\sigma^2\mathbf I_n).
+$$
+
+Ela não é necessária para calcular mínimos quadrados nem para o não viesamento sob exogeneidade. Seu papel central é tornar exatas, em amostras finitas, as distribuições dos estimadores, dos testes $t$ e $F$ e dos intervalos clássicos. Em amostras grandes, resultados assintóticos podem fornecer aproximações sob condições regulares, mas caudas pesadas, assimetria intensa, observações influentes e amostras pequenas podem comprometer essa proteção.
+
+O gráfico quantil--quantil compara quantis dos resíduos studentizados a quantis normais. Aproximação linear no centro com desvios moderados nas caudas pode ser menos preocupante que assimetria sistemática, caudas muito pesadas ou pontos isolados. Um desvio aparente de normalidade pode ser consequência de forma média incorreta, variância não constante, mistura de grupos ou erro de dado; por isso, “não normal” não é ainda um diagnóstico causal.
+
+Testes como Shapiro--Wilk devem ser interpretados com cautela. Em amostras pequenas, têm pouco poder; em amostras grandes, podem rejeitar desvios sem importância prática. Além disso, são aplicados a resíduos correlacionados e influenciados pelo ajuste, não a uma amostra independente dos erros verdadeiros. O gráfico, a magnitude do desvio, a sensibilidade da inferência e o mecanismo dos dados devem ter precedência sobre uma decisão binária.
+
+Se a normalidade aproximada for inadequada, investigamos primeiro erros, forma funcional, grupos, heterocedasticidade e pontos influentes. Depois, conforme a natureza da resposta, podemos considerar transformação, outro modelo probabilístico, inferência robusta ou *bootstrap* compatível com o delineamento. Excluir pontos apenas para “normalizar os resíduos” não é aceitável.
+
+### O que significa avaliar os pressupostos?
+
+Nenhum gráfico ou teste comprova homocedasticidade, independência ou normalidade. Uma avaliação rigorosa combina:
+
+- conhecimento do delineamento e do processo gerador dos dados;
+- gráficos adequados aos possíveis desvios;
+- testes formais como evidência complementar;
+- análise da magnitude e da consequência da violação;
+- comparação de resultados sob métodos defensáveis;
+- transparência sobre o que os dados não permitem avaliar.
+
+Problemas podem se mascarar. Uma observação influente pode causar rejeição de normalidade e heterocedasticidade; uma curva omitida pode produzir um funil residual; grupos ignorados podem gerar dependência e multimodalidade. Por isso, o diagnóstico é iterativo e deve ser repetido depois de qualquer modificação do modelo.
+
+Minha rotina de diagnóstico segue esta ordem:
+
+1. conferir dados, unidades, codificações e delineamento;
+2. examinar forma funcional e resíduos contra ajustados e regressores;
+3. avaliar escala da variância;
+4. avaliar ordem, tempo, espaço ou agrupamento;
+5. avaliar normalidade aproximada dos resíduos quando necessária à inferência;
+6. localizar discrepância, alavancagem e influência;
+7. realizar análise de sensibilidade;
+8. modificar o modelo somente com justificativa estatística e substantiva;
+9. reavaliar o modelo modificado;
+10. validar desempenho preditivo fora da amostra de ajuste.
+
+## Exemplo: tempo de entrega
+
+Uma empresa de bebidas estuda o tempo necessário para abastecer e realizar pequenos serviços em máquinas de venda. A resposta é o tempo de entrega; os regressores são o número de caixas e a distância percorrida pelo trabalhador.
+
+```{r}
+#| label: dados-entrega
+
+dados_entrega <- data.frame(
+  id = 1:25,
+  tempo = c(
+    16.68, 11.50, 12.03, 14.88, 13.75,
+    18.11, 8.00, 17.83, 79.24, 21.50,
+    40.33, 21.00, 13.50, 19.75, 24.00,
+    29.00, 15.35, 19.00, 9.50, 35.10,
+    17.90, 52.32, 18.75, 19.83, 10.75
+  ),
+  caixas = c(
+    7, 3, 3, 4, 6,
+    7, 2, 7, 30, 5,
+    16, 10, 4, 6, 9,
+    10, 6, 7, 3, 17,
+    10, 26, 9, 8, 4
+  ),
+  distancia = c(
+    560, 220, 340, 80, 150,
+    330, 110, 210, 1460, 605,
+    688, 215, 255, 462, 448,
+    776, 200, 132, 36, 770,
+    140, 810, 450, 635, 150
+  )
+)
+
+dados_entrega
+```
+
+## Exploração e escala das variáveis
+
+```{r}
+#| label: exploracao-entrega
+
+summary(dados_entrega)
+round(cor(dados_entrega[c("tempo", "caixas", "distancia")]), 3)
+
+ggplot(dados_entrega, aes(caixas, tempo)) +
+  geom_point(aes(color = distancia), size = 3) +
+  scale_color_viridis_c(option = "D", end = 0.9) +
+  geom_text(
+    data = subset(dados_entrega, caixas >= 25),
+    aes(label = id),
+    nudge_y = 3,
+    show.legend = FALSE
+  ) +
+  labs(
+    title = "Tempo, caixas e distância",
+    subtitle = "A cor representa a distância percorrida",
+    x = "Número de caixas",
+    y = "Tempo de entrega",
+    color = "Distância"
+  )
+
+ggplot(dados_entrega, aes(distancia, tempo)) +
+  geom_point(aes(size = caixas), alpha = 0.8, color = "#0072B2") +
+  labs(
+    title = "Tempo de entrega em função da distância",
+    x = "Distância percorrida",
+    y = "Tempo de entrega",
+    size = "Caixas"
+  )
+```
+
+Caixas e distância apresentam correlação de `r fmt_num(cor(dados_entrega$caixas, dados_entrega$distancia), 3)`. Como as duas variáveis crescem juntas, cada coeficiente ajustado responderá à contribuição de uma delas depois de controlar a outra. As observações 9 e 22 ocupam regiões extremas do espaço dos regressores e devem aparecer nos diagnósticos de alavancagem.
+
+## Modelo aditivo inicial
+
+```{r}
+#| label: ajuste-entrega
+
+modelo_entrega <- lm(
+  tempo ~ caixas + distancia,
+  data = dados_entrega
+)
+
+summary(modelo_entrega)
+anova(modelo_entrega)
+drop1(modelo_entrega, test = "F")
+confint(modelo_entrega)
+```
+
+O modelo ajustado é
+
+$$
+\widehat{\text{tempo}}=
+`r fmt_num(coef(modelo_entrega)[1], 3)`
++`r fmt_num(coef(modelo_entrega)["caixas"], 3)`\,\text{caixas}
++`r fmt_num(coef(modelo_entrega)["distancia"], 5)`\,\text{distância}.
+$$
+
+Interpretações condicionais:
+
+- para uma mesma distância, uma caixa adicional está associada a `r fmt_num(coef(modelo_entrega)["caixas"], 3)` unidades adicionais no tempo médio;
+- para o mesmo número de caixas, 100 unidades adicionais de distância estão associadas a `r fmt_num(100 * coef(modelo_entrega)["distancia"], 3)` unidades adicionais no tempo médio.
+
+O modelo tem $R^2=`r fmt_num(summary(modelo_entrega)$r.squared, 4)`$ e $R^2_{aj}= `r fmt_num(summary(modelo_entrega)$adj.r.squared, 4)`$. Esses valores descrevem ajuste na amostra; ainda não avaliam estabilidade nem desempenho em novas rotas.
+
+## Predição aplicada
+
+```{r}
+#| label: predicao-entrega
+
+rota_nova <- data.frame(caixas = 8, distancia = 275)
+
+IC_rota <- predict(
+  modelo_entrega,
+  newdata = rota_nova,
+  interval = "confidence",
+  level = 0.95
+)
+
+IP_rota <- predict(
+  modelo_entrega,
+  newdata = rota_nova,
+  interval = "prediction",
+  level = 0.95
+)
+
+data.frame(
+  pergunta = c("Tempo médio", "Nova rota individual"),
+  estimativa = c(IC_rota[1, "fit"], IP_rota[1, "fit"]),
+  limite_inferior = c(IC_rota[1, "lwr"], IP_rota[1, "lwr"]),
+  limite_superior = c(IC_rota[1, "upr"], IP_rota[1, "upr"])
+)
+
+leverage_novo(modelo_entrega, rota_nova)
+```
+
+Para oito caixas e distância 275, o tempo médio estimado é `r fmt_num(IC_rota[1, "fit"], 2)`. O IP individual é mais largo que o IC da média. O leverage do ponto novo deve ser comparado à distribuição de `hatvalues(modelo_entrega)` para avaliar quão típica é essa combinação.
+
+# Resíduos: definição, escala e finalidade
+
+## Resíduo ordinário
+
+O erro $\varepsilon_i$ é não observável. Seu substituto é o resíduo
+
+$$
+e_i=y_i-\hat y_i.
+$$
+
+Como
+
+$$
+\mathbf e=(\mathbf I-\mathbf H)\mathbf y,
+$$
+
+temos
+
+$$
+\operatorname{Var}(\mathbf e\mid\mathbf X)
+=\sigma^2(\mathbf I-\mathbf H).
+$$
+
+Consequentemente,
+
+$$
+\operatorname{Var}(e_i\mid\mathbf X)
+=\sigma^2(1-h_{ii}).
+$$
+
+Resíduos ordinários não têm a mesma variância quando os leverages diferem.
+
+## Resíduo padronizado simples
+
+Uma padronização elementar é
+
+$$
+d_i=\frac{e_i}{\hat\sigma}.
+$$
+
+Ela coloca o resíduo na escala residual, mas ignora $h_{ii}$.
+
+## Resíduo studentizado internamente
+
+O resíduo internamente studentizado é
+
+$$
+r_i=\frac{e_i}{\hat\sigma\sqrt{1-h_{ii}}}.
+$$
+
+No R, é obtido por `rstandard(modelo)`.
+
+## Resíduo deletado ou PRESS
+
+Se o modelo for reajustado sem a observação $i$, a predição deixada de fora é $\hat y_{(i)}$. O resíduo deletado é
+
+$$
+e_{(i)}=y_i-\hat y_{(i)}.
+$$
+
+Em regressão linear, não precisamos reajustar $n$ modelos:
+
+$$
+e_{(i)}=\frac{e_i}{1-h_{ii}}.
+$$
+
+Pontos de alto leverage ampliam a diferença entre resíduo de ajuste e erro de predição deixado de fora.
+
+## Resíduo externamente studentizado
+
+No resíduo R-Student, a escala residual é estimada sem a própria observação:
+
+$$
+t_i=
+\frac{e_i}{s_{(i)}\sqrt{1-h_{ii}}},
+$$
+
+em que
+
+$$
+s_{(i)}^2=
+\frac{(n-p)\text{QMResíduo}-e_i^2/(1-h_{ii})}{n-p-1}.
+$$
+
+Sob o modelo normal, $t_i$ é comparado à distribuição $t_{n-p-1}$. Ele é particularmente útil para avaliar observações discrepantes, pois a própria observação não infla a estimativa de variância usada em seu denominador.
+
+```{r}
+#| label: residuos-entrega
+
+n_entrega <- nrow(dados_entrega)
+p_entrega <- length(coef(modelo_entrega))
+e_entrega <- residuals(modelo_entrega)
+h_entrega <- hatvalues(modelo_entrega)
+QMResiduo_entrega <- deviance(modelo_entrega) / df.residual(modelo_entrega)
+
+residuos_entrega <- data.frame(
+  id = dados_entrega$id,
+  observado = dados_entrega$tempo,
+  ajustado = fitted(modelo_entrega),
+  ordinario = e_entrega,
+  padronizado = e_entrega / sqrt(QMResiduo_entrega),
+  studentizado_interno = rstandard(modelo_entrega),
+  press = e_entrega / (1 - h_entrega),
+  rstudent = rstudent(modelo_entrega),
+  leverage = h_entrega
+)
+
+residuos_entrega[
+  order(abs(residuos_entrega$rstudent), decreasing = TRUE),
+]
+
+# Conferência da identidade do resíduo PRESS.
+max(abs(
+  residuos_entrega$press - rstandard(modelo_entrega, type = "pred")
+))
+```
+
+A observação 9 tem $t_9=`r fmt_num(residuos_entrega$rstudent[9], 2)`$ e resíduo PRESS de `r fmt_num(residuos_entrega$press[9], 2)`. Seu erro fora do ajuste é maior que seu resíduo ordinário porque o leverage é alto.
+
+# Diagnóstico gráfico dos pressupostos
+
+## Resíduos versus valores ajustados
+
+O gráfico procura:
+
+- curvatura, indicando forma média incompleta;
+- funil, indicando variância não constante;
+- grupos, sugerindo fator omitido;
+- pontos isolados, sugerindo discrepância;
+- limites físicos violados, sugerindo escala inadequada.
+
+```{r}
+#| label: grafico-residuos-ajustados-entrega
+
+ggplot(residuos_entrega, aes(ajustado, rstudent)) +
+  geom_hline(yintercept = 0, color = "grey40") +
+  geom_hline(yintercept = c(-2, 2), linetype = 2, color = "#D55E00") +
+  geom_point(size = 2.8) +
+  geom_text(
+    data = subset(residuos_entrega, abs(rstudent) > 2),
+    aes(label = id),
+    nudge_x = 1.5
+  ) +
+  geom_smooth(se = FALSE, method = "loess", color = "#0072B2") +
+  labs(
+    title = "Resíduos R-Student versus valores ajustados",
+    x = "Tempo ajustado",
+    y = "Resíduo externamente studentizado"
+  )
+```
+
+A observação 9 domina a escala e está associada a um valor ajustado alto. A dispersão também parece crescer com o nível ajustado. Essa leitura será confrontada com os testes e com modelos alternativos.
+
+## Resíduos versus regressores
+
+```{r}
+#| label: grafico-residuos-regressores-entrega
+
+residuos_entrega$caixas <- dados_entrega$caixas
+residuos_entrega$distancia <- dados_entrega$distancia
+
+ggplot(residuos_entrega, aes(caixas, rstudent)) +
+  geom_hline(yintercept = 0, color = "grey40") +
+  geom_point(size = 2.8) +
+  geom_smooth(se = FALSE, method = "loess", color = "#0072B2") +
+  labs(
+    title = "Resíduos versus número de caixas",
+    x = "Caixas",
+    y = "Resíduo R-Student"
+  )
+
+ggplot(residuos_entrega, aes(distancia, rstudent)) +
+  geom_hline(yintercept = 0, color = "grey40") +
+  geom_point(size = 2.8) +
+  geom_smooth(se = FALSE, method = "loess", color = "#0072B2") +
+  labs(
+    title = "Resíduos versus distância",
+    x = "Distância",
+    y = "Resíduo R-Student"
+  )
+```
+
+Um padrão residual contra um regressor significa que sua contribuição não foi completamente representada. Possíveis correções incluem transformação, termo polinomial, interação ou mudança de escala, sempre sustentadas pelo mecanismo do problema.
+
+## Gráfico quantil–quantil
+
+```{r}
+#| label: qqplot-entrega
+
+qqnorm(
+  residuos_entrega$rstudent,
+  main = "Gráfico normal de probabilidade",
+  ylab = "Resíduos R-Student"
+)
+qqline(residuos_entrega$rstudent, col = "#0072B2", lwd = 2)
+```
+
+Desvios nas caudas, sobretudo um ponto extremo, indicam que a distribuição residual do modelo aditivo não se aproxima bem de uma normal. O gráfico é mais informativo que uma decisão binária baseada apenas em um teste.
+
+## Resíduos versus ordem
+
+```{r}
+#| label: residuos-ordem-entrega
+
+ggplot(residuos_entrega, aes(id, rstudent)) +
+  geom_hline(yintercept = 0, color = "grey40") +
+  geom_line(color = "grey60") +
+  geom_point(size = 2.6, color = "#0072B2") +
+  labs(
+    title = "Resíduos na ordem registrada",
+    subtitle = "A interpretação temporal requer que ID represente a ordem real",
+    x = "Ordem/ID",
+    y = "Resíduo R-Student"
+  )
+```
+
+Não podemos diagnosticar independência sem informação de ordem, tempo, lote, operador ou localização. Se `id` for apenas um identificador arbitrário, esse gráfico e o teste de Durbin–Watson não têm interpretação temporal.
+
+# Testes formais de diagnóstico
+
+## Normalidade: Shapiro–Wilk com cautela
+
+```{r}
+#| label: shapiro-entrega
+
+shapiro_entrega <- shapiro.test(rstudent(modelo_entrega))
+shapiro_entrega
+```
+
+O resultado é $W=`r fmt_num(unname(shapiro_entrega$statistic), 3)`$ e $p$ `r fmt_p(shapiro_entrega$p.value)`. Há evidência contra normalidade no modelo aditivo. Entretanto, o teste não diz qual é a causa: forma funcional, heterocedasticidade, discrepância ou distribuição não normal podem produzir o resultado.
+
+Não usamos o teste de Kolmogorov–Smirnov comparando resíduos a $N(0,1)$ como teste principal. Seus parâmetros são estimados nos mesmos dados e os resíduos são correlacionados, de modo que a distribuição nula padrão do teste não se aplica diretamente.
+
+## Homocedasticidade: Breusch–Pagan
+
+O teste de Breusch–Pagan modela a variação dos resíduos em função dos regressores. Em termos gerais,
+
+$$
+H_0:\operatorname{Var}(\varepsilon_i\mid\mathbf X)=\sigma^2.
+$$
+
+```{r}
+#| label: breusch-pagan-entrega
+
+bp_entrega <- lmtest::bptest(modelo_entrega)
+bp_entrega
+```
+
+Com $BP=`r fmt_num(unname(bp_entrega$statistic), 3)`$ e $p$ `r fmt_p(bp_entrega$p.value)`, há evidência de heterocedasticidade. O teste deve ser lido em conjunto com o gráfico de resíduos. Uma forma média incorreta também pode aparecer como variação não constante.
+
+## Independência: Durbin–Watson
+
+Para uma ordem temporal substantiva, o teste de Durbin–Watson avalia autocorrelação de primeira ordem. A estatística é aproximadamente
+
+$$
+d=\frac{\sum_{i=2}^n(e_i-e_{i-1})^2}
+{\sum_{i=1}^ne_i^2}.
+$$
+
+Valores próximos de 2 são compatíveis com ausência de autocorrelação de primeira ordem; valores menores sugerem autocorrelação positiva.
+
+```{r}
+#| label: durbin-watson-entrega
+
+# Este teste só é interpretável se id for a ordem real das entregas.
+dw_entrega <- lmtest::dwtest(
+  modelo_entrega,
+  alternative = "greater"
+)
+
+dw_entrega
+```
+
+Sob a hipótese adicional de que `id` representa a ordem real, obtemos $DW=`r fmt_num(unname(dw_entrega$statistic), 3)`$ e $p$ `r fmt_p(dw_entrega$p.value)`, sugerindo autocorrelação positiva. Se a ordem for arbitrária, a conclusão deve ser descartada. Repare que o teste foi aplicado ao modelo original, não a uma regressão artificial dos resíduos contra `id`.
+
+::: {.callout-important title="Testes não substituem gráficos"}
+Em amostras pequenas, testes podem não detectar violações; em amostras grandes, podem detectar desvios irrelevantes. O objetivo é avaliar se a violação altera estimativas, incerteza, previsão ou interpretação, e não colecionar valores de $p$.
+:::
+
+# Discrepância, alavancagem e influência
+
+## Três conceitos diferentes
+
+- **Outlier na resposta**: observação com resposta incomum condicionalmente aos regressores; costuma produzir $|t_i|$ grande.
+- **Alta alavancagem**: combinação incomum de regressores; produz $h_{ii}$ grande.
+- **Influência**: mudança substancial no ajuste quando a observação é removida; pode aparecer em Cook, DFFITS, DFBETAS e COVRATIO.
+
+Um ponto pode ter alto leverage e pequeno resíduo, ou grande resíduo e leverage comum. Influência geralmente combina ambas as características.
+
+## Teste de outlier com multiplicidade
+
+Inspecionar 25 resíduos e comparar cada um a 2 gera múltiplas oportunidades de falso positivo. Uma referência conservadora de Bonferroni usa
+
+$$
+t_{1-\alpha/(2n),\,n-p-1}.
+$$
+
+```{r}
+#| label: outlier-bonferroni-entrega
+
+limite_bonferroni <- qt(
+  1 - 0.05 / (2 * n_entrega),
+  df = n_entrega - p_entrega - 1
+)
+
+data.frame(
+  limite_bonferroni = limite_bonferroni,
+  maior_abs_rstudent = max(abs(rstudent(modelo_entrega))),
+  id_maior = which.max(abs(rstudent(modelo_entrega)))
+)
+
+car::outlierTest(modelo_entrega, cutoff = 0.05)
+```
+
+A observação 9 excede a referência simultânea e merece investigação detalhada. “Merece investigação” é a conclusão correta; exclusão automática não é.
+
+## Alavancagem
+
+Os valores diagonais da matriz chapéu satisfazem
+
+$$
+0\le h_{ii}\le1,
+\qquad
+\sum_{i=1}^nh_{ii}=p,
+\qquad
+\bar h=\frac pn.
+$$
+
+Uma regra exploratória comum marca $h_{ii}>2p/n$ ou $3p/n$.
+
+```{r}
+#| label: leverage-entrega
+
+limite_h2 <- 2 * p_entrega / n_entrega
+limite_h3 <- 3 * p_entrega / n_entrega
+
+tabela_leverage_entrega <- data.frame(
+  id = dados_entrega$id,
+  caixas = dados_entrega$caixas,
+  distancia = dados_entrega$distancia,
+  leverage = hatvalues(modelo_entrega),
+  limite_2p_n = limite_h2,
+  acima_2p_n = hatvalues(modelo_entrega) > limite_h2
+)
+
+tabela_leverage_entrega[
+  order(tabela_leverage_entrega$leverage, decreasing = TRUE),
+]
+
+sum(hatvalues(modelo_entrega))
+p_entrega
+```
+
+As observações com maior leverage são 9 e 22. Isso é esperado porque contêm combinações extremas de caixas e distância. Leverage depende apenas de $\mathbf X$, não da resposta.
+
+## Distância de Cook
+
+A distância de Cook resume a alteração global dos valores ajustados:
+
+$$
+D_i=
+\frac{(\hat{\boldsymbol\beta}-\hat{\boldsymbol\beta}_{(i)})^T
+\mathbf X^T\mathbf X
+(\hat{\boldsymbol\beta}-\hat{\boldsymbol\beta}_{(i)})}
+{p\,\text{QMResíduo}}.
+$$
+
+Uma forma equivalente é
+
+$$
+D_i=\frac{r_i^2}{p}\frac{h_{ii}}{1-h_{ii}}.
+$$
+
+Valores acima de 1 são uma referência, não um teste universal. Também se examinam $4/n$ e a posição relativa no gráfico.
+
+```{r}
+#| label: cook-entrega
+
+cook_entrega <- cooks.distance(modelo_entrega)
+
+tabela_cook_entrega <- data.frame(
+  id = dados_entrega$id,
+  cook = cook_entrega,
+  referencia_1 = 1,
+  referencia_4_n = 4 / n_entrega
+)
+
+tabela_cook_entrega[
+  order(tabela_cook_entrega$cook, decreasing = TRUE),
+]
+
+plot(
+  cook_entrega,
+  type = "h",
+  lwd = 2,
+  xlab = "Observação",
+  ylab = "Distância de Cook",
+  main = "Influência global"
+)
+abline(h = c(4 / n_entrega, 1), lty = c(2, 3), col = c("#E69F00", "#D55E00"))
+```
+
+A observação 9 tem $D_9=`r fmt_num(cook_entrega[9], 3)`$, muito acima das referências. A observação 22 também merece atenção relativa, embora sua influência seja menor.
+
+## DFFITS
+
+DFFITS mede a alteração no valor ajustado da própria observação:
+
+$$
+\operatorname{DFFITS}_i=
+\frac{\hat y_i-\hat y_{i(i)}}{s_{(i)}\sqrt{h_{ii}}}.
+$$
+
+Uma referência comum é
+
+$$
+|\operatorname{DFFITS}_i|>2\sqrt{\frac pn}.
+$$
+
+## DFBETAS
+
+DFBETAS mede a alteração de cada coeficiente:
+
+$$
+\operatorname{DFBETAS}_{ij}=
+\frac{\hat\beta_j-\hat\beta_{j(i)}}
+{s_{(i)}\sqrt{c_{jj}}},
+$$
+
+em que $c_{jj}$ é o elemento diagonal de $(\mathbf X^T\mathbf X)^{-1}$. Uma referência é
+
+$$
+|\operatorname{DFBETAS}_{ij}|>\frac{2}{\sqrt n}.
+$$
+
+## COVRATIO
+
+COVRATIO avalia a mudança no volume do elipsoide de confiança dos coeficientes:
+
+$$
+\operatorname{COVRATIO}_i=
+\frac{\det[\widehat{\operatorname{Cov}}(\hat{\boldsymbol\beta}_{(i)})]}
+{\det[\widehat{\operatorname{Cov}}(\hat{\boldsymbol\beta})]}.
+$$
+
+Uma referência exploratória é estar fora de
+
+$$
+1\pm\frac{3p}{n}.
+$$
+
+```{r}
+#| label: medidas-influencia-entrega
+
+dffits_entrega <- dffits(modelo_entrega)
+dfbetas_entrega <- dfbetas(modelo_entrega)
+covratio_entrega <- covratio(modelo_entrega)
+
+limite_dffits <- 2 * sqrt(p_entrega / n_entrega)
+limite_dfbetas <- 2 / sqrt(n_entrega)
+limite_covratio <- c(
+  inferior = 1 - 3 * p_entrega / n_entrega,
+  superior = 1 + 3 * p_entrega / n_entrega
+)
+
+tabela_influencia_entrega <- data.frame(
+  id = dados_entrega$id,
+  rstudent = rstudent(modelo_entrega),
+  leverage = hatvalues(modelo_entrega),
+  cook = cooks.distance(modelo_entrega),
+  dffits = dffits_entrega,
+  covratio = covratio_entrega
+)
+
+tabela_influencia_entrega[
+  order(abs(tabela_influencia_entrega$dffits), decreasing = TRUE),
+]
+
+round(dfbetas_entrega, 3)
+
+data.frame(
+  medida = c("DFFITS", "DFBETAS", "COVRATIO inferior", "COVRATIO superior"),
+  referencia = c(
+    limite_dffits,
+    limite_dfbetas,
+    limite_covratio[1],
+    limite_covratio[2]
+  )
+)
+```
+
+Não devemos contar quantos limites foram ultrapassados e tomar uma decisão automática. As medidas respondem a aspectos diferentes: ajuste global, predição local, coeficientes individuais e precisão conjunta.
+
+## Painel integrado de influência
+
+```{r}
+#| label: painel-influencia-entrega
+
+ggplot(tabela_influencia_entrega, aes(leverage, rstudent)) +
+  geom_vline(xintercept = limite_h2, linetype = 2, color = "#E69F00") +
+  geom_hline(yintercept = c(-2, 0, 2),
+             linetype = c(2, 1, 2),
+             color = c("#D55E00", "grey50", "#D55E00")) +
+  geom_point(aes(size = cook), alpha = 0.75, color = "#0072B2") +
+  geom_text(
+    data = subset(
+      tabela_influencia_entrega,
+      abs(rstudent) > 2 | leverage > limite_h2
+    ),
+    aes(label = id),
+    nudge_y = 0.25,
+    show.legend = FALSE
+  ) +
+  scale_size_continuous(range = c(2, 11)) +
+  labs(
+    title = "Discrepância, alavancagem e influência",
+    subtitle = "Tamanho do ponto proporcional à distância de Cook",
+    x = "Leverage",
+    y = "Resíduo R-Student",
+    size = "Cook"
+  )
+```
+
+O painel mostra por que a observação 9 é influente: combina resposta discrepante, alto leverage e grande Cook. A observação 22 tem alto leverage, mas resíduo menos extremo.
+
+## Análise de sensibilidade da observação 9
+
+As medidas anteriores mostram que a observação 9 é discrepante, possui alta alavancagem e altera globalmente o ajuste. Agora a pergunta muda: **quais resultados substantivos dependem dela e quanto dependem?** Compararemos estimativas, erros-padrões, intervalos, predições e escala residual. A análise sem a observação 9 é um cenário diagnóstico, não um novo conjunto de dados escolhido por conveniência.
+
+```{r}
+#| label: sensibilidade-entrega
+
+modelo_entrega_sem_9 <- update(modelo_entrega, subset = -9)
+
+resumo_completo_entrega <- coef(summary(modelo_entrega))
+resumo_sem_9_entrega <- coef(summary(modelo_entrega_sem_9))
+IC_completo_entrega <- confint(modelo_entrega)
+IC_sem_9_entrega <- confint(modelo_entrega_sem_9)
+
+coef_sensibilidade_entrega <- data.frame(
+  parametro = names(coef(modelo_entrega)),
+  estimativa_completa = coef(modelo_entrega),
+  EP_completo = resumo_completo_entrega[, "Std. Error"],
+  p_completo = resumo_completo_entrega[, "Pr(>|t|)"],
+  IC95_inferior_completo = IC_completo_entrega[, 1],
+  IC95_superior_completo = IC_completo_entrega[, 2],
+  estimativa_sem_9 = coef(modelo_entrega_sem_9),
+  EP_sem_9 = resumo_sem_9_entrega[, "Std. Error"],
+  p_sem_9 = resumo_sem_9_entrega[, "Pr(>|t|)"],
+  IC95_inferior_sem_9 = IC_sem_9_entrega[, 1],
+  IC95_superior_sem_9 = IC_sem_9_entrega[, 2]
+)
+
+coef_sensibilidade_entrega$mudanca_absoluta <-
+  coef_sensibilidade_entrega$estimativa_sem_9 -
+  coef_sensibilidade_entrega$estimativa_completa
+
+coef_sensibilidade_entrega$mudanca_percentual <- 100 *
+  coef_sensibilidade_entrega$mudanca_absoluta /
+  abs(coef_sensibilidade_entrega$estimativa_completa)
+
+# Formato longo: favorece a comparação linha a linha entre os cenários.
+tabela_estimativas_sensibilidade <- rbind(
+  data.frame(
+    modelo = "Completo",
+    parametro = coef_sensibilidade_entrega$parametro,
+    estimativa = coef_sensibilidade_entrega$estimativa_completa,
+    erro_padrao = coef_sensibilidade_entrega$EP_completo,
+    p_valor = coef_sensibilidade_entrega$p_completo,
+    IC95_inferior = coef_sensibilidade_entrega$IC95_inferior_completo,
+    IC95_superior = coef_sensibilidade_entrega$IC95_superior_completo
+  ),
+  data.frame(
+    modelo = "Sem observação 9",
+    parametro = coef_sensibilidade_entrega$parametro,
+    estimativa = coef_sensibilidade_entrega$estimativa_sem_9,
+    erro_padrao = coef_sensibilidade_entrega$EP_sem_9,
+    p_valor = coef_sensibilidade_entrega$p_sem_9,
+    IC95_inferior = coef_sensibilidade_entrega$IC95_inferior_sem_9,
+    IC95_superior = coef_sensibilidade_entrega$IC95_superior_sem_9
+  )
+)
+
+tabela_estimativas_sensibilidade
+
+# Mudanças absolutas e relativas são mostradas separadamente.
+coef_sensibilidade_entrega[c(
+  "parametro",
+  "mudanca_absoluta",
+  "mudanca_percentual"
+)]
+
+qualidade_sensibilidade_entrega <- data.frame(
+  modelo = c("Completo", "Sem observação 9"),
+  n = c(nobs(modelo_entrega), nobs(modelo_entrega_sem_9)),
+  `SQResíduo` = c(
+    deviance(modelo_entrega),
+    deviance(modelo_entrega_sem_9)
+  ),
+  `QMResíduo` = c(
+    deviance(modelo_entrega) / df.residual(modelo_entrega),
+    deviance(modelo_entrega_sem_9) / df.residual(modelo_entrega_sem_9)
+  ),
+  sigma = c(
+    summary(modelo_entrega)$sigma,
+    summary(modelo_entrega_sem_9)$sigma
+  ),
+  R2_ajustado = c(
+    summary(modelo_entrega)$adj.r.squared,
+    summary(modelo_entrega_sem_9)$adj.r.squared
+  )
+)
+
+qualidade_sensibilidade_entrega
+
+# Impacto em uma decisão preditiva dentro da região central dos dados.
+pred_rota_completa <- predict(
+  modelo_entrega,
+  newdata = rota_nova,
+  interval = "confidence"
+)
+pred_rota_sem_9 <- predict(
+  modelo_entrega_sem_9,
+  newdata = rota_nova,
+  interval = "confidence"
+)
+
+rbind(
+  data.frame(modelo = "Completo", pred_rota_completa),
+  data.frame(modelo = "Sem observação 9", pred_rota_sem_9)
+)
+
+# A observação 9 é ajustada pelo modelo completo e prevista externamente
+# pelo modelo que não participou de sua estimação.
+data.frame(
+  observado_9 = dados_entrega$tempo[9],
+  ajuste_modelo_completo = fitted(modelo_entrega)[9],
+  previsao_modelo_sem_9 = predict(
+    modelo_entrega_sem_9,
+    newdata = dados_entrega[9, , drop = FALSE]
+  ),
+  residuo_ordinario_completo = residuals(modelo_entrega)[9],
+  erro_predicao_sem_9 = dados_entrega$tempo[9] - predict(
+    modelo_entrega_sem_9,
+    newdata = dados_entrega[9, , drop = FALSE]
+  )
+)
+```
+
+Ao retirar temporariamente a observação 9, a inclinação da distância muda de `r fmt_num(coef(modelo_entrega)["distancia"], 5)` para `r fmt_num(coef(modelo_entrega_sem_9)["distancia"], 5)`, enquanto a inclinação de caixas muda de `r fmt_num(coef(modelo_entrega)["caixas"], 3)` para `r fmt_num(coef(modelo_entrega_sem_9)["caixas"], 3)`. A tabela mostra também se os intervalos se deslocam, se o sinal muda e se uma decisão baseada em significância dependeria da rota extrema.
+
+A redução de SQResíduo e de $\hat\sigma$ após excluir um ponto não prova que o segundo modelo seja melhor: ele foi ajustado a uma amostra diferente e justamente sem a observação mais difícil. A comparação tem finalidade de estabilidade. Mais informativo é verificar que o modelo sem a observação 9 precisa prever externamente sua resposta e produz erro de `r fmt_num(dados_entrega$tempo[9] - predict(modelo_entrega_sem_9, newdata = dados_entrega[9, , drop = FALSE]), 2)`, mostrando quão incompatível essa rota é com o padrão das demais.
+
+Para a rota central com oito caixas e distância 275, comparamos ainda a estimativa e o IC em ambos os cenários. Se uma predição central permanece semelhante enquanto coeficientes individuais mudam, temos um padrão típico de que o ajuste local pode ser mais estável que a decomposição dos efeitos. Se também a predição mudar materialmente, a sensibilidade possui consequência operacional direta.
+
+Como os modelos usam números diferentes de observações, AIC, BIC e diferenças brutas de SQResíduo não devem ser usados aqui como competição convencional de modelos. O objetivo é identificar dependência das conclusões e orientar investigação e nova coleta.
+
+Uma conclusão tecnicamente responsável deve registrar:
+
+1. por que a observação foi sinalizada;
+2. o que foi verificado na fonte;
+3. se é erro ou observação válida;
+4. quanto as conclusões mudam;
+5. qual análise é principal e qual é sensibilidade.
+
+# Respostas a violações do modelo
+
+## Erros-padrões robustos
+
+Se a média linear for considerada adequada, mas a variância não for constante, os coeficientes de mínimos quadrados permanecem os mesmos sob exogeneidade. Podemos substituir a matriz de covariância clássica por uma estimativa robusta. A versão HC3 é útil em amostras pequenas por aplicar correção relacionada ao leverage.
+
+```{r}
+#| label: erros-robustos-entrega
+
+coef_classicos_entrega <- coef(summary(modelo_entrega))
+
+# Implementação matricial explícita da covariância HC3.
+# Para HC3, cada resíduo é corrigido por (1 - h_ii).
+X_entrega <- model.matrix(modelo_entrega)
+u_hc3 <- residuals(modelo_entrega) / (1 - hatvalues(modelo_entrega))
+bread_entrega <- solve(crossprod(X_entrega))
+meat_hc3 <- crossprod(X_entrega, X_entrega * as.numeric(u_hc3^2))
+vcov_hc3_entrega <- bread_entrega %*% meat_hc3 %*% bread_entrega
+
+coef_robustos_entrega <- lmtest::coeftest(
+  modelo_entrega,
+  vcov. = vcov_hc3_entrega
+)
+
+coef_classicos_entrega
+coef_robustos_entrega
+
+# Erros-padrões robustos extraídos da diagonal da matriz HC3.
+sqrt(diag(vcov_hc3_entrega))
+```
+
+Com HC3, o erro-padrão de distância passa de `r fmt_num(coef_classicos_entrega["distancia", "Std. Error"], 5)` para `r fmt_num(coef_robustos_entrega["distancia", "Std. Error"], 5)`. A evidência diminui, embora o coeficiente continue diferente de zero a 5%. Erros robustos corrigem a inferência para heterocedasticidade; não corrigem não linearidade, variável omitida, dependência ou ponto influente.
+
+## Transformação da resposta
+
+A família Box–Cox considera
+
+$$
+Y^{(\lambda)}=
+\begin{cases}
+\dfrac{Y^\lambda-1}{\lambda}, & \lambda\neq0,\\[6pt]
+\log(Y), & \lambda=0.
+\end{cases}
+$$
+
+Ela pode estabilizar variância e aproximar a forma média de uma relação linear. A escolha não deve ser feita apenas pelo máximo do perfil: valores simples dentro de uma região plausível costumam facilitar interpretação.
+
+```{r}
+#| label: boxcox-entrega
+
+perfil_boxcox_entrega <- MASS::boxcox(
+  tempo ~ caixas + distancia,
+  data = dados_entrega,
+  lambda = seq(-0.5, 1.5, by = 0.05),
+  plotit = TRUE
+)
+
+lambda_boxcox_entrega <- perfil_boxcox_entrega$x[
+  which.max(perfil_boxcox_entrega$y)
+]
+
+lambda_boxcox_entrega
+
+modelo_entrega_log <- lm(
+  log(tempo) ~ caixas + distancia,
+  data = dados_entrega
+)
+
+summary(modelo_entrega_log)
+shapiro.test(rstudent(modelo_entrega_log))
+lmtest::bptest(modelo_entrega_log)
+```
+
+O perfil sugere $\lambda\approx`r fmt_num(lambda_boxcox_entrega, 2)`$. A transformação logarítmica, embora não seja o máximo exato, elimina a evidência de heterocedasticidade neste exemplo e melhora a normalidade residual. Seus coeficientes têm interpretação multiplicativa aproximada: mantendo distância fixa, uma caixa adicional está associada a cerca de $100\{\exp(\hat\beta_1)-1\}$% de mudança no tempo médio geométrico.
+
+```{r}
+#| label: interpretacao-log-entrega
+
+efeito_caixas_log <- 100 * (exp(coef(modelo_entrega_log)["caixas"]) - 1)
+efeito_100_dist_log <- 100 * (
+  exp(100 * coef(modelo_entrega_log)["distancia"]) - 1
+)
+
+data.frame(
+  contraste = c("Uma caixa", "Cem unidades de distância"),
+  mudanca_percentual_aproximada = c(
+    efeito_caixas_log,
+    efeito_100_dist_log
+  )
+)
+```
+
+Predições retransformadas por `exp()` estimam a mediana condicional na escala original sob o modelo lognormal. Para estimar a média, é necessária uma correção de retransformação, como o fator de *smearing* de Duan.
+
+```{r}
+#| label: smearing-entrega
+
+fator_smearing <- mean(exp(residuals(modelo_entrega_log)))
+
+pred_log_rota <- predict(
+  modelo_entrega_log,
+  newdata = rota_nova
+)
+
+data.frame(
+  mediana_predita = exp(pred_log_rota),
+  media_predita_smearing = fator_smearing * exp(pred_log_rota),
+  fator_smearing = fator_smearing
+)
+```
+
+## Interação
+
+O modelo aditivo supõe que o efeito de caixas independe da distância. Isso pode ser irreal: movimentar mais caixas pode custar tempo adicional maior em rotas longas. O modelo com interação é
+
+$$
+E(Y\mid X_1,X_2)=
+\beta_0+\beta_1X_1+\beta_2X_2+\beta_3X_1X_2.
+$$
+
+O efeito de caixas é
+
+$$
+\frac{\partial E(Y\mid X_1,X_2)}{\partial X_1}
+=\beta_1+\beta_3X_2,
+$$
+
+e o efeito da distância é
+
+$$
+\frac{\partial E(Y\mid X_1,X_2)}{\partial X_2}
+=\beta_2+\beta_3X_1.
+$$
+
+```{r}
+#| label: interacao-entrega
+
+modelo_entrega_interacao <- lm(
+  tempo ~ caixas * distancia,
+  data = dados_entrega
+)
+
+summary(modelo_entrega_interacao)
+anova(modelo_entrega, modelo_entrega_interacao)
+
+shapiro_interacao <- shapiro.test(rstudent(modelo_entrega_interacao))
+bp_interacao <- lmtest::bptest(modelo_entrega_interacao)
+
+shapiro_interacao
+bp_interacao
+```
+
+O teste parcial da interação tem $p$ `r fmt_p(anova(modelo_entrega, modelo_entrega_interacao)[["Pr(>F)"]][2])`. No modelo com interação, Shapiro–Wilk tem $p$ `r fmt_p(shapiro_interacao$p.value)` e Breusch–Pagan tem $p$ `r fmt_p(bp_interacao$p.value)`. O ajuste e os diagnósticos melhoram de forma expressiva.
+
+Entretanto, uma melhora aparente pode ser dirigida por ponto influente. Devemos testar a estabilidade do termo de interação.
+
+```{r}
+#| label: sensibilidade-interacao-entrega
+
+modelo_entrega_interacao_sem_9 <- update(
+  modelo_entrega_interacao,
+  subset = -9
+)
+
+modelo_entrega_aditivo_sem_9 <- update(
+  modelo_entrega,
+  subset = -9
+)
+
+anova(
+  modelo_entrega_aditivo_sem_9,
+  modelo_entrega_interacao_sem_9
+)
+
+data.frame(
+  ajuste = c("Todos os dados", "Sem observação 9"),
+  beta_interacao = c(
+    coef(modelo_entrega_interacao)["caixas:distancia"],
+    coef(modelo_entrega_interacao_sem_9)["caixas:distancia"]
+  ),
+  p_interacao = c(
+    coef(summary(modelo_entrega_interacao))[
+      "caixas:distancia", "Pr(>|t|)"
+    ],
+    coef(summary(modelo_entrega_interacao_sem_9))[
+      "caixas:distancia", "Pr(>|t|)"
+    ]
+  )
+)
+```
+
+Sem a observação 9, o valor de $p$ da interação passa para `r fmt_num(coef(summary(modelo_entrega_interacao_sem_9))["caixas:distancia", "Pr(>|t|)"], 3)`. Portanto, o sinal de interação é fortemente dependente de uma rota extrema. Essa é uma conclusão mais informativa que simplesmente declarar o modelo interativo “melhor”. Precisamos de novas observações na região de muitas caixas e longas distâncias para distinguir interação real de influência local.
+
+## Termo quadrático
+
+Uma alternativa para curvatura é
+
+$$
+E(Y\mid X_1,X_2)=
+\beta_0+\beta_1X_1+\beta_2X_1^2+\beta_3X_2.
+$$
+
+O princípio da hierarquia exige manter $X_1$ quando $X_1^2$ está presente, ainda que o termo linear isolado não seja significativo.
+
+```{r}
+#| label: quadratico-entrega
+
+modelo_entrega_quadratico <- lm(
+  tempo ~ caixas + I(caixas^2) + distancia,
+  data = dados_entrega
+)
+
+summary(modelo_entrega_quadratico)
+anova(modelo_entrega, modelo_entrega_quadratico)
+```
+
+Potências e interações aumentam correlação entre colunas. Centralizar variáveis antes de formar esses termos melhora a interpretação e pode reduzir multicolinearidade não essencial, sem alterar os valores ajustados.
+
+```{r}
+#| label: interacao-centrada-entrega
+
+dados_entrega_centrada <- transform(
+  dados_entrega,
+  caixas_c = caixas - mean(caixas),
+  distancia_c = distancia - mean(distancia)
+)
+
+modelo_interacao_centrado <- lm(
+  tempo ~ caixas_c * distancia_c,
+  data = dados_entrega_centrada
+)
+
+cbind(
+  original = coef(modelo_entrega_interacao),
+  centrado = coef(modelo_interacao_centrado)
+)
+
+max(abs(
+  fitted(modelo_entrega_interacao) - fitted(modelo_interacao_centrado)
+))
+```
+
+No modelo centrado, os efeitos principais são avaliados na média do outro regressor, e não em distância ou caixas iguais a zero.
+
+# Multicolinearidade no exemplo de entrega
+
+```{r}
+#| label: vif-entrega
+
+vif_entrega <- car::vif(modelo_entrega)
+vif_entrega
+
+data.frame(
+  regressor = names(vif_entrega),
+  VIF = unname(vif_entrega),
+  tolerancia = 1 / unname(vif_entrega),
+  aumento_erro_padrao = sqrt(unname(vif_entrega))
+)
+```
+
+Os VIFs são `r fmt_num(unname(vif_entrega[1]), 2)` para ambos os regressores. Isso implica que a variância de cada inclinação é aproximadamente 3,12 vezes a que seria obtida em um desenho com a mesma dispersão do regressor e ortogonalidade; o erro-padrão é multiplicado por $\sqrt{VIF}\approx`r fmt_num(sqrt(unname(vif_entrega[1])), 2)`$.
+
+Multicolinearidade não é corrigida apagando automaticamente um regressor. Alternativas coerentes incluem obter mais dados em combinações menos correlacionadas, redesenhar o experimento, usar conhecimento substantivo para definir o modelo ou mudar a finalidade de inferência individual para predição.
+
+# Avaliação preditiva e construção de modelos
+
+## Ajuste não é validação
+
+O erro residual de treinamento é otimista porque os mesmos dados foram usados para estimar e avaliar o modelo. Quanto maior a flexibilidade, maior a possibilidade de adaptar-se a particularidades da amostra.
+
+Devemos distinguir:
+
+- **ajuste**: proximidade entre $y_i$ e $\hat y_i$ nos dados usados para estimar;
+- **validação interna**: desempenho em observações temporariamente deixadas fora do ajuste;
+- **validação externa**: desempenho em outra amostra, outro período ou outra população;
+- **transportabilidade**: validade em condições diferentes das observadas.
+
+## PRESS e validação deixa-um-fora
+
+A estatística PRESS é
+
+$$
+PRESS=\sum_{i=1}^n e_{(i)}^2
+=\sum_{i=1}^n\left(\frac{e_i}{1-h_{ii}}\right)^2.
+$$
+
+Ela coincide com a soma dos erros quadráticos da validação cruzada *leave-one-out* em regressão linear. Definimos ainda
+
+$$
+RMSE_{LOOCV}=\sqrt{\frac{PRESS}{n}}
+$$
+
+e uma medida descritiva
+
+$$
+R^2_{pred}=1-\frac{PRESS}{\text{SQTotal}}.
+$$
+
+```{r}
+#| label: press-entrega
+
+PRESS_entrega <- sum((residuals(modelo_entrega) / (1 - hatvalues(modelo_entrega)))^2)
+RMSE_LOOCV_entrega <- sqrt(PRESS_entrega / n_entrega)
+R2_pred_entrega <- 1 - PRESS_entrega / sum(
+  (dados_entrega$tempo - mean(dados_entrega$tempo))^2
+)
+
+data.frame(
+  `SQResíduo_treinamento` = deviance(modelo_entrega),
+  PRESS = PRESS_entrega,
+  RMSE_treinamento = rmse(
+    dados_entrega$tempo,
+    fitted(modelo_entrega)
+  ),
+  RMSE_LOOCV = RMSE_LOOCV_entrega,
+  R2_amostral = summary(modelo_entrega)$r.squared,
+  R2_predito_LOOCV = R2_pred_entrega
+)
+```
+
+O RMSE de treinamento é `r fmt_num(rmse(dados_entrega$tempo, fitted(modelo_entrega)), 3)`, enquanto o RMSE LOOCV é `r fmt_num(RMSE_LOOCV_entrega, 3)`. A diferença mostra o otimismo do ajuste na própria amostra, ampliado pela observação 9.
+
+## Conferência explícita do LOOCV
+
+```{r}
+#| label: loocv-manual-entrega
+
+pred_loocv_entrega <- numeric(n_entrega)
+
+for (i in seq_len(n_entrega)) {
+  ajuste_i <- lm(
+    tempo ~ caixas + distancia,
+    data = dados_entrega[-i, ]
+  )
+
+  pred_loocv_entrega[i] <- predict(
+    ajuste_i,
+    newdata = dados_entrega[i, ]
+  )
+}
+
+erro_loocv_explicito <- dados_entrega$tempo - pred_loocv_entrega
+erro_loocv_formula <- residuals(modelo_entrega) / (1 - hatvalues(modelo_entrega))
+
+data.frame(
+  maior_diferenca = max(abs(
+    erro_loocv_explicito - erro_loocv_formula
+  )),
+  RMSE_explicito = sqrt(mean(erro_loocv_explicito^2)),
+  RMSE_formula = sqrt(mean(erro_loocv_formula^2))
+)
+```
+
+A diferença numérica é apenas arredondamento, confirmando a identidade algébrica.
+
+## Métricas de erro
+
+Nenhuma métrica é universal.
+
+$$
+RMSE=\sqrt{\frac1n\sum_{i=1}^n(y_i-\hat y_i)^2}
+$$
+
+penaliza mais fortemente erros grandes. Já
+
+$$
+MAE=\frac1n\sum_{i=1}^n|y_i-\hat y_i|
+$$
+
+é mais robusto a poucos erros extremos. A escolha deve refletir o custo real dos erros na aplicação.
+
+```{r}
+#| label: metricas-entrega
+
+data.frame(
+  conjunto = c("Treinamento", "LOOCV"),
+  RMSE = c(
+    rmse(dados_entrega$tempo, fitted(modelo_entrega)),
+    rmse(dados_entrega$tempo, pred_loocv_entrega)
+  ),
+  MAE = c(
+    mae(dados_entrega$tempo, fitted(modelo_entrega)),
+    mae(dados_entrega$tempo, pred_loocv_entrega)
+  )
+)
+```
+
+## Validação cruzada $k$-fold repetida
+
+Em $k$-fold, dividimos os dados em $k$ partes, ajustamos em $k-1$ e avaliamos na parte restante. Como uma única divisão é aleatória, repetimos o processo. Em amostras pequenas, a incerteza da própria estimativa de validação deve ser mostrada.
+
+```{r}
+#| label: funcao-cv-repetida
+
+cv_kfold_repetida <- function(
+    formula,
+    dados,
+    resposta,
+    k = 5,
+    repeticoes = 100,
+    semente = 20262) {
+
+  set.seed(semente)
+  n <- nrow(dados)
+  resultados <- numeric(repeticoes)
+
+  for (r in seq_len(repeticoes)) {
+    # O balanceamento aproximado evita folds muito diferentes em tamanho.
+    fold <- sample(rep(seq_len(k), length.out = n))
+    erros_quadrados <- numeric(n)
+
+    for (j in seq_len(k)) {
+      treino <- dados[fold != j, , drop = FALSE]
+      teste <- dados[fold == j, , drop = FALSE]
+
+      ajuste <- lm(formula, data = treino)
+      predicao <- predict(ajuste, newdata = teste)
+
+      erros_quadrados[fold == j] <- (
+        teste[[resposta]] - predicao
+      )^2
+    }
+
+    resultados[r] <- sqrt(mean(erros_quadrados))
+  }
+
+  c(
+    media = mean(resultados),
+    dp = sd(resultados),
+    q025 = unname(quantile(resultados, 0.025)),
+    mediana = median(resultados),
+    q975 = unname(quantile(resultados, 0.975))
+  )
+}
+```
+
+```{r}
+#| label: comparacao-cv-entrega
+
+cv_aditivo <- cv_kfold_repetida(
+  tempo ~ caixas + distancia,
+  dados_entrega,
+  resposta = "tempo",
+  repeticoes = 200
+)
+
+cv_interacao <- cv_kfold_repetida(
+  tempo ~ caixas * distancia,
+  dados_entrega,
+  resposta = "tempo",
+  repeticoes = 200
+)
+
+cv_quadratico <- cv_kfold_repetida(
+  tempo ~ caixas + I(caixas^2) + distancia,
+  dados_entrega,
+  resposta = "tempo",
+  repeticoes = 200
+)
+
+tabela_cv_entrega <- rbind(
+  aditivo = cv_aditivo,
+  interacao = cv_interacao,
+  quadratico = cv_quadratico
+)
+
+tabela_cv_entrega
+```
+
+O modelo com interação apresenta menor RMSE médio na validação repetida (`r fmt_num(tabela_cv_entrega["interacao", "media"], 3)`) que o aditivo (`r fmt_num(tabela_cv_entrega["aditivo", "media"], 3)`), mas possui maior variabilidade entre partições e sua interação depende fortemente da observação 9. Validação cruzada melhora a avaliação preditiva, mas não transforma uma região esparsa em região bem amostrada.
+
+## Critérios de informação e parcimônia
+
+Para modelos gaussianos ajustados aos mesmos valores da mesma resposta, o AIC é, a menos de constante,
+
+$$
+AIC=n\log\left(\frac{\text{SQResíduo}}{n}\right)+2p,
+$$
+
+e o BIC é
+
+$$
+BIC=n\log\left(\frac{\text{SQResíduo}}{n}\right)+p\log(n).
+$$
+
+Menor valor indica melhor compromisso entre ajuste e complexidade dentro do conjunto candidato. As diferenças importam; o valor absoluto não tem interpretação isolada.
+
+```{r}
+#| label: criterios-modelos-entrega
+
+modelos_candidatos_entrega <- list(
+  aditivo = modelo_entrega,
+  interacao = modelo_entrega_interacao,
+  quadratico = modelo_entrega_quadratico
+)
+
+tabela_modelos_entrega <- data.frame(
+  modelo = names(modelos_candidatos_entrega),
+  parametros = vapply(
+    modelos_candidatos_entrega,
+    function(m) length(coef(m)) + 1,
+    numeric(1)
+  ), # inclui sigma no número de parâmetros da verossimilhança
+  R2 = vapply(
+    modelos_candidatos_entrega,
+    function(m) summary(m)$r.squared,
+    numeric(1)
+  ),
+  R2_ajustado = vapply(
+    modelos_candidatos_entrega,
+    function(m) summary(m)$adj.r.squared,
+    numeric(1)
+  ),
+  AIC = vapply(modelos_candidatos_entrega, AIC, numeric(1)),
+  BIC = vapply(modelos_candidatos_entrega, BIC, numeric(1)),
+  RMSE_treino = vapply(
+    modelos_candidatos_entrega,
+    function(m) rmse(model.response(model.frame(m)), fitted(m)),
+    numeric(1)
+  )
+)
+
+tabela_modelos_entrega$delta_AIC <- (
+  tabela_modelos_entrega$AIC - min(tabela_modelos_entrega$AIC)
+)
+
+tabela_modelos_entrega
+```
+
+O modelo logarítmico não foi colocado na mesma tabela de AIC calculada diretamente pelo R, pois a transformação altera a escala e a densidade da resposta; a comparação correta exigiria tratar o Jacobiano de forma consistente. Métricas preditivas na escala original oferecem uma comparação mais transparente nesse caso.
+
+## Seleção automática de variáveis: utilidade e risco
+
+Procedimentos *forward*, *backward* e *stepwise* procuram modelos por um critério como AIC. Eles podem ser úteis como exploração, mas apresentam limitações:
+
+- ignoram a incerteza do processo de seleção;
+- produzem valores de $p$ e intervalos condicionados à seleção;
+- podem escolher modelos instáveis em dados correlacionados;
+- podem violar hierarquia ao remover termos principais;
+- aumentam o risco de sobreajuste;
+- não incorporam automaticamente conhecimento científico.
+
+```{r}
+#| label: stepwise-demonstracao-entrega
+
+modelo_minimo_entrega <- lm(tempo ~ 1, data = dados_entrega)
+modelo_maximo_entrega <- lm(
+  tempo ~ caixas * distancia + I(caixas^2) + I(distancia^2),
+  data = dados_entrega
+)
+
+modelo_step_entrega <- step(
+  modelo_minimo_entrega,
+  scope = list(
+    lower = formula(modelo_minimo_entrega),
+    upper = formula(modelo_maximo_entrega)
+  ),
+  direction = "both",
+  trace = 0
+)
+
+formula(modelo_step_entrega)
+summary(modelo_step_entrega)
+```
+
+O resultado é uma proposta exploratória, não uma conclusão automática. A forma final precisa ser submetida aos mesmos diagnósticos, à validação e à análise de estabilidade. Se um termo de interação estiver presente, seus componentes principais devem ser mantidos pelo princípio da hierarquia.
+
+## Bootstrap dos coeficientes
+
+O bootstrap por pares reamostra unidades observacionais $(y_i,\mathbf x_i)$ e refaz o ajuste. Ele permite visualizar estabilidade empírica dos coeficientes, mas não corrige amostragem não representativa, dependência ignorada ou falta de suporte no espaço dos regressores.
+
+```{r}
+#| label: bootstrap-entrega
+
+set.seed(20262)
+B <- 2000
+
+boot_coef_entrega <- replicate(B, {
+  indices <- sample(seq_len(n_entrega), replace = TRUE)
+  ajuste_boot <- lm(
+    tempo ~ caixas + distancia,
+    data = dados_entrega[indices, ]
+  )
+  coef(ajuste_boot)
+})
+
+IC_boot_entrega <- t(apply(
+  boot_coef_entrega,
+  1,
+  quantile,
+  probs = c(0.025, 0.5, 0.975),
+  na.rm = TRUE
+))
+
+colnames(IC_boot_entrega) <- c("q025", "mediana", "q975")
+IC_boot_entrega
+```
+
+A amplitude bootstrap reflete a influência e a estrutura da amostra observada. Em especial, reamostras que incluem várias vezes a observação 9 podem produzir coeficientes bastante diferentes das que não a incluem.
+
+## Decisão modeladora para o exemplo de entrega
+
+Não existe uma resposta honesta reduzida a “o melhor modelo é”. Os resultados mostram:
+
+1. o modelo aditivo tem excelente ajuste aparente, mas falha nos diagnósticos de normalidade e homocedasticidade;
+2. a observação 9 é discrepante, tem alto leverage e domina várias medidas de influência;
+3. HC3 aumenta os erros-padrões e produz inferência mais prudente sob heterocedasticidade;
+4. o logaritmo melhora a distribuição e a variância, mas muda a escala da interpretação;
+5. a interação melhora ajuste, diagnóstico e validação média;
+6. o termo de interação deixa de ser sustentado quando a observação 9 é retirada;
+7. os dados são escassos justamente na região de muitas caixas e longas distâncias.
+
+Minha recomendação didática é reportar o modelo aditivo como referência, apresentar HC3 e a análise de sensibilidade, tratar log e interação como análises alternativas e solicitar novas rotas na região extrema antes de uma decisão operacional baseada na interação. Essa conclusão respeita tanto o sinal estatístico quanto a fragilidade que o produziu.
+
+# Extensões essenciais do modelo linear
+
+## Variáveis indicadoras
+
+Para um fator com $g$ níveis, usamos $g-1$ indicadores quando há intercepto. Se $G_i\in\{A,B\}$ e $D_i=1$ para o grupo B,
+
+$$
+Y_i=\beta_0+\beta_1X_i+\beta_2D_i+\varepsilon_i.
+$$
+
+O intercepto do grupo A é $\beta_0$ e o do grupo B é $\beta_0+\beta_2$. Com interação,
+
+$$
+Y_i=\beta_0+\beta_1X_i+\beta_2D_i+\beta_3X_iD_i+\varepsilon_i,
+$$
+
+e as inclinações são $\beta_1$ para A e $\beta_1+\beta_3$ para B.
+
+```{r}
+#| label: exemplo-indicadora
+
+# Exemplo didático: classificamos as rotas apenas para demonstrar a sintaxe.
+# Na análise principal, não é recomendável perder a informação contínua da distância.
+dados_entrega$rota <- factor(
+  ifelse(dados_entrega$distancia <= median(dados_entrega$distancia),
+         "curta", "longa"),
+  levels = c("curta", "longa")
+)
+
+modelo_rota_paralelo <- lm(
+  tempo ~ caixas + rota,
+  data = dados_entrega
+)
+
+modelo_rota_interacao <- lm(
+  tempo ~ caixas * rota,
+  data = dados_entrega
+)
+
+summary(modelo_rota_paralelo)
+summary(modelo_rota_interacao)
+anova(modelo_rota_paralelo, modelo_rota_interacao)
+```
+
+Transformar uma variável contínua em grupos costuma reduzir poder, introduzir dependência do ponto de corte e criar saltos artificiais. O exemplo serve para ensinar codificação de fatores, não para substituir a distância contínua na análise substantiva.
+
+## Contrastes e médias ajustadas
+
+Um contraste linear é
+
+$$
+L=\mathbf c^T\boldsymbol\beta.
+$$
+
+Seu estimador e erro-padrão são
+
+$$
+\hat L=\mathbf c^T\hat{\boldsymbol\beta},
+\qquad
+se(\hat L)=
+\sqrt{\text{QMResíduo}\,\mathbf c^T(\mathbf X^T\mathbf X)^{-1}\mathbf c}.
+$$
+
+Esse mecanismo unifica diferenças entre grupos, somas de coeficientes e efeitos condicionais em interações.
+
+```{r}
+#| label: contraste-manual
+
+# No modelo com interação, efeito de uma caixa quando distância = 500.
+c_efeito_caixa_500 <- c(
+  `(Intercept)` = 0,
+  caixas = 1,
+  distancia = 0,
+  `caixas:distancia` = 500
+)
+
+estimativa_contraste <- sum(
+  c_efeito_caixa_500 * coef(modelo_entrega_interacao)
+)
+
+EP_contraste <- sqrt(
+  t(c_efeito_caixa_500) %*%
+    vcov(modelo_entrega_interacao) %*%
+    c_efeito_caixa_500
+)
+
+gl_contraste <- df.residual(modelo_entrega_interacao)
+t_critico_contraste <- qt(0.975, gl_contraste)
+
+data.frame(
+  distancia = 500,
+  efeito_caixa = estimativa_contraste,
+  erro_padrao = EP_contraste,
+  limite_inferior = estimativa_contraste - t_critico_contraste * EP_contraste,
+  limite_superior = estimativa_contraste + t_critico_contraste * EP_contraste
+)
+```
+
+## Ponderação e mínimos quadrados generalizados
+
+Se
+
+$$
+\operatorname{Var}(\boldsymbol\varepsilon\mid\mathbf X)=
+\sigma^2\mathbf V,
+$$
+
+o estimador de mínimos quadrados generalizados é
+
+$$
+\hat{\boldsymbol\beta}_{GLS}=
+(\mathbf X^T\mathbf V^{-1}\mathbf X)^{-1}
+\mathbf X^T\mathbf V^{-1}\mathbf y.
+$$
+
+Quando $\mathbf V$ é diagonal, obtemos mínimos quadrados ponderados. Os pesos devem representar precisão conhecida ou uma função de variância justificável; usar pesos estimados sem documentar o procedimento pode produzir falsa precisão.
+
+## Dependência e estrutura hierárquica
+
+Se entregas estão agrupadas por motorista, rota ou dia, a independência pode falhar. Nesse caso, alternativas incluem:
+
+- erros-padrões agrupados por conglomerado;
+- modelos lineares mistos com efeitos aleatórios;
+- mínimos quadrados generalizados com correlação estruturada;
+- modelos para séries temporais ou espaciais.
+
+O teste de Durbin–Watson não resolve dependência complexa. A estrutura deve vir do desenho e da ordem real de coleta.
+
+# Roteiro completo para uma análise em R
+
+## Etapa 1 — compreender e auditar os dados
+
+```r
+# Estrutura, tipos e ausências.
+str(dados)
+summary(dados)
+colSums(is.na(dados))
+
+# Duplicações e faixas.
+anyDuplicated(dados)
+sapply(dados, range, na.rm = TRUE)
+
+# Unidades e níveis de fatores devem ser conferidos fora do software.
+```
+
+## Etapa 2 — explorar antes de modelar
+
+```r
+pairs(dados)
+cor(dados[sapply(dados, is.numeric)], use = "pairwise.complete.obs")
+boxplot(resposta ~ grupo, data = dados)
+plot(resposta ~ regressor, data = dados)
+```
+
+## Etapa 3 — formular modelos candidatos antes de olhar valores de $p$
+
+```r
+modelo_aditivo <- lm(y ~ x1 + x2, data = dados)
+modelo_interacao <- lm(y ~ x1 * x2, data = dados)
+modelo_quadratico <- lm(y ~ x1 + I(x1^2) + x2, data = dados)
+```
+
+## Etapa 4 — estimar e interpretar
+
+```r
+summary(modelo_aditivo)
+confint(modelo_aditivo)
+anova(modelo_aditivo)
+drop1(modelo_aditivo, test = "F")
+```
+
+## Etapa 5 — diagnosticar
+
+```r
+par(mfrow = c(2, 2))
+plot(modelo_aditivo)
+par(mfrow = c(1, 1))
+
+rstudent(modelo_aditivo)
+hatvalues(modelo_aditivo)
+cooks.distance(modelo_aditivo)
+dfbetas(modelo_aditivo)
+dffits(modelo_aditivo)
+
+lmtest::bptest(modelo_aditivo)
+car::vif(modelo_aditivo)
+```
+
+## Etapa 6 — avaliar estabilidade e previsão
+
+```r
+# Sensibilidade a pontos sinalizados.
+modelo_sem_i <- update(modelo_aditivo, subset = -i)
+cbind(completo = coef(modelo_aditivo), sem_i = coef(modelo_sem_i))
+
+# PRESS/LOOCV.
+press <- sum((residuals(modelo_aditivo) /
+              (1 - hatvalues(modelo_aditivo)))^2)
+
+# Predição somente em newdata com unidades e região documentadas.
+predict(modelo_aditivo, newdata = novos_dados, interval = "prediction")
+```
+
+## Etapa 7 — comunicar
+
+Uma conclusão completa deve informar:
+
+- população, unidade e tamanho amostral;
+- equação e unidades dos coeficientes;
+- estimativas com intervalos, não somente valores de $p$;
+- evidência global e parcial coerente com as hipóteses;
+- qualidade de ajuste e qualidade preditiva separadamente;
+- diagnósticos relevantes e análises de sensibilidade;
+- região de validade e extrapolações;
+- limitações de desenho, mensuração e generalização;
+- versão do software e código reprodutível.
+
+# Erros frequentes e como corrigi-los
+
+| Erro | Por que é inadequado | Correção |
+|:--|:--|:--|
+| interpretar $p>0,05$ como prova de igualdade | ausência de evidência não é evidência de ausência | reportar IC, poder e precisão |
+| excluir ponto porque $|r_i|>2$ | limite é apenas triagem | investigar fonte e fazer sensibilidade |
+| comparar $R^2$ com e sem intercepto | um é centrado e outro pode ser não centrado | comparar restrição e erro na mesma escala |
+| usar ANOVA sequencial como efeito parcial | resultado depende da ordem | usar modelos aninhados ou `drop1()` |
+| testar normalidade dos dados brutos | a suposição é condicional | examinar resíduos do modelo |
+| aplicar KS padrão a resíduos estimados | parâmetros e dependência invalidam referência simples | usar QQ plot e Shapiro com cautela |
+| aplicar DW a `residuos ~ id` | não é o modelo original | aplicar ao modelo e somente com ordem real |
+| interpretar correlação como causalidade | confundimento e seleção permanecem | justificar desenho ou pressupostos causais |
+| prever fora da região sem aviso | forma funcional pode mudar | declarar extrapolação e medir leverage novo |
+| escolher modelo apenas pelo maior $R^2$ | $R^2$ sempre cresce com termos | combinar parcimônia, diagnóstico e validação |
+| comparar AIC de respostas transformadas sem cuidado | a escala e o Jacobiano mudam | usar verossimilhança comparável ou erro na escala-alvo |
+
+
+
+# Referências recomendadas
+
+- Fox, J.; Weisberg, S. *An R Companion to Applied Regression*. Sage.
+- Montgomery, D. C.; Peck, E. A.; Vining, G. G. *Introduction to Linear Regression Analysis*. Wiley.
+- Weisberg, S. *Applied Linear Regression*. Wiley.
+
+
+------------------------------------------------------------------------
+
+::: {style="text-align: center;"}
+[@profjulianobortolini](https://instagram.com/profjulianobortolini)      [www.julianobortolini.com.br](http://www.julianobortolini.com.br)      [linkedin](https://linkedin.com/in/julianobortolini)      [github](https://github.com/julianobortolini)      [lattes](http://lattes.cnpq.br/6210909768845403)
+:::

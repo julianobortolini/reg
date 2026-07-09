@@ -1,0 +1,157 @@
+---
+title: "Análise de Regressão"
+author:
+  - name: Prof. Dr. Juliano Bortolini
+    email: profjulianobortolini@gmail.com
+    url: http://www.julianobortolini.com.br
+    affiliations:
+      - name: Universidade Federal de Mato Grosso
+format: pdf
+engine: knitr
+---
+
+*Bacharelado em Estatística - UFMT*
+
+
+*Discente:*
+
+
+*RGA:*
+
+
+
+### Prova 1
+
+
+1. (**2,0**) Encontre o estimador de míninos quadrados para o parâmetro $\beta_1$ do modelo de regressão linear simples sem intercepto (regressão pela origem): $Y_i = \beta_1 X_i + \varepsilon_i$, onde $\varepsilon_i \sim \text{i.i.d. } N(0, \sigma^2)$, $i = 1, 2, \cdots, n$. Mostre todos os passos do desenvolvimento matemático.
+
+
+
+
+2. O aquecimento global é uma questão importante, e as emissões de $CO_2$ desempenham um papel fundamental nessa discussão. 
+O artigo *"Effects of Atmospheric $CO_2$ Enrichment on Biomass Accumulation and Distribution in Eldarica Pine Trees"* (*J. Exp. Bot.* 1994: 345–349) descreve os resultados do crescimento de pinheiros sob diferentes níveis de $CO_2$ no ar. 
+
+Os dados abaixo correspondem às observações onde:
+
+- $x$ = concentração atmosférica de $CO_2$ (partes por milhão)
+- $y$ = massa em gramas após 11 meses de experimento.
+
+Tabela. Concentração de $CO_2$ ($x$) e Massa ($y$)
+
+| $x$   | 408   | 408   | 554   | 554   | 680   | 680   | 812   | 812   |
+|-------|-------|-------|-------|-------|-------|-------|-------|-------|
+| $y$   | 1100   | 1300   | 1600   | 2500   | 3000   | 4300   | 4200   | 4700   |
+
+
+```{r}
+x <- c(408, 408, 554, 554, 680, 680, 812, 812)
+y <- c(1100, 1300, 1600, 2500, 3000, 4300, 4200, 4700)
+```
+
+
+
+a. (**1,0**) Calcule e interprete o valor do coeficiente de correlação amostral.
+
+```{r}
+cor(x,y)
+```
+
+
+
+b. (**1,0**) Realize o teste de hipóteses para decidir se a concentração de $CO_2$ e a massa dos pinheiros estão linearmente relacionadas e interprete os resultados, considere $\alpha = 0,05$.
+
+```{r}
+cor.test(x,y)
+```
+
+
+c. (**1,0**) Calcule o intervalo de confiança de $95\%$ para o coeficiente de correlação amostral e interprete-o.
+
+```{r}
+cor.test(x,y)
+```
+
+
+
+d. (**1,0**) Ajuste um modelo de regressão linear simples relacionando $x$ e $y$ e interprete o coeficiente linear ($\beta_1$).
+
+
+```{r}
+modelo <- lm(y ~ x)
+modelo
+```
+
+
+
+e. (**1,0**) Realize a análise de variância (ANOVA) para o modelo ajustado e interprete os resultados, considere $\alpha = 0,05$.
+
+
+```{r}
+anova(modelo) 
+# a diferença entre os valores do cálculo no R e "na mão" é por causa das aproximações.
+```
+
+
+f. (**0,5**) Realize o teste de hipóteses $H_0: \beta_0 = 0$ versus $H_1: \beta_0 \neq 0$, considere $\alpha = 0,05$.
+
+```{r}
+summary(modelo)
+```
+
+
+g. (**0,5**) Realize o teste de hipóteses $H_0: \beta_1 = 0$ versus $H_1: \beta_1 \neq 0$, considere $\alpha = 0,05$.
+
+```{r}
+summary(modelo)
+```
+
+h. (**0,5**) Realize o teste de hipóteses $H_0: \beta_1 = 8$ versus $H_1: \beta_1 \neq 8$, considere $\alpha = 0,05$.
+
+
+```{r}
+beta1 <- 8.454
+beta1_h0 <- 8
+ep_beta1 <- 1.261
+tc <- (beta1 - beta1_h0) / ep_beta1
+tc # t calculado
+ttab <- qt(0.975, df = 6)
+ttab # t tabelado ou valor crítico.
+abs(tc) > ttab # qual é a decisão? Rej ou nao H0?
+```
+
+i. (**0,5**) Calcule o intervalo de confiança de $95\%$ para o coeficiente linear ($\beta_1$) e interprete-o.
+
+```{r}
+confint(modelo, level = 0.95)
+```
+
+
+
+3. (**1,0**) Considere um conjunto de dados com $n$ observações, representado por pares ordenados $(x_i, y_i)$, $i = 1, 2, \cdots, n$. As médias amostrais de $x$ e $y$ são, respectivamente, $\bar{x}$ e $\bar{y}$.
+
+O coeficiente angular $\beta_1$ da reta de regressão linear simples de $Y$ sobre $X$ é dado por:
+
+$$b_1 = \frac{S_{xy}}{S_{xx}},$$
+
+em que: $S_{xy} = \sum (x_i - \bar{x})(y_i - \bar{y})$, $S_{xx} = \sum (x_i - \bar{x})^2$ e $S_{yy} = \sum (y_i - \bar{y})^2$.
+
+O coeficiente de correlação de Pearson é:
+$$r = \frac{S_{xy}}{\sqrt{S_{xx} \cdot S_{yy}}}$$
+
+Os desvios padrão amostrais de $X$ e $Y$ são:
+$$s_x = \sqrt{\frac{S_{xx}}{n - 1}}, \quad \text{e} \quad s_y = \sqrt{\frac{S_{yy}}{n - 1}}.$$
+
+Demonstre que:
+
+  a. $$\beta_1 = r \sqrt{\frac{S_{yy}}{S_{xx}}}$$
+
+  b. $$\beta_1 = r \frac{s_y}{s_x}$$
+
+
+
+
+<!-- ------------------------------------------------------------------------ -->
+
+<!-- ::: {style="text-align: center;"} -->
+<!-- [\@profjulianobortolini](https://instagram.com/profjulianobortolini)      [www.julianobortolini.com.br](http://www.julianobortolini.com.br)      [linkedin](https://linkedin.com/in/julianobortolini)      [github](https://github.com/julianobortolini)       [lattes](http://lattes.cnpq.br/6210909768845403) -->
+<!-- ::: -->

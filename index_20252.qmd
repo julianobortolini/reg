@@ -14,16 +14,14 @@ engine: knitr
 
 *Bacharelado em Estatística - UFMT*
 
-*Período letivo: 2026/1*
+*Período letivo: 2025/2*
 
 ### Avisos:
 
 -   Última atualização do site às **`r format(Sys.time(), "%H:%M", tz='America/Cuiaba')`** do dia **`r format(Sys.time(), "%d/%m/%Y")`**.
--   Monitores: Matheus e Hudson.
-- Avaliação 1: 27/5/2026. Será permitido a consulta a uma folha de papel com anotações manuscritas (tamanho A4, frente e verso) para as avaliações escrita e computacional. Não será permitido o uso de internet e de nenhum arquivo computacional (scripts de análise). Será permitido o uso de calculadora científica. Será permitido o uso do software R para cálculos computacionais exclusivamente na avaliação computacional. A avaliação será escrita, computacional e arguição oral.
-- Tabelas: [F (5%)](tab_F_5.pdf), [F (1%)](tab_F_1.pdf) e [t](tab_t.pdf).
-- Avaliação 2: 8/7/2026. Será permitido a consulta a uma folha de papel com anotações manuscritas (tamanho A4, frente e verso) para as avaliações escrita e computacional. Não será permitido o uso de internet e de nenhum arquivo computacional (scripts de análise). Será permitido o uso de calculadora científica. Será permitido o uso do software R para cálculos computacionais exclusivamente na avaliação computacional. A avaliação será escrita, computacional e arguição oral.
-
+-   Monitores: 
+    - Heliton (quarta-feira das 18 às 19h) e 
+    - Eliel (quinta-feira das 18 às 19h).
 
 
 ### Ementa:
@@ -32,80 +30,30 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 ### Notas de aula:
 
--   Aula 1: apresentação da disciplina: avaliações, ementa, livro texto e materiais complementares, sistema de frequência e faltas. O que é regressão. Tipos de regressão. Exemplos de regressão. Covariância: definição, propriedades, representação gráfica e estimador amostral. Correlação: definição, propriedades e estimador amostral. Correlação de Pearson. Estatísticas $S_{XY}$, $S_{XX}$ e $S_{YY}$. Exemplo "[A cross-national relationship between sugar consumption and major depression?](https://onlinelibrary.wiley.com/doi/10.1002/da.10054)": calcular a covariância e correlação. Dados disponibilizados em sala.
+-   Aula 1: Apresentação da disciplina com ementa e avaliações. 
 
-- [Lista 1](lista1_2026-1.html): covariância e correlação.
+-   Aula 2: Semana da estatística.
 
-- Aula 2: feriado.
+-   Aula 3: Definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, estimador para a covariância e correlação, exemplo de cálculo de covariância e correlação com dados reais (consumo de açúcar e taxa de depressão).
 
--   Aula 3: regressão, regressão linear e não linear, univariada e multivariada, simples e múltipla. Exemplos de modelos. Regressão linear simples: modelo, estimação, teste de hipóteses (teste Wald) para os parâmetros e intervalos de confiança. [Exemplo no R](exemplo1_rls.R).
+- Aula 4: Revisão da aula anterior, modelo que relaciona as variáveis $X$ e $Y$, sabendo que as variáveis são proporcionais. Correlação para duas variáveis normais e o modelo de regressão. Teste de hipóteses para correlação (teste 1: $H_0: \rho = 0$ versus $H_1: \rho \neq 0$ e teste 2: $H_0: \rho = \rho_0$ versus $H_1: \rho \neq \rho_0$) e exercício de obter o modelo que relaciona a taxa de depressão com o consumo de açucar. Obter a taxa de depressão de um país que tem uma média de consumo de açúcar de 400 cal *per capita*. 
 
+- Aula 5: Resolver a lista [Lista 1](lista1_2025-2_gab.html). Atenção, a lista já está resolvida usando o software R.
 
-- [Lista 2](lista2_2026-1.html): regressão linear simples: estimação, teste de hipóteses e intervalos de confiança.
+- [Lista 2](lista2_2025-2.html): mais sobre covariância e correlação.
 
-
--   Aula 4: modelo de regressão linear simples, estimação de parâmetros pelo método de mínimos quadrados, propriedades dos estimadores de mínimos quadrados, distribuição dos estimadores, teste de hipóteses e intervalos de confiança Wald.
-
--   Aula 5 (reposição): distribuição dos estimadores de mínimos quadrados, testes de hipóteses e intervalos de confiança Wald para os parâmetros.
-
--   Aula 6: monitoria com o Hudson. Resolução dos exercícios 3 e 10 da [lista 2](lista2_2026-1.html) e exercício m da [lista 1](lista1_2026-1.html).
-
-- Aula 7: resposta média. Modelo estimado, desenvolvimento dos intervalos de confiança para o valor médio e de predição para novas observações. Análise de variância. Coeficiente de determinação.
-
-- Aula 8 (reposição): exemplo usando os dados do consumo de açúcar e taxa de depressão. Modelo estimado, intervalo de confiança para o valor médio e intervalo de predição para novas observações. Análise de variância. Coeficiente de determinação. Tarefa: estudar as funções `anova` e `predict` do R.
-
-- [Lista 3](lista3_2026-1.html): regressão linear simples: estimação de modelo, teste de hipóteses para os parâmetros, valor médio, novas observações, análise de variância e coeficiente de determinação. Tabelas: [F (5%)](tab_F_5.pdf), [F (1%)](tab_F_1.pdf) e [t](tab_t.pdf).
-
-- Aula 9: monitoria com o Hudson. Resolução dos exercícios 5 e 7 da [lista 3](lista3_2026-1.html).
-
-- Aula 10: avaliação 1 (escrita, computacional e arguição oral).
-
-- Aula 11: regressão linear múltipla (RLM): modelo, estimação de parâmetros pelo método de mínimos quadrados, propriedades dos estimadores de mínimos quadrados, distribuição dos estimadores, teste de hipóteses e intervalos de confiança Wald.
+- Aula 10: revisão dos conteúdos e correção da prova 1. Análise de regressão no `R`. [Atividade prática no `R`](AP_1_2025-2.html).
 
 
-- [Lista 4](lista4_2026-1.html): regressão linear múltipla.
+- [Lista 3](lista3_2025-2.html): ajuste de modelo linear simples no `R`.
 
+- Aula 11: regressão linear múltipla, método de mínimos quadrados, modelo linear em forma matricial, propriedades dos estimadores de mínimos quadrados, estimação de $\sigma^2$, teste de hipóteses para regressão e coeficientes, intervalos de confiança para parâmetros, valor médio e novas observações. Exemplo: the delivery time data (livro do Montgomery).
 
-- Aula 12 (reposição): regressão linear múltipla no R. [Exemplo no R](exemplo1_rlm.R).
+- [Lista 4](lista4_2025-2.html): ajuste de modelo linear múltipla no `R`.
 
-- Aula 13: continuação de inferência para regressão linear múltipla. Teste anova, teste Wald, intervalos de confiança para parâmetros, valor médio e novas observações. Análise de resíduos.
+- Aula 12: análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. [Análise no R](reg_comp_2025-2.html). Tarefa (valendo nota): 1. elaborar um texto (com funções em `R`) sobre os métodos de seleção de variáveis e de validação de modelos 2. resolver a [lista 5](lista5_2025-2.html). 
 
-- Aula 14: continuação da análise de resíduos, análise de pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. [Exemplo no R](exemplo2_rlm.html).
-
-- Aula 15: [comentários gerais sobre rlm](reg_comp_2026-1.html).
-
-- [Lista 5](lista5_2026-1.html): mais sobre regressão linear múltipla.
-
-- Aula 16: continuação da análise de resíduos, análise de pontos influentes e discrepantes, regressão polinomial, variáveis indicadoras, seleção de variáveis (forward, backward e stepwise) e validação de modelos (leave-one-out e k-fold). [Aula resíduos](aula_residuos.html) e [Aula seleção de variáveis e validação](aula_selecao_validacao.html).
-
-- Aula 17: [avaliação 2](prova2_2026-1.html)
-
-
-
-<!-- -   Aula 1: Apresentação da disciplina com ementa e avaliações.  -->
-
-<!-- -   Aula 2: Semana da estatística. -->
-
-<!-- -   Aula 3: Definição de covariância, ilustração do porquê dos valores positivos ou negativos da covariância, proposições/propriedades de covariância, definição de correlação, proposições/propriedades, estimador para a covariância e correlação, exemplo de cálculo de covariância e correlação com dados reais (consumo de açúcar e taxa de depressão). -->
-
-<!-- - Aula 4: Revisão da aula anterior, modelo que relaciona as variáveis $X$ e $Y$, sabendo que as variáveis são proporcionais. Correlação para duas variáveis normais e o modelo de regressão. Teste de hipóteses para correlação (teste 1: $H_0: \rho = 0$ versus $H_1: \rho \neq 0$ e teste 2: $H_0: \rho = \rho_0$ versus $H_1: \rho \neq \rho_0$) e exercício de obter o modelo que relaciona a taxa de depressão com o consumo de açucar. Obter a taxa de depressão de um país que tem uma média de consumo de açúcar de 400 cal *per capita*.  -->
-
-<!-- - Aula 5: Resolver a lista [Lista 1](lista1_2025-2_gab.html). Atenção, a lista já está resolvida usando o software R. -->
-
-<!-- - [Lista 2](lista2_2025-2.html): mais sobre covariância e correlação. -->
-
-<!-- - Aula 10: revisão dos conteúdos e correção da prova 1. Análise de regressão no `R`. [Atividade prática no `R`](AP_1_2025-2.html). -->
-
-
-<!-- - [Lista 3](lista3_2025-2.html): ajuste de modelo linear simples no `R`. -->
-
-<!-- - Aula 11: regressão linear múltipla, método de mínimos quadrados, modelo linear em forma matricial, propriedades dos estimadores de mínimos quadrados, estimação de $\sigma^2$, teste de hipóteses para regressão e coeficientes, intervalos de confiança para parâmetros, valor médio e novas observações. Exemplo: the delivery time data (livro do Montgomery). -->
-
-<!-- - [Lista 4](lista4_2025-2.html): ajuste de modelo linear múltipla no `R`. -->
-
-<!-- - Aula 12: análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. [Análise no R](reg_comp_2025-2.html). Tarefa (valendo nota): 1. elaborar um texto (com funções em `R`) sobre os métodos de seleção de variáveis e de validação de modelos 2. resolver a [lista 5](lista5_2025-2.html).  -->
-
-<!-- - [Lista 5](lista5_2025-2.html): análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras. -->
+- [Lista 5](lista5_2025-2.html): análise de pressupostos, pontos influentes e discrepantes, regressão polinomial e variáveis indicadoras.
 
 
 <!-- -   Aulas 1 e 2: Apresentação da disciplina com ementa e avaliações. Introdução ao estudo de regressão a partir do artigo seminal de Francis Galton (1886): [Regression towards mediocrity in hereditary stature](https://zenodo.org/records/1449548), no qual se analisa a relação entre as estaturas de filhos e filhas em função das estaturas de pais e mães, destacando-se a tendência de regressão à média (aproximadamente 2/3). Exploração da obtenção de modelos por meio de equações diferenciais. Estudo do modelo de crescimento e decaimento exponencial. Introdução ao modelo de regressão linear simples, exemplificado pela relação entre tempo e distância de deslocamento. Ampliação para o modelo de regressão linear múltipla, incluindo variáveis indicadoras e efeitos de interação (por exemplo, a interação entre distância de deslocamento e o horário em que ocorre). Aplicações adicionais incluem a modelagem de relações entre variáveis em instrumentos psicométricos (escores) e a utilização de modelos de dose-resposta, com destaque para o modelo logístico. -->
@@ -204,32 +152,19 @@ Análise de correlação. Regressão linear simples e múltipla. Regressão com 
 
 *Conteúdo:* todo o conteúdo da disciplina.
 
+-   $A_3$: listas de exercícios (escrita, computacional e arguição oral), participação na semana da estatística e relatórios de análises. Nota: 0 a 10.
 
 A média final ($MF$) será calculada por:
 
-$$MP = 0,5 A_1 + 0,5 A_2.$$
+$$MP = 0,3 A_1 + 0,3 A_2 + 0,4 A_3.$$
 
 Se $MF \geq 5$, o aluno será aprovado. Não haverá prova final.
 
 ### Livro texto:
 
-
 Montgomery, D. C., Peck, E. A., & Vining, G. G. (2021). *Introduction to linear regression analysis* (6th ed.). Wiley.
 
 ### Referências:
-
-
-Weisberg, S. (2013). *Applied Linear Regression*. Wiley.
-
-
-Hadi, A. S., & Chatterjee, S. (2024). *Regression Analysis by Example Using R*.
-
-
-Yan, X., & Su, X. G. (2009). *Linear Regression Analysis: Theory and Computing*. World Scientific Publishing Company.
-
-
-Fox, J. (1984). *Linear Statistical Models and Related Methods: With Applications to Social Research*. Wiley-Blackwell.
-
 
 Devore, J. L., Berk, K. N., & Carlton, M. A. (2021). *Modern mathematical statistics with applications* (3rd ed.). Springer.
 

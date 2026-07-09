@@ -1,0 +1,271 @@
+---
+title: "Análise de Regressão"
+author:
+  - name: Prof. Dr. Juliano Bortolini
+    email: profjulianobortolini@gmail.com
+    url: http://www.julianobortolini.com.br
+    affiliations:
+      - name: Universidade Federal de Mato Grosso
+format:
+  html:
+    embed-resources: true
+engine: knitr
+---
+
+*Bacharelado em Estatística - UFMT*
+
+### Lista de exercícios 1
+
+
+1.  
+
+> 'O artigo [*“A Cross-National Relationship Between Sugar Consumption and Major Depression?”* (*Depression and Anxiety* 2002: 118–120)](https://onlinelibrary.wiley.com/doi/10.1002/da.10054) relatou os seguintes dados sobre $x =$ consumo diário de açúcar (calorias per capita) e $y =$ taxa anual de depressão majoritária (casos por 100 pessoas) para uma amostra de seis países.
+
+```{r, echo=FALSE}
+library(knitr)
+
+dados <- data.frame(
+  Country = c("USA", "Canada", "France", "Germany", "New Zealand", "South Korea"),
+  `Sugar consumption` = c(300, 390, 350, 375, 480, 150),
+  `Depression rate` = c(3.0, 5.2, 4.4, 5.0, 5.7, 2.3)
+)
+
+kable(dados, caption = "Consumo diário de açúcar e taxa anual de depressão por país")
+```
+
+
+Para o teste de hipóteses $H_0: \rho = 0$ versus $H_a: \rho \neq 0$, em que $\rho$ é o coeficiente de correlação populacional, o teste de correlação de Pearson é baseado na estatística de teste
+$$
+    T = \frac{R \sqrt{n - 2}}{\sqrt{1 - R^2}}
+$$
+    
+que segue uma distribuição $t$ com $n - 2$ graus de liberdade. A estatística $R$ é o coeficiente de correlação amostral.
+
+Para um teste de hipóteses sobre a correlação, as hipóteses nula e alternativa, e a região de rejeição são dadas a seguir:
+
+| **Hipótese Alternativa** | **Região de Rejeição para um Teste de Nível** $\alpha$ |
+|--------------------------|----------------------------------------------|
+| $H_a: \rho > 0$ | $t \geq t_{\alpha, n-2}$ |
+| $H_a: \rho < 0$ | $t \leq -t_{\alpha, n-2}$ |
+| $H_a: \rho \neq 0$ | $t \geq t_{\alpha/2, n-2}$ ou $t \leq -t_{\alpha/2, n-2}$ |
+
+
+a.  Calcule e interprete o valor do coeficiente de correlação amostral.
+<!-- b. Apresente o modelo que relaciona a taxa de depressão ao consumo de açúcar. -->
+<!-- c. Usando o modelo ajustado, estime a taxa de depressão para um país com consumo diário de açúcar igual a 400 calorias per capita. -->
+b.  Realize um teste de hipóteses para decidir se a taxa de depressão e o consumo de açúcar estão correlacionados.
+
+
+2. Quando $(X_1, Y_1), \dots, (X_n, Y_n)$ é uma amostra de uma distribuição normal bivariada, a variável aleatória $$
+    V = \frac{1}{2} \ln \left( \frac{1 + R}{1 - R} \right)
+    $$ segue aproximadamente uma distribuição normal com média e variância: $$
+    \mu_V = \frac{1}{2} \ln \left( \frac{1 + \rho}{1 - \rho} \right), \quad \sigma_V^2 = \frac{1}{n - 3}.
+    $$ A estatística de teste para $H_0: \rho = \rho_0$ é dada por: $$
+    Z = \frac{V - \frac{1}{2} \ln [(1 + \rho_0) / (1 - \rho_0)]}{1 / \sqrt{n - 3}}
+    $$ As hipóteses nula e alternativa, e a região de rejeição são dadas a seguir:
+
+| **Hipótese Alternativa** | **Região de Rejeição para um Teste de Nível** $\alpha$ |
+|--------------------------|----------------------------------------------|
+| $H_a: \rho > \rho_0$ | $z \geq z_{\alpha}$ |
+| $H_a: \rho < \rho_0$ | $z \leq -z_{\alpha}$ |
+| $H_a: \rho \neq \rho_0$ | $z \geq z_{\alpha/2}$ ou $z \leq -z_{\alpha/2}$ |
+
+Um intervalo de confiança de $100(1 - \alpha)\%$ para $\rho$ é dado por: $$
+\left( \frac{e^{2c_1} - 1}{e^{2c_1} + 1}, \quad \frac{e^{2c_2} - 1}{e^{2c_2} + 1} \right),
+$$ em que $c_1$ e $c_2$ são os extremos inferior e superior do intervalo na seguinte expressão: $$
+v \pm z_{\alpha/2} \cdot \sigma_V = \frac{1}{2} \ln \left( \frac{1 + r}{1 - r} \right) \pm \frac{z_{\alpha/2}}{\sqrt{n - 3}}.
+$$
+
+Usando os dados do exercício anterior, verifique a hipótese $H_0: \rho = 0,70$ versus $H_a: \rho \neq 0,70$ ao nível de significância de 5%. Calcule o intervalo de confiança de 95% para $\rho$.
+
+
+
+
+3. Considere variáveis aleatórias $X$ e $Y$ com momentos de segunda ordem finitos. Defina
+$$
+\operatorname{Cov}(X,Y)=E\big[(X-E(X))(Y-E(Y))\big]
+$$
+e, quando $\sigma_X>0$ e $\sigma_Y>0$,
+$$
+\operatorname{Cor}(X,Y)=\rho_{XY}=\frac{\operatorname{Cov}(X,Y)}{\sigma_X\sigma_Y}.
+$$
+
+Para uma amostra $(x_1,y_1),\cdots,(x_n,y_n)$, defina
+$$
+\bar{x}=\frac{1}{n}\sum_{i=1}^n x_i, \qquad \bar{y}=\frac{1}{n}\sum_{i=1}^n y_i,
+$$
+$$
+S_{xx}=\sum_{i=1}^n x_i^2 - \frac{\sum_{i=1}^n x_i^2}{n}, \qquad
+S_{yy}=\sum_{i=1}^n y_i^2 - \frac{\sum_{i=1}^n y_i^2}{n}, \qquad
+S_{xy}=\sum_{i=1}^n x_i y_i - \frac{\sum_{i=1}^n x_i \sum_{i=1}^n y_i}{n},
+$$
+$$
+r_{xy}=\frac{S_{xy}}{\sqrt{S_{xx}S_{yy}}}.
+$$
+
+a. Mostre que
+$$
+\operatorname{Cov}(X,Y)=E(XY)-E(X)E(Y).
+$$
+
+b. 
+Demonstre que a covariância é simétrica, isto é,
+$$
+\operatorname{Cov}(X,Y)=\operatorname{Cov}(Y,X).
+$$
+
+c. Demonstre que
+$$
+\operatorname{Cov}(X,X)=\operatorname{Var}(X).
+$$
+
+d. 
+Sejam $a,b,c,d \in \mathbb{R}$. Mostre que
+$$
+\operatorname{Cov}(aX+b,cY+d)=ac\,\operatorname{Cov}(X,Y).
+$$
+
+e. 
+Demonstre, como caso particular do exercício anterior, que a soma de constantes não altera a covariância, isto é,
+$$
+\operatorname{Cov}(X+b,Y+d)=\operatorname{Cov}(X,Y).
+$$
+
+f. 
+Mostre que, para constantes $a_1,\cdots,a_m$ e $b_1,\cdots,b_n$,
+$$
+\operatorname{Cov}\left(\sum_{i=1}^m a_iX_i,\sum_{j=1}^n b_jY_j\right)
+=
+\sum_{i=1}^m\sum_{j=1}^n a_i b_j\operatorname{Cov}(X_i,Y_j).
+$$
+
+g. Demonstre que, se $X$ e $Y$ são independentes, então
+$$
+\operatorname{Cov}(X,Y)=0.
+$$
+
+h. 
+Mostre, por meio de um contraexemplo, que a recíproca do exercício anterior é falsa; isto é, construa variáveis aleatórias dependentes $X$ e $Y$ tais que
+$$
+\operatorname{Cov}(X,Y)=0.
+$$
+
+i. Usando a desigualdade de Cauchy--Schwarz, demonstre que
+$$
+|\operatorname{Cov}(X,Y)|\le \sigma_X\sigma_Y.
+$$
+
+j. 
+A partir do exercício anterior, demonstre que
+$$
+-1\le \rho_{XY}\le 1.
+$$
+
+k. 
+Mostre que, para constantes $a\neq 0$, $c\neq 0$, $b,d\in\mathbb{R}$,
+$$
+\operatorname{Cor}(aX+b,cY+d)=\frac{ac}{|a||c|}\operatorname{Corr}(X,Y).
+$$
+
+l. 
+Deduza, a partir do exercício anterior, que:
+
+a) translações não alteram a correlação;
+
+b) mudanças de escala positiva não alteram a correlação;
+
+c) multiplicações por constantes negativas alteram apenas o sinal da correlação.
+
+m. Mostre que
+$$
+S_{xy}=\sum_{i=1}^n (x_i-\bar{x})(y_i-\bar{y})
+=
+\sum_{i=1}^n x_i y_i - n\bar{x}\bar{y}.
+$$
+
+e
+
+$$
+S_{xy}=\sum_{i=1}^n (x_i-\bar{x})(y_i-\bar{y})
+=
+\sum_{i=1}^n x_i y_i - \frac{(\sum_{i=1}^n x_i)( \sum_{i=1}^n y_i)}{n}.
+$$
+
+n. Mostre a equivalência com
+$$
+r_{xy}=\frac{S_{xy}}{\sqrt{S_{xx}S_{yy}}}.
+$$
+
+o. 
+Mostre que a correlação amostral é invariante por transformações lineares da forma
+$$
+x_i^\star=ax_i+b,\qquad y_i^\star=cy_i+d,
+$$
+com $a\neq 0$ e $c\neq 0$, a menos de possível mudança de sinal.
+
+p. 
+Demonstre que, se $a>0$ e $c>0$, então
+$$
+r(x^\star,y^\star)=r(x,y).
+$$
+
+q. 
+Demonstre que, se $ac<0$, então
+$$
+r(x^\star,y^\star)=-r(x,y).
+$$
+
+s. Pesquise e demonstre, supondo amostragem de uma distribuição normal bivariada com correlação populacional $\rho=0$, a estatística
+$$
+t=r\sqrt{\frac{n-2}{1-r^2}}
+$$
+tem distribuição $t$ com $n-2$ graus de liberdade.
+
+t. 
+Pesquise e demonstre, sob normalidade bivariada e para $n$ grande, a utilidade da transformação de Fisher
+$$
+z_r=\frac{1}{2}\log\left(\frac{1+r}{1-r}\right)
+$$
+na construção de intervalos de confiança para $\rho$.
+
+u. Explique por que a covariância depende da unidade de medida das variáveis, mas a correlação não.
+
+v. 
+Explique por que correlação nula não implica ausência de associação entre $X$ e $Y$.
+
+x. 
+Dê um exemplo de relação não linear forte entre duas variáveis aleatórias com correlação igual a zero.
+
+z. 
+Mostre que, se $Y=a+bX+\varepsilon$ com $\operatorname{Cov}(X,\varepsilon)=0$, então
+$$
+\operatorname{Cov}(X,Y)=b\operatorname{Var}(X).
+$$
+
+4. Considere uma série temporal, ou seja, uma sequência de observações $X_1, X_2, \dots$ sobre alguma variável resposta (por exemplo, a concentração de um poluente, valor de uma ação, temperatura em uma região) ao longo do tempo. Suponha que os valores observados são $x_1, x_2, \dots, x_n$ ao longo de $n$ períodos de tempo. O **coeficiente de autocorrelação de defasagem 1** (lag 1), que avalia a força da relação entre os valores da série separados por uma unidade de tempo, é definido como: $$r_1 = \frac{\sum_{i=1}^{n-1} (x_i - \bar{x}) (x_{i+1} - \bar{x})}{\sum_{i=1}^{n} (x_i - \bar{x})^2}$$ Os coeficientes de autocorrelação $r_2, r_3, \dots$ para defasagens $2, 3, \cdots$ são definidos de maneira análoga.
+
+
+
+a)  Calcule o valor de $r_1$ para os seguintes dados de temperatura coletados ao longo do tempo:
+
+```{r, echo=FALSE}
+library(knitr)
+
+dados <- data.frame(
+  Tempo = 1:13,
+  Temperatura = c(47, 54, 53, 50, 46, 46, 47, 50, 51, 50, 46, 52, 50)
+)
+
+kable(dados, caption = "Dados da temperatura ao longo do tempo")
+```
+
+b)  Faça um gráfico de dispersão da temperatura $x_t$ contra o tempo $t$ (gráfico de série temporal). Você observa algum padrão?
+c)  Analogamente ao coeficiente de correlação populacional $\rho$, seja $\rho_i$ (para $i = 1, 2, 3, \dots$) o coeficiente de autocorrelação teórica para diferentes defasagens. Se todos esses $\rho$’s forem zero, não há relação linear entre as observações da série temporal em nenhuma defasagem. Nesse caso, se $n$ for grande, cada $R_i$ segue aproximadamente uma distribuição normal com média 0 e desvio padrão $1/\sqrt{n}$, e diferentes $R_i$ são quase independentes. Portanto, a hipótese nula $H_0: \rho_i = 0$ pode ser rejeitada em um nível de significância de aproximadamente $0.05$ se: $$r_i \geq \frac{2}{\sqrt{n}} \quad \text{ou} \quad r_i \leq -\frac{2}{\sqrt{n}}.$$ Se $n = 100$ e os coeficientes amostrais observados forem: $$r_1 = 0.16, \quad r_2 = -0.09, \quad r_3 = -0.15,$$ há evidências de autocorrelação teórica nas três primeiras defasagens? Está claro o motivo de rejeitar $H_0$ quando $|r_i| > 2/\sqrt{n}$? Dica: qual é o valor de $z_{0.025}$?
+
+
+
+------------------------------------------------------------------------
+
+::: {style="text-align: center;"}
+[\@profjulianobortolini](https://instagram.com/profjulianobortolini)      [www.julianobortolini.com.br](http://www.julianobortolini.com.br)      [linkedin](https://linkedin.com/in/julianobortolini)      [github](https://github.com/julianobortolini)       [lattes](http://lattes.cnpq.br/6210909768845403)
+:::

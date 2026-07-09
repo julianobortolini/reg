@@ -1,0 +1,186 @@
+---
+title: "Análise de Regressão"
+author:
+  - name: Prof. Dr. Juliano Bortolini
+    email: profjulianobortolini@gmail.com
+    url: http://www.julianobortolini.com.br
+    affiliations:
+      - name: Universidade Federal de Mato Grosso
+format:
+  html:
+    embed-resources: true
+engine: knitr
+---
+
+*Bacharelado em Estatística - UFMT*
+
+### Lista de exercícios 1
+
+
+1.  
+
+> 'O artigo *“A Cross-National Relationship Between Sugar Consumption and Major Depression?”* (*Depression and Anxiety* 2002: 118–120) relatou os seguintes dados sobre $x =$ consumo diário de açúcar (calorias per capita) e $y =$ taxa anual de depressão majoritária (casos por 100 pessoas) para uma amostra de seis países.
+
+```{r, echo=FALSE}
+library(knitr)
+
+dados <- data.frame(
+  Country = c("USA", "Canada", "France", "Germany", "New Zealand", "South Korea"),
+  `Sugar consumption` = c(300, 390, 350, 375, 480, 150),
+  `Depression rate` = c(3.0, 5.2, 4.4, 5.0, 5.7, 2.3)
+)
+
+kable(dados, caption = "Consumo diário de açúcar e taxa anual de depressão por país")
+```
+
+
+Para o teste de hipóteses $H_0: \rho = 0$ versus $H_a: \rho \neq 0$, em que $\rho$ é o coeficiente de correlação populacional, o teste de correlação de Pearson é baseado na estatística de teste
+$$
+    T = \frac{R \sqrt{n - 2}}{\sqrt{1 - R^2}}
+$$
+    
+que segue uma distribuição $t$ com $n - 2$ graus de liberdade. A estatística $R$ é o coeficiente de correlação amostral.
+
+Para um teste de hipóteses sobre a correlação, as hipóteses nula e alternativa, e a região de rejeição são dadas a seguir:
+
+| **Hipótese Alternativa** | **Região de Rejeição para um Teste de Nível** $\alpha$ |
+|--------------------------|----------------------------------------------|
+| $H_a: \rho > 0$ | $t \geq t_{\alpha, n-2}$ |
+| $H_a: \rho < 0$ | $t \leq -t_{\alpha, n-2}$ |
+| $H_a: \rho \neq 0$ | $t \geq t_{\alpha/2, n-2}$ ou $t \leq -t_{\alpha/2, n-2}$ |
+
+
+a.  Calcule e interprete o valor do coeficiente de correlação amostral.
+b. Apresente o modelo que relaciona a taxa de depressão ao consumo de açúcar.
+c. Usando o modelo ajustado, estime a taxa de depressão para um país com consumo diário de açúcar igual a 400 calorias per capita.
+d.  Realize um teste de hipóteses para decidir se a taxa de depressão e o consumo de açúcar estão correlacionados.
+
+<!-- -->
+
+2. Quando $(X_1, Y_1), \dots, (X_n, Y_n)$ é uma amostra de uma distribuição normal bivariada, a variável aleatória $$
+    V = \frac{1}{2} \ln \left( \frac{1 + R}{1 - R} \right)
+    $$ segue aproximadamente uma distribuição normal com média e variância: $$
+    \mu_V = \frac{1}{2} \ln \left( \frac{1 + \rho}{1 - \rho} \right), \quad \sigma_V^2 = \frac{1}{n - 3}.
+    $$ A estatística de teste para $H_0: \rho = \rho_0$ é dada por: $$
+    Z = \frac{V - \frac{1}{2} \ln [(1 + \rho_0) / (1 - \rho_0)]}{1 / \sqrt{n - 3}}
+    $$ As hipóteses nula e alternativa, e a região de rejeição são dadas a seguir:
+
+| **Hipótese Alternativa** | **Região de Rejeição para um Teste de Nível** $\alpha$ |
+|--------------------------|----------------------------------------------|
+| $H_a: \rho > \rho_0$ | $z \geq z_{\alpha}$ |
+| $H_a: \rho < \rho_0$ | $z \leq -z_{\alpha}$ |
+| $H_a: \rho \neq \rho_0$ | $z \geq z_{\alpha/2}$ ou $z \leq -z_{\alpha/2}$ |
+
+Um intervalo de confiança de $100(1 - \alpha)\%$ para $\rho$ é dado por: $$
+\left( \frac{e^{2c_1} - 1}{e^{2c_1} + 1}, \quad \frac{e^{2c_2} - 1}{e^{2c_2} + 1} \right),
+$$ em que $c_1$ e $c_2$ são os extremos inferior e superior do intervalo na seguinte expressão: $$
+v \pm z_{\alpha/2} \cdot \sigma_V = \frac{1}{2} \ln \left( \frac{1 + r}{1 - r} \right) \pm \frac{z_{\alpha/2}}{\sqrt{n - 3}}.
+$$
+
+Usando os dados do exercício anterior, verifique a hipótese $H_0: \rho = 0,70$ versus $H_a: \rho \neq 0,70$ ao nível de significância de 5%. Calcule o intervalo de confiança de 95% para $\rho$.
+
+
+
+*Usando o R*
+
+```{r}
+#1. 
+x <- c(300, 390, 350, 375, 480, 150)
+y <- c(3.0, 5.2, 4.4, 5.0, 5.7, 2.3)
+
+#a. Coeficiente de correlação amostral
+cor(x, y)
+
+#b. Modelo de regressão linear
+b1 <- cor(x,y) * (sd(y) / sd(x))
+b1
+b0 <- mean(y) - b1 * mean(x)
+b0
+
+
+# usando a funcao lm
+modelo <- lm(y ~ x)
+modelo
+
+
+
+#c. Estimativa para consumo de açúcar igual a 400
+y_400 <- b0 + b1 * 400
+y_400
+
+# usando resultados do modelo lm
+beta <- coef(modelo)
+beta
+
+y_400 <- beta[1] + beta[2] * 400
+y_400
+
+#d. Teste de hipóteses para correlação
+
+n <- length(x)
+R <- cor(x, y)
+T_c <- (R * sqrt(n - 2)) / sqrt(1 - R^2)
+T_c
+# valor crítico para α = 0.05
+alpha <- 0.05
+t_crit <- qt(1 - alpha / 2, df = n - 2)
+t_crit
+abs(T_c) > t_crit  # rejeita H0
+
+
+# usando a função cor.test
+cor.test(x, y)
+
+#2.
+
+# Hipótese H0: ρ = 0.70 versus Ha: ρ ≠ 0.70
+R <- cor(x, y)
+R
+rho_0 <- 0.70
+V <- 0.5 * log((1 + R) / (1 - R))
+V
+
+V_0 <- 0.5 * log((1 + rho_0) / (1 - rho_0))
+V_0
+
+n <- length(x)
+sigma_V <- 1 / sqrt(n - 3)
+Z_c <- (V - V_0) / sigma_V
+Z_c
+
+# valor crítico para α = 0.05
+alpha <- 0.05
+z_crit <- qnorm(1 - alpha / 2)
+z_crit
+
+abs(Z_c) > z_crit  # rejeita H0
+
+# Intervalo de confiança de 95% para ρ
+z_alpha2 <- qnorm(1 - alpha / 2)
+c1 <- V - z_alpha2 * sigma_V
+c1
+LI <- (exp(2 * c1) - 1) / (exp(2 * c1) + 1)
+LI
+c2 <- V + z_alpha2 * sigma_V
+c2
+LS <- (exp(2 * c2) - 1) / (exp(2 * c2) + 1)
+LS
+
+IC <- c(LI, LS)
+IC
+
+# usando a funçao cor.test
+cor.test(x, y)
+
+
+
+```
+
+
+
+
+------------------------------------------------------------------------
+
+::: {style="text-align: center;"}
+[\@profjulianobortolini](https://instagram.com/profjulianobortolini)      [www.julianobortolini.com.br](http://www.julianobortolini.com.br)      [linkedin](https://linkedin.com/in/julianobortolini)      [github](https://github.com/julianobortolini)       [lattes](http://lattes.cnpq.br/6210909768845403)
+:::

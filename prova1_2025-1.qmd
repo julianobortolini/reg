@@ -1,0 +1,120 @@
+---
+title: "Análise de Regressão"
+author:
+  - name: Prof. Dr. Juliano Bortolini
+    email: profjulianobortolini@gmail.com
+    url: http://www.julianobortolini.com.br
+    affiliations:
+      - name: Universidade Federal de Mato Grosso
+format: pdf
+engine: knitr
+---
+
+*Bacharelado em Estatística - UFMT*
+
+
+*Discente:*
+
+
+*RGA:*
+
+
+
+### Prova 1
+
+
+1. **(1,0)**  Demonstre que:
+
+$$r = \frac{1}{n-1} \sum_{i=1}^{n} \left( \frac{x_i - \bar{x}}{s_x} \right) \left( \frac{y_i - \bar{y}}{s_y} \right) = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}},$$
+
+em que $s_x = \sqrt{\frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n - 1}}$ e $s_y = \sqrt{\frac{\sum_{i=1}^{n} (y_i - \bar{y})^2}{n - 1}}$ são os desvios padrão amostrais de $X$ e $Y$, respectivamente.
+
+
+2. **(2,0)** Demonstre que:
+
+$$
+r = \frac{\sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})}{\sqrt{\sum_{i=1}^{n} (X_i - \bar{X})^2} \sqrt{\sum_{i=1}^{n} (Y_i - \bar{Y})^2}} = \frac{\sum_{i = 1}^n X_i Y_i - \frac{(\sum_{i = 1}^n X_i) (\sum_{i = 1}^n Y_i)}{n}}{\sqrt{\left( \sum_{i = 1}^n X_i^2 - \frac{(\sum_{i = 1}^n X_i)^2}{n} \right) \left( \sum_{i = 1}^n Y_i^2 - \frac{(\sum_{i = 1}^n Y_i)^2}{n} \right)}}
+$$
+em que $n$ é o tamanho da amostra, $\sum X_i Y_i$ é o somatório dos produtos de $X$ e $Y$, $\sum X_i$ e $\sum Y_i$ são os somatórios individuais de $X$ e $Y$, $\sum X_i^2$ e $\sum Y_i^2$ são os somatórios dos quadrados de $X$ e $Y$.
+
+
+
+3. **(1,0)** Para o teste de hipóteses $H_0: \rho = 0$ versus $H_a: \rho \neq 0$, em que $\rho$ é o coeficiente de correlação populacional, o teste de correlação de Pearson é baseado na estatística de teste $$
+    T = \frac{R \sqrt{n - 2}}{\sqrt{1 - R^2}}
+    $$ que segue uma distribuição $t$ com $n - 2$ graus de liberdade. A estatística $R$ é o coeficiente de correlação amostral.
+
+Para um teste de hipóteses sobre a correlação, as hipóteses nula e alternativa, e a região de rejeição são dadas a seguir:
+
+| **Hipótese Alternativa** | **Região de Rejeição para um Teste de Nível** $\alpha$ |
+|--------------------------|----------------------------------------------|
+| $H_a: \rho > 0$ | $t \geq t_{\alpha, n-2}$ |
+| $H_a: \rho < 0$ | $t \leq -t_{\alpha, n-2}$ |
+| $H_a: \rho \neq 0$ | $t \geq t_{\alpha/2, n-2}$ ou $t \leq -t_{\alpha/2, n-2}$ |
+
+> O **Turbine Oil Oxidation Test (TOST)** e o **Rotating Bomb Oxidation Test (RBOT)** são dois procedimentos diferentes para avaliar a estabilidade à oxidação de óleos de turbinas a vapor. O artigo *"Dependence of Oxidation Stability of Steam Turbine Oil on Base Oil Composition"* (*J. Soc. Tribologists Lubricat. Engrs.*, Out. 1997: 19–24) apresentou as seguintes observações para $x =$ tempo do teste TOST (horas) e $y =$ tempo do teste RBOT (minutos) em 12 amostras de óleo.
+
+```{r, echo=FALSE}
+library(knitr)
+
+# dados <- data.frame(
+#   TOST = c(4200, 3600, 3750, 3675, 4050, 2770, 4870, 4500, 3450, 2700, 3750, 3300),
+#   RBOT = c(370, 340, 375, 310, 350, 200, 400, 375, 285, 225, 345, 285)
+# )
+# 
+# kable(dados, caption = "Resultados dos testes TOST e RBOT para 12 amostras de óleo")
+
+dados <- data.frame(
+  TOST = c(4200, 3600, 3750, 3675),
+  RBOT = c(370, 340, 375, 310)
+)
+
+kable(dados, caption = "Resultados dos testes TOST e RBOT para 4 amostras de óleo (dados adaptados)." )
+```
+
+a.  Calcule e interprete o valor do coeficiente de correlação amostral.
+b.  Como o valor de $r$ seria afetado se tivéssemos escolhido $x =$ tempo RBOT e $y =$ tempo TOST?
+c.  Como o valor de $r$ seria afetado se o tempo RBOT fosse expresso em horas?
+d.  Realize um teste de hipóteses para decidir se os tempos dos testes RBOT e TOST estão linearmente relacionados.
+
+\newpage
+
+4. 
+
+> O aquecimento global é uma questão importante, e as emissões de $CO_2$ desempenham um papel fundamental nessa discussão. 
+O artigo *"Effects of Atmospheric $CO_2$ Enrichment on Biomass Accumulation and Distribution in Eldarica Pine Trees"* (*J. Exp. Bot.* 1994: 345–349) descreve os resultados do crescimento de pinheiros sob diferentes níveis de $CO_2$ no ar. 
+
+Os dados abaixo correspondem às observações onde:
+
+- $x$ = concentração atmosférica de $CO_2$ (partes por milhão)
+- $y$ = massa em gramas após 11 meses de experimento.
+
+Tabela. Concentração de $CO_2$ ($x$) e Massa ($y$)
+
+| $x$   | 408   | 408   | 554   | 554   | 680   | 680   | 812   | 812   |
+|-------|-------|-------|-------|-------|-------|-------|-------|-------|
+| $y$   | 1100   | 1300   | 1600   | 2500   | 3000   | 4300   | 4200   | 4700   |
+
+
+
+a. **(0,5)** Calcule as quantidades: $\sum x_i$, $\sum y_i$, $\sum x_i^2$, $\sum y_i^2$, $\sum x_i y_i$, $\bar{x}$, $\bar{y}$, $S_{xx}$, $S_{yy}$ e $S_{xy}$.
+
+b. **(0,5)** Ajuste um modelo de regressão linear simples relacionando $x$ e $y$.
+
+c. **(1,0)**  Calcule os erros-padrões do coeficiente angular e do coeficiente linear.
+
+d. **(1,0)** Calcule o intervalo de confiança de $95\%$ para o coeficiente angular e interprete-o.
+
+e. **(1,0)** Realize o teste t para o coeficiente angular. Há evidência de que a concentração de $CO_2$ afeta a massa dos pinheiros? Justifique sua resposta.
+
+f. **(1,0)** Encontre um intervalo de confiança de $95\%$ para a quantidade média de massa de pinheiros quando a concentração de $CO_2$ é de 680 ppm.
+
+g. **(1,0)** Encontre um intervalo de predição de $95\%$ para a quantidade média de massa de pinheiros quando a concentração de $CO_2$ é de 600 ppm.
+
+
+
+
+------------------------------------------------------------------------
+
+::: {style="text-align: center;"}
+[\@profjulianobortolini](https://instagram.com/profjulianobortolini)      [www.julianobortolini.com.br](http://www.julianobortolini.com.br)      [linkedin](https://linkedin.com/in/julianobortolini)      [github](https://github.com/julianobortolini)       [lattes](http://lattes.cnpq.br/6210909768845403)
+:::

@@ -21,8 +21,9 @@ data(softdrink)
 
 head(softdrink)
 
-# Matrizes do modelo Y = X*beta + e
 
+# Matrizes do modelo Y = X*beta + e
+View(softdrink)
 Y <- as.matrix(softdrink$y)
 Y
 
@@ -49,10 +50,12 @@ beta_hat
 paste("y =", round(beta_hat[1], 4), "+", round(beta_hat[2], 4), "*x1 +", round(beta_hat[3], 4), "*x2")
 ## y = 2.3412 + 1.6159*x1 + 0.0144*x2
 
+2.34 + 1.61*10 + 0.0144 * 500
 
 # estimação de sigma^2
 
 Y_hat <- X %*% beta_hat
+cbind(Y, Y_hat)
 ## ou
 Y_hat <- X %*% solve(t(X) %*% X) %*% t(X) %*% Y
 ## ou

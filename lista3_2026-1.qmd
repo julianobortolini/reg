@@ -1,0 +1,281 @@
+---
+title: "Análise de Regressão"
+author:
+  - name: Prof. Dr. Juliano Bortolini
+    email: profjulianobortolini@gmail.com
+    url: http://www.julianobortolini.com.br
+    affiliations:
+      - name: Universidade Federal de Mato Grosso
+format:
+  html:
+    embed-resources: true
+engine: knitr
+---
+
+*Bacharelado em Estatística - UFMT*
+
+### Lista de exercícios 3
+
+
+1.
+
+> 'O artigo *“A Cross-National Relationship Between Sugar Consumption and Major Depression?”* (*Depression and Anxiety* 2002: 118–120) relatou os seguintes dados sobre $x =$ consumo diário de açúcar (calorias per capita) e $y =$ taxa anual de depressão majoritária (casos por 100 pessoas) para uma amostra de seis países.
+
+```{r, echo=FALSE}
+library(knitr)
+
+dados <- data.frame(
+  Country = c("USA", "Canada", "France", "Germany", "New Zealand", "South Korea"),
+  `Sugar consumption` = c(300, 390, 350, 375, 480, 150),
+  `Depression rate` = c(3.0, 5.2, 4.4, 5.0, 5.7, 2.3)
+)
+
+kable(dados, caption = "Consumo diário de açúcar e taxa anual de depressão por país")
+```
+
+a. Calcule e interprete o valor do coeficiente de correlação amostral.
+b. Estime o modelo de regressão linear simples relacionando a taxa anual de depressão e quantidade de açúcar consumida. Interprete o coeficiente angular.
+c. Realize um teste de hipóteses para decidir se o consumo diário de açúcar e a taxa anual de depressão estão linearmente relacionados. Justifique sua resposta estatisticamente.
+d. Calcule um intervalo de confiança de 95% para a taxa anual de depressão média para um consumo diário de açúcar de 350 calorias per capita. Interprete o resultado.
+e. Calcule um intervalo de predição de 95% para a taxa anual de depressão de um país com consumo diário de açúcar de 400 calorias per capita. Interprete o resultado.
+f. Calcule o coeficiente de determinação e interprete seu valor.
+
+
+2. 
+> O **Turbine Oil Oxidation Test (TOST)** e o **Rotating Bomb Oxidation Test (RBOT)** são dois procedimentos diferentes para avaliar a estabilidade à oxidação de óleos de turbinas a vapor. O artigo *"Dependence of Oxidation Stability of Steam Turbine Oil on Base Oil Composition"* (*J. Soc. Tribologists Lubricat. Engrs.*, Out. 1997: 19–24) apresentou as seguintes observações para $x =$ tempo do teste TOST (horas) e $y =$ tempo do teste RBOT (minutos) em 12 amostras de óleo.
+
+```{r, echo=FALSE}
+library(knitr)
+
+dados <- data.frame(
+  TOST = c(4200, 3600, 3750, 3675, 4050, 2770, 4870, 4500, 3450, 2700, 3750, 3300),
+  RBOT = c(370, 340, 375, 310, 350, 200, 400, 375, 285, 225, 345, 285)
+)
+
+kable(dados, caption = "Resultados dos testes TOST e RBOT para 12 amostras de óleo")
+```
+
+a. Calcule e interprete o valor do coeficiente de correlação amostral.
+b. Estime o modelo de regressão linear simples relacionando o tempo do teste RBOT ao tempo do teste TOST. Interprete o coeficiente angular.
+c. Realize um teste de hipóteses para decidir se o tempo do teste TOST e o tempo do teste RBOT estão linearmente relacionados. Justifique sua resposta estatisticamente.
+d. Calcule um intervalo de confiança de 95% para o coeficiente angular e interprete o resultado.
+e. Calcule um intervalo de confiança de 95% para o tempo do teste RBOT médio para um tempo do teste TOST de 3750 horas. Interprete o resultado.
+f. Calcule um intervalo de predição de 95% para o tempo do teste RBOT de uma amostra de óleo com tempo do teste TOST de 4000 horas. Interprete o resultado.
+g. Calcule o coeficiente de determinação e interprete seu valor.
+
+
+3. 
+
+    > O hidrogênio é considerado um fator importante na porosidade de fundições de ligas de alumínio. O artigo *"The Reduced Pressure Test as a Measuring Tool in the Evaluation of Porosity/Hydrogen Content in A1–7 Wt Pct Si-10 Vol Pct SiC(p) Metal Matrix Composite"* (*Metallurg. Trans.* 1993: 1857–1868) apresenta os seguintes dados sobre $x =$ conteúdo de hidrogênio e $y =$ porosidade do gás para uma técnica específica de medição.
+
+```{r, echo = FALSE}
+library(knitr)
+
+dados <- data.frame(
+  x = c(.18, .20, .21, .21, .21, .22, .23, .23, .24, .24, .25, .28, .30, .37),
+  y = c(.46, .70, .41, .45, .55, .44, .24, .47, .22, .80, .88, .70, .72, .75)
+)
+
+kable(dados, caption = "Dados sobre conteúdo de hidrogênio e porosidade do gás")
+```
+
+
+a. Ajuste um modelo de regressão linear simples relacionando a porosidade do gás $y$ ao conteúdo de hidrogênio $x$. 
+b. Teste a hipótese de que o conteúdo de hidrogênio tem um efeito significativo sobre a porosidade do gás. Justifique sua resposta estatisticamente.
+
+
+
+
+
+4. A Tabela 1 apresenta dados sobre o desempenho das 26 equipes da National Football League em 1976. Suspeita-se que o número de jardas conquistadas em corridas pelos adversários $x_8$ tenha um efeito sobre o número de jogos vencidos por uma equipe $y$.
+
+  a. Ajuste um modelo de regressão linear simples relacionando o número de jogos vencidos $y$ ao número de jardas conquistadas em corridas pelos adversários $x_8$.
+
+b. Teste a hipótese de que o número de jardas conquistadas em corridas pelos adversários tem um efeito significativo sobre o número de jogos vencidos. Justifique sua resposta estatisticamente.
+
+c. Encontre um intervalo de confiança de 95% para o coeficiente angular.
+
+d. Construa a tabela de análise de variância e teste a significância da regressão.
+
+d. Qual porcentagem da variabilidade total em $y$ é explicada por este modelo?
+
+e. Encontre um intervalo de confiança de $95\%$ para o número médio de jogos vencidos se o número de jardas conquistadas em corridas pelos adversários for limitado a 2000 jardas.
+
+f. Encontre uma estimativa pontual para o número de jogos vencidos quando $x_8 = 1800$.
+
+g. Encontre um intervalo de predição de $90\%$ para o número de jogos vencidos.
+
+
+Tabela 1: Desempenho das Equipes da National Football League de 1976
+
+| Equipe        | $y$  | $x_1$  | $x_2$  | $x_3$  | $x_4$  | $x_5$  | $x_6$  | $x_7$  | $x_8$  | $x_9$  |
+|--------------|------|------|------|------|------|------|------|------|------|------|
+| Washington   | 10   | 2113  | 1985  | 38,9  | 64,7  | +4   | 868  | 59,7  | 2205  | 1917  |
+| Minnesota    | 11   | 2003  | 2855  | 38,8  | 61,3  | +3   | 615  | 55,0  | 2096  | 1575  |
+| New England  | 11   | 2957  | 1737  | 40,1  | 60,0  | +14  | 914  | 65,6  | 1847  | 2175  |
+| Oakland      | 13   | 2285  | 2905  | 41,6  | 45,3  | −4   | 957  | 61,4  | 1903  | 2476  |
+| Pittsburgh   | 10   | 2971  | 1666  | 39,2  | 53,8  | +15  | 836  | 66,1  | 1457  | 1866  |
+| Baltimore    | 11   | 2309  | 2927  | 39,7  | 74,1  | +8   | 786  | 61,0  | 1848  | 2339  |
+| Los Angeles  | 10   | 2528  | 2341  | 38,1  | 65,4  | +12  | 754  | 66,1  | 1564  | 2092  |
+| Dallas       | 11   | 2147  | 2737  | 37,0  | 78,3  | −1   | 761  | 58,0  | 1821  | 1909  |
+| Atlanta      | 4    | 1689  | 1414  | 42,1  | 47,6  | −3   | 714  | 57,0  | 2577  | 2001  |
+| Buffalo      | 2    | 2566  | 1838  | 42,3  | 54,2  | −1   | 797  | 58,9  | 2476  | 2254  |
+| Chicago      | 7    | 2363  | 1480  | 37,3  | 48,0  | +19  | 984  | 67,5  | 1984  | 2217  |
+| Cincinnati   | 10   | 2109  | 2191  | 39,5  | 51,9  | +6   | 700  | 57,2  | 1917  | 1758  |
+| Cleveland    | 9    | 2295  | 2229  | 37,4  | 53,6  | −5   | 1037 | 57,8  | 1761  | 2032  |
+| Denver       | 9    | 1932  | 2204  | 35,1  | 71,4  | +3   | 986  | 58,6  | 1790  | 2025  |
+| Detroit      | 6    | 2128  | 2438  | 38,8  | 58,3  | +6   | 819  | 59,2  | 1901  | 1686  |
+| Green Bay    | 5    | 1722  | 1730  | 36,6  | 52,6  | −19  | 791  | 54,4  | 2288  | 1835  |
+| Houston      | 5    | 1498  | 2072  | 35,3  | 59,3  | −5   | 776  | 49,6  | 2072  | 1914  |
+| Kansas City  | 5    | 1873  | 2929  | 41,1  | 55,3  | +10  | 789  | 54,3  | 2861  | 2496  |
+| Miami        | 6    | 2118  | 2268  | 38,2  | 69,6  | +6   | 582  | 58,7  | 2411  | 2670  |
+| New Orleans  | 4    | 1775  | 1983  | 39,3  | 78,3  | +7   | 901  | 51,7  | 2289  | 2202  |
+| New York Giants | 3 | 1904  | 1792  | 39,7  | 38,1  | −9   | 734  | 61,9  | 2203  | 1988  |
+| New York Jets | 3   | 1929  | 1606  | 39,7  | 68,8  | −21  | 627  | 52,7  | 2592  | 2324  |
+| Philadelphia | 4    | 2080  | 1492  | 35,5  | 68,8  | −8   | 722  | 57,8  | 2053  | 2550  |
+| St. Louis    | 10   | 2301  | 2835  | 35,3  | 74,1  | +2   | 683  | 59,7  | 1979  | 2110  |
+| San Diego    | 6    | 2040  | 2416  | 38,7  | 50,0  | 0    | 576  | 54,9  | 2048  | 2628  |
+| San Francisco | 8   | 2447  | 1638  | 39,9  | 57,1  | −8   | 848  | 65,3  | 1786  | 1776  |
+| Seattle      | 2    | 1416  | 2649  | 37,4  | 56,3  | −22  | 684  | 43,8  | 2876  | 2524  |
+| Tampa Bay    | 0    | 1503  | 1503  | 39,3  | 47,0  | −9   | 875  | 53,5  | 2560  | 2241  |
+
+Definições das variáveis:
+
+- $y$: Jogos vencidos (por temporada de 14 jogos)
+- $x_1$: Jardas conquistadas em corrida (temporada)
+- $x_2$: Jardas de passe (temporada)
+- $x_3$: Média de punt (jardas/punt)
+- $x_4$: Percentual de acerto em field goal (field goals convertidos/field goals tentados na temporada)
+- $x_5$: Diferença de turnovers (turnovers ganhos - turnovers perdidos)
+- $x_6$: Jardas de penalidade (temporada)
+- $x_7$: Percentual de corrida (corridas/jogadas totais)
+- $x_8$: Jardas conquistadas em corrida pelos adversários (temporada)
+- $x_9$: Jardas de passe dos adversários (temporada)
+
+
+```{r}
+#| message: false
+#| warning: false
+# para carregar os dados no R:
+# install.packages("MPV")
+library(MPV)
+data("table.b1")
+head(table.b1)
+```
+
+
+
+5. Em 1º de março de 1984, o *Wall Street Journal* publicou uma pesquisa sobre anúncios televisivos conduzida pela Video Board Tests, Inc., uma empresa de testes de publicidade de Nova York, que entrevistou 4000 adultos. Esses indivíduos eram consumidores regulares de produtos e foram questionados sobre comerciais que haviam assistido para determinada categoria de produto na última semana. 
+
+Neste caso, a variável resposta é o número de milhões de impressões retidas por semana. A variável explicativa é o valor gasto pela empresa em publicidade. Os dados são apresentados a seguir:
+
+Tabela. Gastos em publicidade e impressões retidas
+
+| Empresa        | Gasto (milhões) | Impressões Retidas (milhões) |
+|---------------|----------------|------------------------------|
+| Miller Lite   | 50,1            | 32,1                         |
+| Pepsi         | 74,1            | 99,6                         |
+| Stroh’s       | 19,3            | 11,7                         |
+| Federal Express | 22,9          | 21,9                         |
+| Burger King   | 82,4            | 60,8                         |
+| Coca-Cola     | 40,1            | 78,6                         |
+| McDonald's    | 185,9           | 92,4                         |
+| MCI           | 26,9            | 50,7                         |
+| Diet Cola     | 20,4            | 21,4                         |
+| Ford          | 166,2           | 40,1                         |
+| Levi’s        | 27,0            | 40,8                         |
+| Bud Lite      | 45,6            | 10,4                         |
+| ATT Bell      | 154,9           | 88,9                         |
+| Calvin Klein  | 5,0             | 12,0                         |
+| Wendy’s       | 49,7            | 29,2                         |
+| Polaroid      | 26,9            | 38,0                         |
+| Shasta        | 5,7             | 10,0                         |
+| Meow Mix      | 7,6             | 12,3                         |
+| Oscar Meyer   | 9,2             | 23,4                         |
+| Crest         | 32,4            | 71,1                         |
+| Kibbles N Bits | 6,1            | 4,4                          |
+
+
+```{r}
+#| message: false
+#| warning: false
+# para carregar os dados no R:
+# install.packages("MPV")
+library(MPV)
+data("p2.18")
+head(p2.18)
+```
+
+
+  a. Ajuste um modelo de regressão linear simples para esses dados.
+
+  b. Existe uma relação significativa entre o valor gasto por uma empresa em publicidade e as impressões retidas? Justifique sua resposta estatisticamente.
+  
+c. Calcule um intervalo de confiança de 95% para o coeficiente angular.
+
+d. Teste as hipóteses $H_0: \beta_1 = 0,5$ contra $H_1: \beta_1 \neq 0,5$. Justifique sua resposta estatisticamente.
+
+e. Qual é a impressão retida média para uma empresa que gasta 50 milhões em publicidade? E para uma empresa que gasta 20 milhões?
+
+
+<!-- e. Construa as bandas de confiança e predição de $95\%$ para esses dados. Use a função `predict` do R para obter os valores necessários para construir as bandas. Interprete os resultados. -->
+
+f. Forneça os intervalos de confiança e predição de $95\%$ para o número de impressões retidas da empresa MCI.
+
+g. Forneça os intervalos de confiança e predição de $95\%$ para o número de impressões retidas quando houver um gasto de 50 milhões.
+
+
+ 
+6. Por muitos anos, o pó de borracha tem sido utilizado no cimento asfáltico para melhorar o desempenho. O artigo *"Experimental Study of Recycled Rubber-Filled High-Strength Concrete"* (*Mag. Concrete Res.* 2009: 549–556) incluiu uma regressão de $y$ = resistência axial (MPa) sobre $x$ = resistência cúbica (MPa) com base nos seguintes dados amostrais:
+
+Tabela. Resistência Cúbica ($x$) e Resistência Axial ($y$) (MPa)
+
+| $x$   | 112,3 | 97,0  | 92,7  | 86,0  | 102,0 |
+|-------|-------|-------|-------|-------|-------|
+| $y$   | 75,0  | 71,0  | 57,7  | 48,7  | 74,3  |
+
+| $x$   | 99,2  | 95,8  | 103,5 | 89,0  | 86,7  |
+|-------|-------|-------|-------|-------|-------|
+| $y$   | 73,3  | 68,0  | 59,3  | 57,8  | 48,5  |
+
+
+a. Ajuste um modelo de regressão linear simples relacionando a resistência axial $y$ à resistência cúbica $x$.
+
+b. Teste a hipótese de que a resistência cúbica tem um efeito significativo sobre a resistência axial. Justifique sua resposta estatisticamente.
+
+c. Calcule um intervalo de confiança de 95% para o coeficiente angular e interprete o resultado.
+
+d. Calcule um intervalo de confiança de 95% para o intercepto e interprete o resultado.
+
+e. Calcule o coeficiente de determinação e interprete seu valor.
+
+
+7. (**Cinestose no Transporte Público Rodoviário**) Como a aceleração lateral — forças laterais experimentadas em curvas que estão amplamente sob o controle do motorista — afeta a náusea percebida pelos passageiros de ônibus? O artigo *"Motion Sickness in Public Road Transport: The Effect of Driver, Route, and Vehicle"* (*Ergonomics* 1999: 1646–1664) apresentou dados sobre $x$ = dose de movimento cinetósico (calculada de acordo com um padrão britânico para avaliar movimento semelhante no mar) e $y$ = náusea relatada (%). Os valores estatísticos relevantes são:
+
+$$
+n = 17, \quad \sum x_i = 222,1, \quad \sum y_i = 193,0,
+$$
+
+$$
+S_{xx} = 155,02, \quad S_{yy} = 783,88, \quad S_{xy} = 238,11
+$$
+
+Os valores de dose na amostra variaram de 6,0 a 17,6.
+
+  a. Supondo que o modelo de regressão linear simples seja válido para relacionar essas duas variáveis (isso é apoiado pelos dados brutos), calcule e interprete uma estimativa do coeficiente angular que forneça informações sobre a precisão e confiabilidade da estimativa.
+
+  b. Parece haver uma relação linear útil entre essas duas variáveis? 
+  c. Seria sensato usar o modelo de regressão linear simples como base para prever a porcentagem de náusea quando a dose for igual a 5,0? Explique seu raciocínio.
+d. Calcule o QMRes.
+e. Calcule o intervalo de confiança de 95% para o coeficiente angular e interprete o resultado.
+f. Calcule o intervalo de confiança de 95% para o número médio de náusea quando a dose for igual a 10,0. Interprete o resultado.
+g. Calcule o intervalo de predição de 95% para a porcentagem de náusea de um passageiro quando a dose for igual a 10,0. Interprete o resultado.
+h. Calcule o coeficiente de determinação e interprete seu valor.
+
+
+
+------------------------------------------------------------------------
+
+::: {style="text-align: center;"}
+[\@profjulianobortolini](https://instagram.com/profjulianobortolini)      [www.julianobortolini.com.br](http://www.julianobortolini.com.br)      [linkedin](https://linkedin.com/in/julianobortolini)      [github](https://github.com/julianobortolini)       [lattes](http://lattes.cnpq.br/6210909768845403)
+:::

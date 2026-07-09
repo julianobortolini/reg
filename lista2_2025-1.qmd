@@ -1,0 +1,32 @@
+---
+title: "Análise de Regressão"
+author:
+  - name: Prof. Dr. Juliano Bortolini
+    email: profjulianobortolini@gmail.com
+    url: http://www.julianobortolini.com.br
+    affiliations:
+      - name: Universidade Federal de Mato Grosso
+format:
+  html:
+    embed-resources: true
+engine: knitr
+---
+
+*Bacharelado em Estatística - UFMT*
+
+
+### Lista de exercícios 2
+
+1.  Demonstre que a correlação amostral pode ser calculada por: $$
+     r = \frac{\sum_{i = 1}^n (X_i Y_i) - \frac{\sum_{i = 1}^n X_i \sum_{i = 1}^n Y_i}{n}}{\sqrt{\left( \sum_{i = 1}^n X_i^2 - \frac{(\sum_{i = 1}^n X_i)^2}{n} \right) \left( \sum_{i = 1}^n Y_i^2 - \frac{(\sum_{i = 1}^n Y_i)^2}{n} \right)}}
+    $$ onde $n$ é o tamanho da amostra, $\sum (X_i Y_i)$ é o somatório dos produtos de $X$ e $Y$, $\sum X_i$ e $\sum Y_i$ são os somatórios individuais de $X$ e $Y$, $\sum X_i^2$ e $\sum Y_i^2$ são os somatórios dos quadrados de $X$ e $Y$.
+
+2.  Demonstre que a correlação de Spearman pode ser derivada da fórmula da correlação amostral, substituindo os valores das variáveis $X_i$ e $Y_i$ pelos seus postos $R(X_i)$ e $R(Y_i)$. Mostre que isso leva à fórmula simplificada de Spearman: $$
+     r_s = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)}
+    $$ onde $d_i = R(X_i) - R(Y_i)$ é a diferença entre os postos das observações e $n$ é o tamanho da amostra.
+
+------------------------------------------------------------------------
+
+::: {style="text-align: center;"}
+[\@profjulianobortolini](https://instagram.com/profjulianobortolini)      [www.julianobortolini.com.br](http://www.julianobortolini.com.br)      [linkedin](https://linkedin.com/in/julianobortolini)      [github](https://github.com/julianobortolini)       [lattes](http://lattes.cnpq.br/6210909768845403)
+:::

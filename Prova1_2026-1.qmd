@@ -1,0 +1,103 @@
+---
+title: "Análise de Regressão"
+author:
+  - name: Prof. Dr. Juliano Bortolini
+    email: profjulianobortolini@gmail.com
+    url: http://www.julianobortolini.com.br
+    affiliations:
+      - name: Universidade Federal de Mato Grosso
+format:
+  pdf:
+    embed-resources: true
+engine: knitr
+---
+
+**Bacharelado em Estatística — UFMT**
+
+
+# Avaliação Escrita 1
+
+
+**Orientações:**
+Será permitido a consulta a uma folha de papel com anotações manuscritas (tamanho A4, frente e verso) para as avaliações escrita e computacional. Não será permitido o uso de internet e de nenhum arquivo computacional (scripts de análise). Será permitido o uso de calculadora científica.
+
+**Atenção: realize todas as contas e apresente os resultados com 4 casas decimais.**
+
+
+**Acadêmico (RGA):**
+
+ 
+1. Por muitos anos, o pó de borracha tem sido utilizado no cimento asfáltico para melhorar o desempenho. O artigo *"Experimental Study of Recycled Rubber-Filled High-Strength Concrete"* (*Mag. Concrete Res.* 2009: 549–556) incluiu uma regressão de $y$ = resistência axial (MPa) sobre $x$ = resistência cúbica (MPa).
+
+
+```{r}
+#| eval: false
+#| include: false
+library(tidyverse)
+library(knitr)
+# x <- c(112, 97, 93, 105, 100, 99, 95, 103, 89, 86)
+# y <- c(95, 71, 58, 85, 74, 73, 68, 70, 58, 49)
+
+x <- c(112, 105, 100, 99, 95, 103, 86)
+y <- c(94, 85, 74, 73, 68, 75, 49)
+
+n <- length(x); n
+Sx <- sum(x); Sx
+Sy <- sum(y); Sy
+Sxx <- sum(x^2) - sum(x)^2/n; Sxx
+Syy <- sum(y^2) - sum(y)^2/n; Syy
+Sxy <- sum(x*y) - sum(x)*sum(y)/n; Sxy
+
+
+plot(x,y)
+dados <- data.frame(x, y)
+dados %>% kable()
+mod <- lm(y ~ x, data = dados)
+summary(mod)
+plot(mod)
+shapiro.test(mod$residuals)
+abs((1.72 - 2)/0.12) > qt(0.975, df = dim(dados)[1] - 2)
+cor(x, y)
+
+```
+
+$$n= 7, \ \sum x_i = 700, \ \sum y_i = 518, \ S_{xx} = 400, \ S_{yy} = 1184   \ \ \text{e} \ \   S_{xy} = 679.$$
+Se houver necessidade, utilize:
+$$t_{(0,025; 5)} = 2,571 \ \ \text{e} \  \ F_{(0,05; 1; 5)} = 10,0070.$$
+
+a. Calcule a correlação amostral entre a resistência axial e a resistência cúbica. Interprete o resultado.
+
+\
+
+
+b. Ajuste um modelo de regressão linear simples relacionando a resistência axial $y$ à resistência cúbica $x$. Interprete o coeficiente angular.
+
+\
+
+
+c. Encontre uma estimativa para a variância residual.
+
+\
+
+d. Teste a hipótese de que a resistência cúbica tem um efeito significativo sobre a resistência axial. Justifique sua resposta estatisticamente.
+
+
+\
+
+e. Calcule um intervalo de confiança de 95% para o coeficiente angular e interprete o resultado.
+
+\
+
+f. Pode-se afirmar que o coeficiente angular é igual a 2? Justifique sua resposta estatisticamente.
+
+
+\
+
+g. Calcule o valor da resistência axial média para uma resistência cúbica de 100 MPa. Forneça um intervalo de confiança de 95% para esse valor e interprete o resultado.
+
+
+\
+
+2. Demonstre que 
+
+$$\hat{\beta}_1 = r \sqrt{\frac{S_{yy}}{S_{xx}}}.$$
